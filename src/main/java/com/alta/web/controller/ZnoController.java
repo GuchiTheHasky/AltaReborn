@@ -26,8 +26,8 @@ public class ZnoController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public Zno delete(@PathVariable("id") int id){
-        return znoService.delete(id);
+    public void delete(@PathVariable("id") int id){
+        znoService.delete(id);
     }
 
     @PutMapping("/update/{id}")

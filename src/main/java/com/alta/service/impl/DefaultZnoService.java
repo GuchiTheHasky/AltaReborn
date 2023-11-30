@@ -1,14 +1,12 @@
 package com.alta.service.impl;
 
 import com.alta.entity.Zno;
-import com.alta.exception.NoEntityException;
+import com.alta.exception.NoZnoEntityException;
 import com.alta.repository.ZnoRepository;
 import com.alta.service.ZnoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -26,30 +24,19 @@ public class DefaultZnoService implements ZnoService {
     }
 
     @Override
-    public Zno delete(Integer id) {
-        Zno znoById = findById(id);
-        znoRepository.deleteById(id);
-        return znoById;
+    public void delete(int id) {
+        znoRepository.findById(id).ifPresent(zno -> znoRepository.deleteById(id));
     }
 
     @Override
-    public Zno update(Integer id, Zno zno) {
-        Zno znoRequired = findById(id);
-        znoRequired.setName(zno.getName());
-        znoRequired.setYear(zno.getYear());
-        return znoRepository.save(znoRequired);
+    public Zno update(int id, Zno zno) {
+        return znoRepository.findById(id)
+                .map(znoRequired -> {
+                    znoRequired.setName(zno.getName());
+                    znoRequired.setYear(zno.getYear());
+                    return znoRepository.save(znoRequired);
+                })
+                .orElseThrow(() -> new NoZnoEntityException(id));
     }
-
-    Zno findById(int id) {
-        Optional<Zno> znoById = znoRepository.findById(id);
-        Zno zno;
-        try {
-            zno = znoById.orElseThrow(() -> new NoEntityException(id));
-        } catch (NoEntityException e) {
-            throw new RuntimeException(e);
-        }
-        return zno;
-    }
-
 }
 
