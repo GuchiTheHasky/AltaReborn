@@ -16,7 +16,6 @@ public interface ZnoService {
      */
     List<Zno> findAll();
 
-
     /**
      * Saves a new Zno object.
      * @param zno : Zno object to be saved.
@@ -24,13 +23,11 @@ public interface ZnoService {
      */
     Zno save(Zno zno);
 
-
     /**
      * Deletes a Zno object based on its unique identifier.
      * @param id : The unique identifier of the Zno object to be deleted.
      */
     void delete(int id);
-
 
     /**
      * Updates an existing Zno object.

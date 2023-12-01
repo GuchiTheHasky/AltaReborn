@@ -1,7 +1,7 @@
 package com.alta.service.impl;
 
 import com.alta.entity.Zno;
-import com.alta.exception.NoZnoEntityException;
+import com.alta.exception.ZnoException;
 import com.alta.repository.ZnoRepository;
 import com.alta.service.ZnoService;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +36,7 @@ public class DefaultZnoService implements ZnoService {
                     znoRequired.setYear(zno.getYear());
                     return znoRepository.save(znoRequired);
                 })
-                .orElseThrow(() -> new NoZnoEntityException(id));
+                .orElseThrow(() -> new ZnoException(id));
     }
 }
 
