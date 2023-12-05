@@ -10,4 +10,5 @@ public class AltaStarter
     {
         SpringApplication.run(AltaStarter.class, args);
     }
+
 }
