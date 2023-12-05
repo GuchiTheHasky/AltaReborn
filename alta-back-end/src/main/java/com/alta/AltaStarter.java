@@ -1,13 +1,13 @@
 package com.alta;
 
-/**
- * Hello world!
- *
- */
-public class App 
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class AltaStarter
 {
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
+        SpringApplication.run(AltaStarter.class, args);
     }
 }
