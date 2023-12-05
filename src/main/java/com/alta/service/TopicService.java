@@ -1,15 +1,15 @@
 package com.alta.service;
 
-import com.alta.entity.Topic;
+import com.alta.dto.TopicDto;
 
 import java.util.List;
 
 public interface TopicService {
-    List<Topic> findAll();
+    List<TopicDto> findAll();
 
-    Topic save(Topic topic);
+    TopicDto save(TopicDto topicDto);
 
     void delete(int id);
 
-    Topic update(int id, Topic topic);
+    TopicDto update(int id, TopicDto topicDto);
 }
