@@ -6,5 +6,5 @@ create table if not exists student
     email varchar(128) not null,
     class varchar(64) not null,
     status varchar(128) not null,
-    tasks jsonb
+    tasks json not null default '[]'::json
 );
