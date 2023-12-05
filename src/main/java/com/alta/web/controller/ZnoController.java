@@ -1,6 +1,6 @@
 package com.alta.web.controller;
 
-import com.alta.entity.Zno;
+import com.alta.dto.ZnoDto;
 import com.alta.service.ZnoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,23 +16,23 @@ public class ZnoController {
     private final ZnoService znoService;
 
     @GetMapping
-    public List<Zno> findAll() {
-       return znoService.findAll();
+    public List<ZnoDto> findAll() {
+        return znoService.findAll();
     }
 
     @PostMapping("/save")
-    public Zno save(@RequestBody Zno zno){
-       return znoService.save(zno);
+    public ZnoDto save(@RequestBody ZnoDto znoDto) {
+        return znoService.save(znoDto);
     }
 
     @DeleteMapping("/delete/{id}")
-    public void delete(@PathVariable("id") int id){
+    public void delete(@PathVariable("id") int id) {
         znoService.delete(id);
     }
 
     @PutMapping("/update/{id}")
-    public Zno update(@PathVariable("id") int id, @RequestBody Zno zno) {
-       return znoService.update(id, zno);
+    public ZnoDto update(@PathVariable("id") int id, @RequestBody ZnoDto znoDto) {
+        return znoService.update(id, znoDto);
     }
 
- }
+}
