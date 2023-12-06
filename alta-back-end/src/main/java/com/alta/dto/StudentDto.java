@@ -1,15 +1,11 @@
 package com.alta.dto;
 
 import com.alta.entity.Task;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class StudentDto {
     private int id;
     private String firstName;
