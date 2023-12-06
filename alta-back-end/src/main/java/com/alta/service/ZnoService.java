@@ -12,17 +12,17 @@ import java.util.List;
 public interface ZnoService {
 
     /**
-     * Returns a list of all Zno objects.
+     * Returns a list of all Zno objects available.
      *
-     * @return A list containing all Zno objects.
+     * @return A list of ZnoDto objects representing the available znos.
      */
     List<ZnoDto> findAll();
 
     /**
-     * Saves a new Zno object.
+     * Saves a new Zno.
      *
-     * @param znoDto : Zno object to be saved.
-     * @return The saved Zno object.
+     * @param znoDto : An object containing information about the zno to be saved.
+     * @return An object representing the newly saved zno.
      */
     ZnoDto save(ZnoDto znoDto);
 
@@ -34,11 +34,11 @@ public interface ZnoService {
     void delete(int id);
 
     /**
-     * Updates an existing Zno object.
+     * Updates an existing Zno object with the provided information.
      *
-     * @param id     : The unique identifier of the Zno object to be updated.
-     * @param znoDto : Zno object with updated data.
-     * @return The updated Zno object.
+     * @param id : The unique identifier of the Zno object to be updated.
+     * @param znoDto : An object containing the updated information for the zno.
+     * @return An object representing the updated zno.
      */
     ZnoDto update(int id, ZnoDto znoDto);
 }

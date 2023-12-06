@@ -8,13 +8,23 @@ import java.util.List;
 
 @Entity
 @Data
-public class Topic {
+public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String name;
+    @Column(name = "first_name")
+    private String firstName;
+
+    @Column(name = "last_name")
+    private String lastName;
+
+    private String email;
+
+    @Column(name = "class")
+    private String studentClass;
+    private String status;
 
     @JdbcTypeCode(SqlTypes.JSON)
-    private List<String> subtopics;
+    private List<Task> tasks;
 }
