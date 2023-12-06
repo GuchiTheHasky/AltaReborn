@@ -1,5 +1,6 @@
 package com.alta.dto;
 
+import com.alta.entity.Task;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,9 +12,12 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class TopicDto {
-
+public class StudentDto {
     private int id;
-    private String name;
-    private List<String> subtopics;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String studentClass;
+    private String status;
+    private List<Task> tasks;
 }
