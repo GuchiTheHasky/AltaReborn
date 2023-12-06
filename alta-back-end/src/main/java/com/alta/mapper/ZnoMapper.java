@@ -7,8 +7,7 @@ import org.mapstruct.Mapper;
 @Mapper
 public interface ZnoMapper {
 
-    ZnoDto toZnoDto(Zno zno);
-
     Zno toZno(ZnoDto znoDto);
+    ZnoDto toZnoDto(Zno zno);
 
 }
