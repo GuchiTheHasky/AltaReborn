@@ -7,7 +7,8 @@ import org.mapstruct.Mapper;
 @Mapper
 public interface TopicMapper {
 
+    TopicDto toTopicDto(Topic topic);
+
     Topic toTopic(TopicDto topicDto);
 
-    TopicDto toTopicDto(Topic topic);
 }
