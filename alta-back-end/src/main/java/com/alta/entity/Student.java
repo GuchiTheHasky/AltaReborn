@@ -32,7 +32,6 @@ public class Student {
     private String studentClass;
     private String status;
 
-    @JsonIgnore
     @JdbcTypeCode(SqlTypes.JSON)
     private List<Task> tasks;
 }
