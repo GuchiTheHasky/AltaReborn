@@ -1,21 +1,13 @@
 package com.alta.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
-
 import java.util.List;
 
 @Entity
-@Table(name = "topic")
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
 public class Topic {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
