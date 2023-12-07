@@ -8,7 +8,6 @@ import com.alta.repository.StudentRepository;
 import com.alta.service.StudentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,9 +24,8 @@ public class DefaultStudentService implements StudentService {
 
     @Override
     public StudentDto save(StudentDto studentDto) {
-        Student studentToSave = studentMapper.toStudent(studentDto);
-        studentRepository.save(studentToSave);
-        return studentMapper.toStudentDto(studentToSave);
+        Student newStudent = studentMapper.toStudent(studentDto);
+        return studentMapper.toStudentDto(studentRepository.save(newStudent));
     }
 
     @Override
@@ -42,12 +40,15 @@ public class DefaultStudentService implements StudentService {
                     studentRequired.setFirstName(studentDto.getFirstName());
                     studentRequired.setLastName(studentDto.getLastName());
                     studentRequired.setEmail(studentDto.getEmail());
-                    studentRequired.setStudentClass(studentDto.getStudentClass());
+                    studentRequired.setGrade(studentDto.getGrade());
                     studentRequired.setStatus(studentDto.getStatus());
-                    studentRequired.setTasks(studentDto.getTasks());
-                    studentRepository.save(studentRequired);
-                    return studentMapper.toStudentDto(studentRequired);
+                    return studentMapper.toStudentDto(studentRepository.save(studentRequired));
                 })
                 .orElseThrow(() -> new StudentException(id));
+    }
+
+    @Override
+    public Student findById(int studentId) {
+        return studentRepository.findById(studentId).orElseThrow(() -> new StudentException(studentId));
     }
 }

@@ -1,5 +1,6 @@
 package com.alta.web.controller;
 
+import com.alta.dto.TaskDto;
 import com.alta.dto.TopicDto;
 import com.alta.service.TopicService;
 import lombok.RequiredArgsConstructor;
@@ -35,4 +36,13 @@ public class TopicController {
         return topicService.update(id, topicDto);
     }
 
+    @PutMapping("/{topicId}/tasks/{taskId}")
+    public TopicDto addTaskToTopic(@PathVariable int topicId, @PathVariable int taskId) {
+        return topicService.addTaskToTopic(topicId, taskId);
+    }
+
+    @GetMapping("/tasks/{topicId}")
+    public List<TaskDto> getTasksByTopicId(@PathVariable int topicId) {
+        return topicService.getTasksByTopicId(topicId);
+    }
 }

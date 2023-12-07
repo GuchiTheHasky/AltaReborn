@@ -1,12 +1,17 @@
 package com.alta.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
-import java.util.List;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
+@EqualsAndHashCode(exclude = "tasks")
+@ToString(exclude = "tasks")
 @Data
 public class Student {
     @Id
@@ -20,11 +25,10 @@ public class Student {
     private String lastName;
 
     private String email;
-
-    @Column(name = "class")
-    private String studentClass;
+    private String grade;
     private String status;
 
-    @JdbcTypeCode(SqlTypes.JSON)
-    private List<Task> tasks;
+    @ManyToMany(mappedBy = "students")
+    @JsonIgnore
+    private Set<Task> tasks = new HashSet<>();
 }

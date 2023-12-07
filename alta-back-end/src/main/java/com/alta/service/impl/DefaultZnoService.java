@@ -25,9 +25,8 @@ public class DefaultZnoService implements ZnoService {
 
     @Override
     public ZnoDto save(ZnoDto znoDto) {
-        Zno znoToSave = znoMapper.toZno(znoDto);
-        znoRepository.save(znoToSave);
-        return znoMapper.toZnoDto(znoToSave);
+        Zno newZno = znoMapper.toZno(znoDto);
+        return znoMapper.toZnoDto(znoRepository.save(newZno));
     }
 
     @Override
@@ -41,8 +40,7 @@ public class DefaultZnoService implements ZnoService {
                 .map(znoRequired -> {
                     znoRequired.setName(znoDto.getName());
                     znoRequired.setYear(znoDto.getYear());
-                    znoRepository.save(znoRequired);
-                    return znoMapper.toZnoDto(znoRequired);
+                    return znoMapper.toZnoDto(znoRepository.save(znoRequired));
                 })
                 .orElseThrow(() -> new ZnoException(id));
     }
