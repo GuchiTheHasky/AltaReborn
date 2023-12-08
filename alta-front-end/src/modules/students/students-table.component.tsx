@@ -1,30 +1,11 @@
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { DataGrid } from '@mui/x-data-grid';
 import { students } from './mocks/students.mock';
+import {columns} from './content/table-columns.content';
 
-const columns: GridColDef[] = [
-	{
-		field: 'fullName',
-		headerName: `Повне ім'я`,
-		width: 350,
-		headerClassName: 'super-app-theme--header',
-	},
-	{
-		field: 'class',
-		headerName: 'Клас',
-		width: 150,
-		headerClassName: 'super-app-theme--header',
-	},
-	{
-		field: 'status',
-		headerName: 'Статус',
-		width: 150,
-		headerClassName: 'super-app-theme--header',
-	},
-];
 
 export const StudentsTable = () => {
 	return (
-		<div className="h-[600px] w-[700px]">
+		<div className="h-[500px] w-[700px]">
 			<DataGrid
 				rows={students}
 				columns={columns}
@@ -35,12 +16,6 @@ export const StudentsTable = () => {
 				}}
 				pageSizeOptions={[5, 10]}
 				checkboxSelection
-				sx={{
-					'& .super-app-theme--header': {
-						backgroundColor: '#79aa2d',
-						color: 'white',
-					},
-				}}
 				
 			/>
 		</div>

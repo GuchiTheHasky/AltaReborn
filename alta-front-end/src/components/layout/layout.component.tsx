@@ -4,7 +4,7 @@ import { Header } from '../header/header.component'
 
 export const Layout = () => {
   return (
-    <div className='px-4'>
+    <div className='px-6'>
       <Header/>
       <Outlet/>
     </div>
