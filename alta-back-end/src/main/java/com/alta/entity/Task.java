@@ -26,7 +26,7 @@ public class Task {
     private String answer;
 
     @ManyToOne
-    @JoinColumn(name="topic_id")
+    @JoinColumn(name="topic_id", referencedColumnName = "id")
     private Topic topic;
 
     @ManyToMany
@@ -39,5 +39,9 @@ public class Task {
 
     public void addStudent(Student student) {
         students.add(student);
+    }
+
+    public void assignTopic(Topic topic) {
+        this.topic = topic;
     }
 }

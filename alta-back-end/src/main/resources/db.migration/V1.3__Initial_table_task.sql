@@ -6,7 +6,8 @@ create table if not exists task
     level varchar(128) not null,
     text varchar(255) not null,
     answer varchar(255) not null,
-    topic_id integer references topic(id) on delete cascade
+    topic_id int,
+    foreign key (topic_id) references alta_db.topic (id)
 )
 
 create table if not exists task_student (

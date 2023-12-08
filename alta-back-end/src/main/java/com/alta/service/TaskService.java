@@ -15,4 +15,9 @@ public interface TaskService {
 
     TaskDto addStudentToTask(int taskId, int studentId);
 
+    TaskDto assignTopicToTask(int taskId, int topicId);
+
+    List<TaskDto> getTasksByTopicId(int topicId);
+
+    List<TaskDto> getTasksByStudentId(int studentId);
 }

@@ -12,25 +12,25 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 public class StudentController {
-    private final StudentService studentService;
+    private final StudentService STUDENT_SERVICE;
 
     @GetMapping
     public List<StudentDto> findAll() {
-        return studentService.findAll();
+        return STUDENT_SERVICE.findAll();
     }
 
     @PostMapping("/save")
     public StudentDto save(@RequestBody StudentDto studentDto) {
-        return studentService.save(studentDto);
+        return STUDENT_SERVICE.save(studentDto);
     }
 
     @DeleteMapping("/delete/{id}")
     public void delete(@PathVariable("id") int id) {
-        studentService.delete(id);
+        STUDENT_SERVICE.delete(id);
     }
 
     @PutMapping("/update/{id}")
     public StudentDto update(@PathVariable("id") int id, @RequestBody StudentDto studentDto) {
-        return studentService.update(id, studentDto);
+        return STUDENT_SERVICE.update(id, studentDto);
     }
 }

@@ -1,9 +1,7 @@
 package com.alta.service;
 
-import com.alta.dto.TaskDto;
 import com.alta.dto.TopicDto;
 import com.alta.entity.Topic;
-
 import java.util.List;
 
 /**
@@ -45,8 +43,4 @@ public interface TopicService {
     TopicDto update(int id, TopicDto topicDto);
 
     Topic findById(int topicId);
-
-    TopicDto addTaskToTopic(int topicId, int taskId);
-
-    List<TaskDto> getTasksByTopicId(int topicId);
 }
