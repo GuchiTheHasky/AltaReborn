@@ -1,11 +1,14 @@
-import './style.css'
-function App() {
 
-  return (
-    <>
-      <h1>Hello Alta..;)</h1>
-    </>
-  )
+import { RouterProvider } from 'react-router-dom';
+import {router} from './helpers/router/router';
+import './index.css';
+
+function App() {
+	return (
+		<>
+			<RouterProvider router={router} />
+		</>
+	);
 }
 
-export default App
+export default App;
