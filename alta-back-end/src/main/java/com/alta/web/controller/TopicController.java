@@ -13,26 +13,25 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 public class TopicController {
-    private final TopicService topicService;
+    private final TopicService TOPIC_SERVICE;
 
     @GetMapping
     public List<TopicDto> findAll() {
-        return topicService.findAll();
+        return TOPIC_SERVICE.findAll();
     }
 
     @PostMapping("/save")
     public TopicDto save(@RequestBody TopicDto topicDto) {
-        return topicService.save(topicDto);
+        return TOPIC_SERVICE.save(topicDto);
     }
 
     @DeleteMapping("/delete/{id}")
     public void delete(@PathVariable("id") int id) {
-        topicService.delete(id);
+        TOPIC_SERVICE.delete(id);
     }
 
     @PutMapping("/update/{id}")
     public TopicDto update(@PathVariable("id") int id, @RequestBody TopicDto topicDto) {
-        return topicService.update(id, topicDto);
+        return TOPIC_SERVICE.update(id, topicDto);
     }
-
 }

@@ -8,46 +8,47 @@ import com.alta.repository.StudentRepository;
 import com.alta.service.StudentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class DefaultStudentService implements StudentService {
-    private final StudentRepository studentRepository;
-    private final StudentMapper studentMapper;
+    private final StudentRepository STUDENT_REPOSITORY;
+    private final StudentMapper STUDENT_Mapper;
 
     @Override
     public List<StudentDto> findAll() {
-        return studentRepository.findAll().stream().map(studentMapper::toStudentDto).collect(Collectors.toList());
+        return STUDENT_REPOSITORY.findAll().stream().map(STUDENT_Mapper::toStudentDto).collect(Collectors.toList());
     }
 
     @Override
     public StudentDto save(StudentDto studentDto) {
-        Student studentToSave = studentMapper.toStudent(studentDto);
-        studentRepository.save(studentToSave);
-        return studentMapper.toStudentDto(studentToSave);
+        Student newStudent = STUDENT_Mapper.toStudent(studentDto);
+        return STUDENT_Mapper.toStudentDto(STUDENT_REPOSITORY.save(newStudent));
     }
 
     @Override
     public void delete(int id) {
-        studentRepository.findById(id).ifPresent(student -> studentRepository.deleteById(id));
+        STUDENT_REPOSITORY.findById(id).ifPresent(student -> STUDENT_REPOSITORY.deleteById(id));
     }
 
     @Override
     public StudentDto update(int id, StudentDto studentDto) {
-        return studentRepository.findById(id)
+        return STUDENT_REPOSITORY.findById(id)
                 .map(studentRequired -> {
                     studentRequired.setFirstName(studentDto.getFirstName());
                     studentRequired.setLastName(studentDto.getLastName());
                     studentRequired.setEmail(studentDto.getEmail());
-                    studentRequired.setStudentClass(studentDto.getStudentClass());
+                    studentRequired.setGrade(studentDto.getGrade());
                     studentRequired.setStatus(studentDto.getStatus());
-                    studentRequired.setTasks(studentDto.getTasks());
-                    studentRepository.save(studentRequired);
-                    return studentMapper.toStudentDto(studentRequired);
+                    return STUDENT_Mapper.toStudentDto(STUDENT_REPOSITORY.save(studentRequired));
                 })
                 .orElseThrow(() -> new StudentException(id));
+    }
+
+    @Override
+    public Student findById(int studentId) {
+        return STUDENT_REPOSITORY.findById(studentId).orElseThrow(() -> new StudentException(studentId));
     }
 }

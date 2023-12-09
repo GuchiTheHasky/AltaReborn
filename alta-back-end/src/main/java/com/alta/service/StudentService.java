@@ -1,6 +1,8 @@
 package com.alta.service;
 
 import com.alta.dto.StudentDto;
+import com.alta.entity.Student;
+
 import java.util.List;
 
 /**
@@ -40,4 +42,6 @@ public interface StudentService {
      * @return An object representing the updated student.
      */
     StudentDto update(int id, StudentDto studentDto);
+
+    Student findById(int studentId);
 }

@@ -9,4 +9,5 @@ public interface StudentMapper {
     Student toStudent(StudentDto studentDto);
 
     StudentDto toStudentDto(Student student);
+
 }

@@ -1,6 +1,7 @@
 package com.alta.service;
 
 import com.alta.dto.TopicDto;
+import com.alta.entity.Topic;
 import java.util.List;
 
 /**
@@ -40,4 +41,6 @@ public interface TopicService {
      * @return An object representing the updated topic.
      */
     TopicDto update(int id, TopicDto topicDto);
+
+    Topic findById(int topicId);
 }
