@@ -9,7 +9,7 @@ import java.util.Set;
 
 @Data
 public class TaskDto {
-    private Integer id;
+    private int id;
     private int number;
     private String imagePath;
     private String level;
