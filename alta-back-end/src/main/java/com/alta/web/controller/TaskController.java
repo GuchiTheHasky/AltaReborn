@@ -12,45 +12,50 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 public class TaskController {
-    private final TaskService TASK_SERVICE;
+    private final TaskService taskService;
 
     @GetMapping
     public List<TaskDto> findAll() {
-        return TASK_SERVICE.findAll();
+        return taskService.findAll();
     }
 
     @PostMapping("/save")
     public TaskDto save(@RequestBody TaskDto taskDto) {
-        return TASK_SERVICE.save(taskDto);
+        return taskService.save(taskDto);
     }
 
     @PutMapping("/{taskId}/students/{studentId}")
-    public TaskDto addStudentToTask(@PathVariable int taskId, @PathVariable int studentId) {
-        return TASK_SERVICE.addStudentToTask(taskId, studentId);
+    public TaskDto assignStudentToTask(@PathVariable int taskId, @PathVariable int studentId) {
+        return taskService.assignStudentToTask(taskId, studentId);
     }
 
     @GetMapping("/students/{studentId}")
-    public List<TaskDto> getTasksByStudentId(@PathVariable int studentId) {
-        return TASK_SERVICE.getTasksByStudentId(studentId);
+    public List<TaskDto> findAllByStudentId(@PathVariable int studentId) {
+        return taskService.findAllByStudentId(studentId);
     }
 
     @PutMapping("/{taskId}/topics/{topicId}")
     public TaskDto assignTopicToTask(@PathVariable int taskId, @PathVariable int topicId) {
-        return TASK_SERVICE.assignTopicToTask(taskId, topicId);
+        return taskService.assignTopicToTask(taskId, topicId);
     }
 
     @GetMapping("/topics/{topicId}")
-    public List<TaskDto> getTasksByTopicId(@PathVariable int topicId) {
-        return TASK_SERVICE.getTasksByTopicId(topicId);
+    public List<TaskDto> findAllByTopicId(@PathVariable int topicId) {
+        return taskService.findAllByTopicId(topicId);
+    }
+
+    @GetMapping("/topics/")
+    public List<TaskDto> findAllByTopicIdList(@RequestBody List<Integer> topicIdList) {
+        return taskService.findAllByTopicIdList(topicIdList);
     }
 
     @DeleteMapping("/delete/{id}")
     public void delete(@PathVariable("id") int id) {
-        TASK_SERVICE.delete(id);
+        taskService.delete(id);
     }
 
     @PutMapping("/update/{id}")
     public TaskDto update(@PathVariable("id") int id, @RequestBody TaskDto taskDto) {
-        return TASK_SERVICE.update(id, taskDto);
+        return taskService.update(id, taskDto);
     }
 }

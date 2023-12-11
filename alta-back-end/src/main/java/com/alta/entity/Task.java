@@ -40,8 +40,4 @@ public class Task {
     public void addStudent(Student student) {
         students.add(student);
     }
-
-    public void assignTopic(Topic topic) {
-        this.topic = topic;
-    }
 }

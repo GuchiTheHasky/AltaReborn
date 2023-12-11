@@ -15,32 +15,32 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class DefaultZnoService implements ZnoService {
-    private final ZnoRepository ZNO_REPOSITORY;
-    private final ZnoMapper ZNO_MAPPER;
+    private final ZnoRepository znoRepository;
+    private final ZnoMapper znoMapper;
 
     @Override
     public List<ZnoDto> findAll() {
-        return ZNO_REPOSITORY.findAll().stream().map(ZNO_MAPPER::toZnoDto).collect(Collectors.toList());
+        return znoRepository.findAll().stream().map(znoMapper::toZnoDto).collect(Collectors.toList());
     }
 
     @Override
     public ZnoDto save(ZnoDto znoDto) {
-        Zno newZno = ZNO_MAPPER.toZno(znoDto);
-        return ZNO_MAPPER.toZnoDto(ZNO_REPOSITORY.save(newZno));
+        Zno newZno = znoMapper.toZno(znoDto);
+        return znoMapper.toZnoDto(znoRepository.save(newZno));
     }
 
     @Override
     public void delete(int id) {
-        ZNO_REPOSITORY.findById(id).ifPresent(zno -> ZNO_REPOSITORY.deleteById(id));
+        znoRepository.findById(id).ifPresent(zno -> znoRepository.deleteById(id));
     }
 
     @Override
     public ZnoDto update(int id, ZnoDto znoDto) {
-        return ZNO_REPOSITORY.findById(id)
+        return znoRepository.findById(id)
                 .map(znoRequired -> {
                     znoRequired.setName(znoDto.getName());
                     znoRequired.setYear(znoDto.getYear());
-                    return ZNO_MAPPER.toZnoDto(ZNO_REPOSITORY.save(znoRequired));
+                    return znoMapper.toZnoDto(znoRepository.save(znoRequired));
                 })
                 .orElseThrow(() -> new ZnoException(id));
     }

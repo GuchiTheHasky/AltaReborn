@@ -14,41 +14,41 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class DefaultStudentService implements StudentService {
-    private final StudentRepository STUDENT_REPOSITORY;
-    private final StudentMapper STUDENT_Mapper;
+    private final StudentRepository studentRepository;
+    private final StudentMapper studentMapper;
 
     @Override
     public List<StudentDto> findAll() {
-        return STUDENT_REPOSITORY.findAll().stream().map(STUDENT_Mapper::toStudentDto).collect(Collectors.toList());
+        return studentRepository.findAll().stream().map(studentMapper::toStudentDto).collect(Collectors.toList());
     }
 
     @Override
     public StudentDto save(StudentDto studentDto) {
-        Student newStudent = STUDENT_Mapper.toStudent(studentDto);
-        return STUDENT_Mapper.toStudentDto(STUDENT_REPOSITORY.save(newStudent));
+        Student newStudent = studentMapper.toStudent(studentDto);
+        return studentMapper.toStudentDto(studentRepository.save(newStudent));
     }
 
     @Override
     public void delete(int id) {
-        STUDENT_REPOSITORY.findById(id).ifPresent(student -> STUDENT_REPOSITORY.deleteById(id));
+        studentRepository.findById(id).ifPresent(student -> studentRepository.deleteById(id));
     }
 
     @Override
     public StudentDto update(int id, StudentDto studentDto) {
-        return STUDENT_REPOSITORY.findById(id)
+        return studentRepository.findById(id)
                 .map(studentRequired -> {
                     studentRequired.setFirstName(studentDto.getFirstName());
                     studentRequired.setLastName(studentDto.getLastName());
                     studentRequired.setEmail(studentDto.getEmail());
                     studentRequired.setGrade(studentDto.getGrade());
                     studentRequired.setStatus(studentDto.getStatus());
-                    return STUDENT_Mapper.toStudentDto(STUDENT_REPOSITORY.save(studentRequired));
+                    return studentMapper.toStudentDto(studentRepository.save(studentRequired));
                 })
                 .orElseThrow(() -> new StudentException(id));
     }
 
     @Override
     public Student findById(int studentId) {
-        return STUDENT_REPOSITORY.findById(studentId).orElseThrow(() -> new StudentException(studentId));
+        return studentRepository.findById(studentId).orElseThrow(() -> new StudentException(studentId));
     }
 }

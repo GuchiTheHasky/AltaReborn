@@ -13,26 +13,26 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 public class ZnoController {
-    private final ZnoService ZNO_SERVICE;
+    private final ZnoService znoService;
 
     @GetMapping
     public List<ZnoDto> findAll() {
-        return ZNO_SERVICE.findAll();
+        return znoService.findAll();
     }
 
     @PostMapping("/save")
     public ZnoDto save(@RequestBody ZnoDto znoDto) {
-        return ZNO_SERVICE.save(znoDto);
+        return znoService.save(znoDto);
     }
 
     @DeleteMapping("/delete/{id}")
     public void delete(@PathVariable("id") int id) {
-        ZNO_SERVICE.delete(id);
+        znoService.delete(id);
     }
 
     @PutMapping("/update/{id}")
     public ZnoDto update(@PathVariable("id") int id, @RequestBody ZnoDto znoDto) {
-        return ZNO_SERVICE.update(id, znoDto);
+        return znoService.update(id, znoDto);
     }
 
 }
