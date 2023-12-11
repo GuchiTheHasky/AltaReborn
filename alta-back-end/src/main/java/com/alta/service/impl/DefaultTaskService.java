@@ -12,8 +12,7 @@ import com.alta.service.TaskService;
 import com.alta.service.TopicService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -78,27 +77,33 @@ public class DefaultTaskService implements TaskService {
 
     @Override
     public List<TaskDto> findAllByTopicId(int topicId) {
-        List<Task> tasks = taskRepository.findAllByTopicId(topicId);
-        return tasks.stream().map(taskMapper::toTaskDto).collect(Collectors.toList());
+        return taskRepository.findAllByTopicId(topicId)
+                .stream()
+                .map(taskMapper::toTaskDto)
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<TaskDto> findAllByStudentId(int studentId) {
-        List<Task> tasks = taskRepository.findAllByStudentsId(studentId);
-        return tasks.stream().map(taskMapper::toTaskDto).collect(Collectors.toList());
+        return taskRepository.findAllByStudentsId(studentId)
+                .stream()
+                .map(taskMapper::toTaskDto)
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<TaskDto> findAllByTopicIdList(List<Integer> topicIdList) {
-        List<Task> tasks = new ArrayList<>();
-        topicIdList.stream().map(taskRepository::findAllByTopicId).forEach(tasks::addAll);
-        return tasks.stream().map(taskMapper::toTaskDto).collect(Collectors.toList());
+        return topicIdList.stream()
+                .map(taskRepository::findAllByTopicId)
+                .flatMap(Collection::stream)
+                .map(taskMapper::toTaskDto)
+                .collect(Collectors.toList());
     }
 
     @Override
     public void deleteStudentFromTasks(Student student) {
-        for (Task task : student.getTasks()) {
-            task.getStudents().remove(student);
-        }
+        student.getTasks().forEach(task ->
+                task.getStudents()
+                        .remove(student));
     }
 }
