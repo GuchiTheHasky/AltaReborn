@@ -28,20 +28,9 @@ class TaskControllerITest extends AbstractDataBase {
     @Autowired
     private TaskController taskController;
 
+
     @Test
     @Order(1)
-    @DisplayName("Test, check status code and content type for findAll() method")
-    public void shouldTReturnStatusOkAndContentTypeApplicationJson() throws Exception {
-        int expectedSize = 3;
-
-        this.mockMvc.perform(get("/api/v1/tasks"))
-                .andExpect(status().isOk())
-                .andExpect(header().string("Content-Type", "application/json"))
-                .andExpect(jsonPath("$.length()").value(expectedSize));
-    }
-
-    @Test
-    @Order(2)
     @DisplayName("Test, check status code and content type for save() method")
     void testSaveTaskDto() throws Exception {
         ObjectMapper mapper = new ObjectMapper();
@@ -56,5 +45,17 @@ class TaskControllerITest extends AbstractDataBase {
                         .content(taskToSave))
                 .andExpect(status().isOk())
                 .andExpect(header().string("Content-Type", "application/json"));
+    }
+
+    @Test
+    @Order(2)
+    @DisplayName("Test, check status code and content type for findAll() method")
+    public void shouldTReturnStatusOkAndContentTypeApplicationJson() throws Exception {
+        int expectedSize = 4;
+
+        this.mockMvc.perform(get("/api/v1/tasks"))
+                .andExpect(status().isOk())
+                .andExpect(header().string("Content-Type", "application/json"))
+                .andExpect(jsonPath("$.length()").value(expectedSize));
     }
 }
