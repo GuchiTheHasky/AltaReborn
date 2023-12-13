@@ -13,7 +13,8 @@ import java.util.Set;
 @Entity
 public class Task {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_generator")
+    @SequenceGenerator(name="id_generator", sequenceName = "task_id_sequence", initialValue = 1, allocationSize = 20)
     private int id;
 
     private int number;
@@ -29,7 +30,7 @@ public class Task {
     @JoinColumn(name="topic_id", referencedColumnName = "id")
     private Topic topic;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name="task_student",
             joinColumns = @JoinColumn(name="task_id"),

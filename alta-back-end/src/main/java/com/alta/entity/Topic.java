@@ -14,7 +14,8 @@ import java.util.Set;
 @Data
 public class Topic {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_generator")
+    @SequenceGenerator(name="id_generator", sequenceName = "topic_id_sequence", initialValue = 1, allocationSize = 20)
     private int id;
 
     private String name;
@@ -22,7 +23,7 @@ public class Topic {
     @JdbcTypeCode(SqlTypes.JSON)
     private List<String> subtopics;
 
-    @OneToMany(mappedBy = "topic")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "topic")
     @JsonIgnore
     private Set<Task> tasks = new HashSet<>();
 }

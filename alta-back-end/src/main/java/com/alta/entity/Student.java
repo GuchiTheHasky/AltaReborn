@@ -15,7 +15,8 @@ import java.util.Set;
 @Data
 public class Student {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_generator")
+    @SequenceGenerator(name="id_generator", sequenceName = "student_id_sequence", initialValue = 1, allocationSize = 20)
     private int id;
 
     @Column(name = "first_name")
@@ -28,7 +29,7 @@ public class Student {
     private String grade;
     private String status;
 
-    @ManyToMany(mappedBy = "students")
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "students")
     @JsonIgnore
     private Set<Task> tasks = new HashSet<>();
 }
