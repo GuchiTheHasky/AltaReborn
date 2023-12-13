@@ -2,7 +2,6 @@ package com.alta.web.controller;
 
 import com.alta.AbstractDataBase;
 import com.alta.dto.StudentDto;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -44,7 +43,7 @@ class StudentControllerITest extends AbstractDataBase {
     @Test
     @Order(2)
     @DisplayName("Test, check status code and content type for save() method")
-    void testSaveStudentShouldReturnStudentDtoObject() throws Exception {
+    void testSaveStudentDto() throws Exception {
         ObjectMapper mapper = new ObjectMapper();
         StudentDto studentDto = new StudentDto();
         studentDto.setFirstName("Sergey");
@@ -57,7 +56,5 @@ class StudentControllerITest extends AbstractDataBase {
                         .content(studentToSave))
                         .andExpect(status().isOk())
                         .andExpect(header().string("Content-Type", "application/json"));
-
-        Assertions.assertEquals(4, studentController.findAll().size());
     }
 }

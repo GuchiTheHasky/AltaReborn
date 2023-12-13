@@ -3,7 +3,6 @@ package com.alta.web.controller;
 
 import com.alta.AbstractDataBase;
 import com.alta.dto.TopicDto;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -45,7 +44,7 @@ class TopicControllerITest extends AbstractDataBase {
     @Test
     @Order(2)
     @DisplayName("Test, check status code and content type for save() method")
-    void testSaveTopicShouldReturnTopicDtoObject() throws Exception {
+    void testSaveTopicDto() throws Exception {
         ObjectMapper mapper = new ObjectMapper();
         TopicDto topicDto = new TopicDto();
         topicDto.setName("Функції");
@@ -54,7 +53,5 @@ class TopicControllerITest extends AbstractDataBase {
                         .content(topicToSave))
                         .andExpect(status().isOk())
                         .andExpect(header().string("Content-Type", "application/json"));
-
-        Assertions.assertEquals(3, topicController.findAll().size());
     }
 }

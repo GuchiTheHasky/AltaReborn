@@ -30,7 +30,7 @@ public class Task {
     @JoinColumn(name="topic_id", referencedColumnName = "id")
     private Topic topic;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name="task_student",
             joinColumns = @JoinColumn(name="task_id"),

@@ -23,7 +23,7 @@ public class Topic {
     @JdbcTypeCode(SqlTypes.JSON)
     private List<String> subtopics;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "topic")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "topic")
     @JsonIgnore
     private Set<Task> tasks = new HashSet<>();
 }

@@ -29,7 +29,7 @@ public class Student {
     private String grade;
     private String status;
 
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "students")
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "students")
     @JsonIgnore
     private Set<Task> tasks = new HashSet<>();
 }

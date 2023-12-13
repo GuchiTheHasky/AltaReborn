@@ -80,7 +80,7 @@ class ZnoControllerITest extends AbstractDataBase {
     @Test
     @Order(3)
     @DisplayName("Test, check status code and content type for save() method")
-    void testSaveZnoShouldReturnZnoDtoObject() throws Exception {
+    void testSaveZnoDto() throws Exception {
         ObjectMapper mapper = new ObjectMapper();
         ZnoDto znoDto = new ZnoDto();
         znoDto.setName("ЗНО з математики – основна сесія");
