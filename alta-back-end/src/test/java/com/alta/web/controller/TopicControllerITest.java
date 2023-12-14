@@ -3,6 +3,7 @@ package com.alta.web.controller;
 
 import com.alta.AbstractDataBase;
 import com.alta.dto.TopicDto;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -22,6 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @DisplayName("Integration tests for TopicController")
+@Transactional
 class TopicControllerITest extends AbstractDataBase {
     @Autowired
     private MockMvc mockMvc;
@@ -31,18 +33,6 @@ class TopicControllerITest extends AbstractDataBase {
 
     @Test
     @Order(1)
-    @DisplayName("Test, check status code and content type for findAll() method")
-    public void shouldTReturnStatusOkAndContentTypeApplicationJson() throws Exception {
-        int expectedSize = 2;
-
-        this.mockMvc.perform(get("/api/v1/topics"))
-                .andExpect(status().isOk())
-                .andExpect(header().string("Content-Type", "application/json"))
-                .andExpect(jsonPath("$.length()").value(expectedSize));
-    }
-
-    @Test
-    @Order(2)
     @DisplayName("Test, check status code and content type for save() method")
     void testSaveTopicDto() throws Exception {
         ObjectMapper mapper = new ObjectMapper();
@@ -51,7 +41,19 @@ class TopicControllerITest extends AbstractDataBase {
         String topicToSave = mapper.writeValueAsString(topicDto);
         this.mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/topics/save").contentType(MediaType.APPLICATION_JSON)
                         .content(topicToSave))
-                        .andExpect(status().isOk())
-                        .andExpect(header().string("Content-Type", "application/json"));
+                .andExpect(status().isOk())
+                .andExpect(header().string("Content-Type", "application/json"));
+    }
+
+    @Test
+    @Order(2)
+    @DisplayName("Test, check status code and content type for findAll() method")
+    public void shouldTReturnStatusOkAndContentTypeApplicationJson() throws Exception {
+        int expectedSize = 2;
+
+        this.mockMvc.perform(get("/api/v1/topics"))
+                .andExpect(status().isOk())
+                .andExpect(header().string("Content-Type", "application/json"))
+                .andExpect(jsonPath("$.length()").value(expectedSize));
     }
 }

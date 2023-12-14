@@ -2,6 +2,7 @@ package com.alta.web.controller;
 
 import com.alta.AbstractDataBase;
 import com.alta.dto.ZnoDto;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -21,6 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @DisplayName("Integration tests for ZnoController.")
+@Transactional
 class ZnoControllerITest extends AbstractDataBase {
 
     @Autowired
@@ -28,8 +30,26 @@ class ZnoControllerITest extends AbstractDataBase {
     @Autowired
     private ZnoController znoController;
 
+
     @Test
     @Order(1)
+    @DisplayName("Test, check status code and content type for save() method")
+    void testSaveZnoDto() throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        ZnoDto znoDto = new ZnoDto();
+        znoDto.setName("ЗНО з математики – основна сесія");
+        znoDto.setYear(2023);
+        String znoToSave = mapper.writeValueAsString(znoDto);
+        this.mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/znos/save").contentType(MediaType.APPLICATION_JSON)
+                        .content(znoToSave))
+                .andExpect(status().isOk())
+                .andExpect(header().string("Content-Type", "application/json"));
+
+        Assertions.assertEquals(4, znoController.findAll().size());
+    }
+
+    @Test
+    @Order(2)
     @DisplayName("Test, check status code and content type for findAll() method")
     public void shouldTReturnStatusOkAndContentTypeApplicationJson() throws Exception {
         int expectedSize = 3;
@@ -41,7 +61,7 @@ class ZnoControllerITest extends AbstractDataBase {
     }
 
     @Test
-    @Order(2)
+    @Order(3)
     @DisplayName("Test, findAll() for ZnoDto method, check size, values. $ so on")
     void shouldReturnListOfZnoDtoEntities() {
         List<ZnoDto> znoDtoList = znoController.findAll();
@@ -76,22 +96,4 @@ class ZnoControllerITest extends AbstractDataBase {
         Assertions.assertEquals(expectedThirdZno, thirdZnoDto.getName());
         Assertions.assertEquals(expectedThirdYear, thirdZnoDto.getYear());
     }
-
-    @Test
-    @Order(3)
-    @DisplayName("Test, check status code and content type for save() method")
-    void testSaveZnoDto() throws Exception {
-        ObjectMapper mapper = new ObjectMapper();
-        ZnoDto znoDto = new ZnoDto();
-        znoDto.setName("ЗНО з математики – основна сесія");
-        znoDto.setYear(2023);
-        String znoToSave = mapper.writeValueAsString(znoDto);
-        this.mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/znos/save").contentType(MediaType.APPLICATION_JSON)
-                .content(znoToSave))
-                .andExpect(status().isOk())
-                .andExpect(header().string("Content-Type", "application/json"));
-
-        Assertions.assertEquals(4, znoController.findAll().size());
-    }
-
 }
