@@ -34,7 +34,7 @@ class ZnoControllerITest extends AbstractDataBase {
         this.mockMvc.perform(get("/api/v1/znos"))
                 .andExpect(status().isOk())
                 .andExpect(header().string("Content-Type", "application/json"))
-                .andExpect(jsonPath("$.length()").value(expectedSize));;
+                .andExpect(jsonPath("$.length()").value(expectedSize));
     }
 
     @Test
