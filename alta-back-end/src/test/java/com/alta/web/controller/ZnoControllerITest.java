@@ -2,6 +2,8 @@ package com.alta.web.controller;
 
 import com.alta.AbstractDataBase;
 import com.alta.dto.ZnoDto;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -19,6 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @DisplayName("Integration tests for ZnoController.")
 class ZnoControllerITest extends AbstractDataBase {
+    private static final Logger LOGGER = LogManager.getLogger(ZnoControllerITest.class);
 
     @Autowired
     private MockMvc mockMvc;
@@ -34,7 +37,9 @@ class ZnoControllerITest extends AbstractDataBase {
         this.mockMvc.perform(get("/api/v1/znos"))
                 .andExpect(status().isOk())
                 .andExpect(header().string("Content-Type", "application/json"))
-                .andExpect(jsonPath("$.length()").value(expectedSize));;
+                .andExpect(jsonPath("$.length()").value(expectedSize));
+
+        LOGGER.info("Test findAll() method in ZnoControllerITest");
     }
 
     @Test
