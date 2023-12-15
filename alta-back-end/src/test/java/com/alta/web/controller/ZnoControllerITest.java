@@ -2,6 +2,7 @@ package com.alta.web.controller;
 
 import com.alta.AbstractDataBase;
 import com.alta.dto.ZnoDto;
+import lombok.extern.log4j.Log4j2;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.*;
@@ -16,12 +17,12 @@ import java.util.List;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+@Log4j2
 @Testcontainers
 @SpringBootTest
 @AutoConfigureMockMvc
 @DisplayName("Integration tests for ZnoController.")
 class ZnoControllerITest extends AbstractDataBase {
-    private static final Logger LOGGER = LogManager.getLogger(ZnoControllerITest.class);
 
     @Autowired
     private MockMvc mockMvc;
@@ -39,7 +40,7 @@ class ZnoControllerITest extends AbstractDataBase {
                 .andExpect(header().string("Content-Type", "application/json"))
                 .andExpect(jsonPath("$.length()").value(expectedSize));
 
-        LOGGER.info("Test findAll() method in ZnoControllerITest");
+        log.info("Test findAll() method in ZnoControllerITest");
     }
 
     @Test
