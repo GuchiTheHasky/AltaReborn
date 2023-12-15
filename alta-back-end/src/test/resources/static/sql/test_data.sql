@@ -43,13 +43,13 @@ create table if not exists student
     last_name varchar(128) not null,
     email varchar(128) not null,
     grade varchar(64) not null,
-    status varchar(128) not null,
+    comment varchar(128) not null,
     primary key (id)
 );
 
-insert into student (first_name, last_name, email, grade, status) values ('Anna', 'Burova', 'burova@email', '10', 'offline');
-insert into student (first_name, last_name, email, grade, status) values ('Elena', 'Boiko', 'boyko@email', '9', 'offline');
-insert into student (first_name, last_name, email, grade, status) values ('Anastasiya', 'Moroz', 'moroz@email', '11', 'offline');
+insert into student (first_name, last_name, email, grade, comment) values ('Anna', 'Burova', 'burova@email', '10', 'offline');
+insert into student (first_name, last_name, email, grade, comment) values ('Elena', 'Boiko', 'boyko@email', '9', 'offline');
+insert into student (first_name, last_name, email, grade, comment) values ('Anastasiya', 'Moroz', 'moroz@email', '11', 'offline');
 
 
 CREATE SEQUENCE task_id_sequence

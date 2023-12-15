@@ -27,7 +27,7 @@ public class Student {
 
     private String email;
     private String grade;
-    private String status;
+    private String comment;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "students")
     @JsonIgnore

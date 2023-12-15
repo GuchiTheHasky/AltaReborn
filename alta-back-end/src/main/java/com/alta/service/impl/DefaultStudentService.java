@@ -39,9 +39,7 @@ public class DefaultStudentService implements StudentService {
                 .map(studentRequired -> {
                     studentRequired.setFirstName(studentDto.getFirstName());
                     studentRequired.setLastName(studentDto.getLastName());
-                    studentRequired.setEmail(studentDto.getEmail());
                     studentRequired.setGrade(studentDto.getGrade());
-                    studentRequired.setStatus(studentDto.getStatus());
                     return studentMapper.toStudentDto(studentRepository.save(studentRequired));
                 })
                 .orElseThrow(() -> new StudentException(id));

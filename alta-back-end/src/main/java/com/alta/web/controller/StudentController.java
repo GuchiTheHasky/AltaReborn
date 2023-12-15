@@ -29,20 +29,4 @@ public class StudentController {
         return studentService.save(studentDto);
     }
 
-    @DeleteMapping("/delete/{id}")
-    public void delete(@PathVariable("id") int id) {
-        Student student = studentService.findById(id);
-        taskService.deleteStudentFromTasks(student);
-        studentService.delete(id);
-    }
-
-    @PutMapping("/update/{id}")
-    public StudentDto update(@PathVariable("id") int id, @RequestBody StudentDto studentDto) {
-        return studentService.update(id, studentDto);
-    }
-
-    @GetMapping("/{lastName}")
-    public StudentDto findByLastName(@PathVariable("lastName") String lastName) {
-        return studentMapper.toStudentDto(studentService.findByLastName(lastName));
-    }
 }
