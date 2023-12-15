@@ -3,10 +3,8 @@ package com.alta.web.controller;
 
 import com.alta.AbstractDataBase;
 import com.alta.dto.TopicDto;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
+import jakarta.transaction.Transactional;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,11 +15,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Transactional
 @DisplayName("Integration tests for TopicController")
 class TopicControllerITest extends AbstractDataBase {
     @Autowired
@@ -44,16 +44,20 @@ class TopicControllerITest extends AbstractDataBase {
 
     @Test
     @Order(1)
-    @DisplayName("Test, check status code and content type for save() method")
+    @DisplayName("Test, check status code, content type, data saving for save() method")
     void testSaveTopicDto() throws Exception {
         ObjectMapper mapper = new ObjectMapper();
         TopicDto topicDto = new TopicDto();
         topicDto.setName("Функції");
-        String topicToSave = mapper.writeValueAsString(topicDto);
+
         this.mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/topics/save").contentType(MediaType.APPLICATION_JSON)
-                        .content(topicToSave))
+                        .content(mapper.writeValueAsString(topicDto)))
                 .andExpect(status().isOk())
                 .andExpect(header().string("Content-Type", "application/json"));
+
+        int expectedSize = 3;
+        Assertions.assertEquals(expectedSize, topicController.findAll().size());
+        assertNotNull(topicController.findByName("Функції"));
     }
 
     @Test

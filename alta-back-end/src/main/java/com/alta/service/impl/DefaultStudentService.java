@@ -51,4 +51,9 @@ public class DefaultStudentService implements StudentService {
     public Student findById(int studentId) {
         return studentRepository.findById(studentId).orElseThrow(() -> new StudentException(studentId));
     }
+
+    @Override
+    public Student findByLastName(String lastName) {
+        return studentRepository.findByLastName(lastName);
+    }
 }

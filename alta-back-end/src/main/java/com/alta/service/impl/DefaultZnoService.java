@@ -44,5 +44,10 @@ public class DefaultZnoService implements ZnoService {
                 })
                 .orElseThrow(() -> new ZnoException(id));
     }
+
+    @Override
+    public Zno findByName(String name) {
+        return znoRepository.findByName(name);
+    }
 }
 

@@ -49,4 +49,6 @@ public interface StudentService {
      * @param studentId : The unique identifier of the Student object to be found.
      */
     Student findById(int studentId);
+
+    Student findByLastName(String lastName);
 }

@@ -1,6 +1,7 @@
 package com.alta.service;
 
 import com.alta.dto.ZnoDto;
+import com.alta.entity.Zno;
 
 import java.util.List;
 
@@ -41,4 +42,6 @@ public interface ZnoService {
      * @return An object representing the updated zno.
      */
     ZnoDto update(int id, ZnoDto znoDto);
+
+    Zno findByName(String name);
 }

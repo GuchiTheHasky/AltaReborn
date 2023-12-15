@@ -1,6 +1,7 @@
 package com.alta.web.controller;
 
 import com.alta.dto.ZnoDto;
+import com.alta.mapper.ZnoMapper;
 import com.alta.service.ZnoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +15,7 @@ import java.util.List;
 @RestController
 public class ZnoController {
     private final ZnoService znoService;
+    private final ZnoMapper znoMapper;
 
     @GetMapping
     public List<ZnoDto> findAll() {
@@ -35,4 +37,8 @@ public class ZnoController {
         return znoService.update(id, znoDto);
     }
 
+    @GetMapping("/{name}")
+    public ZnoDto findByName(@PathVariable("name") String name) {
+        return znoMapper.toZnoDto(znoService.findByName(name));
+    }
 }

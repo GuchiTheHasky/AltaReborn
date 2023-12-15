@@ -2,10 +2,8 @@ package com.alta.web.controller;
 
 import com.alta.AbstractDataBase;
 import com.alta.dto.StudentDto;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
+import jakarta.transaction.Transactional;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,10 +14,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
+@Transactional
 @AutoConfigureMockMvc
 @DisplayName("Integration tests for StudentController")
 class StudentControllerITest extends AbstractDataBase {
@@ -43,7 +44,7 @@ class StudentControllerITest extends AbstractDataBase {
 
     @Test
     @Order(1)
-    @DisplayName("Test, check status code and content type for save() method")
+    @DisplayName("Test, check status code, content type, data saving for save() method")
     void testSaveStudentDto() throws Exception {
         ObjectMapper mapper = new ObjectMapper();
         StudentDto studentDto = new StudentDto();
@@ -52,11 +53,18 @@ class StudentControllerITest extends AbstractDataBase {
         studentDto.setEmail("bondarenko@email");
         studentDto.setGrade("11");
         studentDto.setStatus("offline");
-        String studentToSave = mapper.writeValueAsString(studentDto);
+
         this.mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/students/save").contentType(MediaType.APPLICATION_JSON)
-                        .content(studentToSave))
+                        .content(mapper.writeValueAsString(studentDto)))
                 .andExpect(status().isOk())
                 .andExpect(header().string("Content-Type", "application/json"));
+
+        int expectedSize = 4;
+        Assertions.assertEquals(expectedSize, studentController.findAll().size());
+
+        StudentDto student = studentController.findByLastName("Bondarenko");
+        assertNotNull(student);
+        assertThat(student.getGrade()).isEqualTo("11");
     }
 
     @Test

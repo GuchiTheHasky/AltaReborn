@@ -15,6 +15,8 @@ import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.List;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -27,6 +29,7 @@ class ZnoControllerITest extends AbstractDataBase {
     private MockMvc mockMvc;
     @Autowired
     private ZnoController znoController;
+
 
     @DynamicPropertySource
     static void properties(DynamicPropertyRegistry registry) {
@@ -43,19 +46,25 @@ class ZnoControllerITest extends AbstractDataBase {
 
     @Test
     @Order(1)
-    @DisplayName("Test, check status code and content type for save() method")
+    @DisplayName("Test, check status code, content type, data saving for save() method")
     void testSaveZnoDto() throws Exception {
         ObjectMapper mapper = new ObjectMapper();
         ZnoDto znoDto = new ZnoDto();
-        znoDto.setName("ЗНО з математики – основна сесія");
+        znoDto.setName("ЗНО Завдання за темами з математики");
         znoDto.setYear(2023);
-        String znoToSave = mapper.writeValueAsString(znoDto);
+        ObjectMapper objectMapper = new ObjectMapper();
+
         this.mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/znos/save").contentType(MediaType.APPLICATION_JSON)
-                        .content(znoToSave))
+                        .content(objectMapper.writeValueAsString(znoDto)))
                 .andExpect(status().isOk())
                 .andExpect(header().string("Content-Type", "application/json"));
 
-        Assertions.assertEquals(4, znoController.findAll().size());
+        int expectedSize = 4;
+        Assertions.assertEquals(expectedSize, znoController.findAll().size());
+
+        ZnoDto zno = znoController.findByName("ЗНО Завдання за темами з математики");
+        assertNotNull(zno);
+        assertThat(zno.getYear()).isEqualTo(2023);
     }
 
     @Test

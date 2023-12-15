@@ -2,6 +2,7 @@ package com.alta.web.controller;
 
 import com.alta.dto.StudentDto;
 import com.alta.entity.Student;
+import com.alta.mapper.StudentMapper;
 import com.alta.service.StudentService;
 import com.alta.service.TaskService;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ import java.util.List;
 public class StudentController {
     private final StudentService studentService;
     private final TaskService taskService;
+    private final StudentMapper studentMapper;
 
     @GetMapping
     public List<StudentDto> findAll() {
@@ -37,5 +39,10 @@ public class StudentController {
     @PutMapping("/update/{id}")
     public StudentDto update(@PathVariable("id") int id, @RequestBody StudentDto studentDto) {
         return studentService.update(id, studentDto);
+    }
+
+    @GetMapping("/{lastName}")
+    public StudentDto findByLastName(@PathVariable("lastName") String lastName) {
+        return studentMapper.toStudentDto(studentService.findByLastName(lastName));
     }
 }

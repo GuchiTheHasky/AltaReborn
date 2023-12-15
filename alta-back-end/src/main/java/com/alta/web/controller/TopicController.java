@@ -41,4 +41,9 @@ public class TopicController {
     public TopicDto update(@PathVariable("id") int id, @RequestBody TopicDto topicDto) {
         return topicService.update(id, topicDto);
     }
+
+    @GetMapping("/{name}")
+    public TopicDto findByName(@PathVariable("name") String name) {
+        return topicMapper.toTopicDto(topicService.findByName(name));
+    }
 }

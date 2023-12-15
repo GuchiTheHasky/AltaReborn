@@ -43,4 +43,6 @@ public interface TopicService {
     TopicDto update(int id, TopicDto topicDto);
 
     Topic findById(int topicId);
+
+    Topic findByName(String name);
 }

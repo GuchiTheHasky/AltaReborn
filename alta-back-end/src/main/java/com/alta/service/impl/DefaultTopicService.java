@@ -50,4 +50,9 @@ public class DefaultTopicService implements TopicService {
     public Topic findById(int topicId) {
         return topicRepository.findById(topicId).orElseThrow(() -> new TopicException(topicId));
     }
+
+    @Override
+    public Topic findByName(String name) {
+        return topicRepository.findByName(name);
+    }
 }
