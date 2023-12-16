@@ -4,12 +4,10 @@ import com.alta.dto.TopicDto;
 import com.alta.mapper.TopicMapper;
 import com.alta.service.TopicService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Slf4j
 @RequestMapping("/api/v1/topics")
 @RequiredArgsConstructor
 @RestController

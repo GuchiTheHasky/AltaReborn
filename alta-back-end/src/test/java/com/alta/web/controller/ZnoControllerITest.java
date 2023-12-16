@@ -2,6 +2,9 @@ package com.alta.web.controller;
 
 import com.alta.AbstractDataBase;
 import com.alta.dto.ZnoDto;
+import lombok.extern.log4j.Log4j2;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -14,6 +17,7 @@ import java.util.List;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+@Log4j2
 @Testcontainers
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -34,7 +38,9 @@ class ZnoControllerITest extends AbstractDataBase {
         this.mockMvc.perform(get("/api/v1/znos"))
                 .andExpect(status().isOk())
                 .andExpect(header().string("Content-Type", "application/json"))
-                .andExpect(jsonPath("$.length()").value(expectedSize));;
+                .andExpect(jsonPath("$.length()").value(expectedSize));
+
+        log.info("Test findAll() method in ZnoControllerITest");
     }
 
     @Test
