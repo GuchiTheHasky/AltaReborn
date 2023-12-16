@@ -18,17 +18,18 @@ public class Task {
     private int id;
 
     private int number;
-
-    @Column(name="image_path")
-    private String imagePath;
-
-    private String level;
-    private String text;
-    private String answer;
+    private String description;
 
     @ManyToOne
     @JoinColumn(name="topic_id", referencedColumnName = "id")
     private Topic topic;
+
+    private String answer;
+
+    @Column(name="image_url")
+    private String imageUrl;
+
+    private String level;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(

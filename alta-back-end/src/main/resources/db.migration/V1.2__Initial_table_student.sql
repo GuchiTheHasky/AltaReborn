@@ -5,5 +5,5 @@ create table if not exists student
     last_name varchar(128) not null,
     email varchar(128) not null,
     grade varchar(64) not null,
-    status varchar(128) not null,
+    comment varchar(128) not null,
 );

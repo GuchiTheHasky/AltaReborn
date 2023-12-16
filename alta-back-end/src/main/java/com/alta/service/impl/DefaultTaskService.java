@@ -45,11 +45,10 @@ public class DefaultTaskService implements TaskService {
     public TaskDto update(int id, TaskDto taskDto) {
         return taskRepository.findById(id)
                 .map(taskRequired -> {
-                    taskRequired.setNumber(taskDto.getNumber());
-                    taskRequired.setImagePath(taskDto.getImagePath());
-                    taskRequired.setLevel(taskDto.getLevel());
-                    taskRequired.setText(taskDto.getText());
+                    taskRequired.setDescription(taskDto.getDescription());
                     taskRequired.setAnswer(taskDto.getAnswer());
+                    taskRequired.setImageUrl(taskDto.getImageUrl());
+                    taskRequired.setLevel(taskDto.getLevel());
                     return taskMapper.toTaskDto(taskRepository.save(taskRequired));
                 })
                 .orElseThrow(() -> new TaskException(id));

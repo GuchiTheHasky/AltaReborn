@@ -45,11 +45,10 @@ class TaskControllerITest extends AbstractDataBase {
     void testSaveTaskDto() throws Exception {
         ObjectMapper mapper = new ObjectMapper();
         TaskDto taskDto = new TaskDto();
-        taskDto.setNumber(40);
-        taskDto.setImagePath("image_4");
-        taskDto.setLevel("level_4");
-        taskDto.setText("text_4");
+        taskDto.setDescription("text_4");
         taskDto.setAnswer("answer_to_4");
+        taskDto.setImageUrl("image_4");
+        taskDto.setLevel("level_4");
 
         this.mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/tasks/save").contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(taskDto)))

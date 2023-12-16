@@ -2,7 +2,6 @@ package com.alta.service;
 
 import com.alta.dto.StudentDto;
 import com.alta.entity.Student;
-
 import java.util.List;
 
 /**
@@ -19,30 +18,6 @@ public interface StudentService {
      */
     List<StudentDto> findAll();
 
-    /**
-     * Saves a new Student.
-     *
-     * @param studentDto : An object containing information about the student to be saved.
-     * @return An object representing the newly saved student.
-     */
-    StudentDto save(StudentDto studentDto);
-
-    /**
-     * Deletes a Student object based on its unique identifier.
-     *
-     * @param id : The unique identifier of the Student object to be deleted.
-     */
-    void delete(int id);
-
-
-    /**
-     * Updates an existing Student object with the provided information.
-     * @param id : The unique identifier of the Student object to be updated.
-     * @param studentDto : An object containing the updated information for the student.
-     * @return An object representing the updated student.
-     */
-    StudentDto update(int id, StudentDto studentDto);
-
 
     /**
      * Gets a Student object based on its unique identifier.
@@ -50,5 +25,4 @@ public interface StudentService {
      */
     Student findById(int studentId);
 
-    Student findByLastName(String lastName);
 }
