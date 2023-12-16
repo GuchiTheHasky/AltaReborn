@@ -3,11 +3,10 @@ package com.alta.web.controller;
 import com.alta.dto.TaskDto;
 import com.alta.service.TaskService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
-@Slf4j
 @RequestMapping("/api/v1/tasks")
 @RequiredArgsConstructor
 @RestController

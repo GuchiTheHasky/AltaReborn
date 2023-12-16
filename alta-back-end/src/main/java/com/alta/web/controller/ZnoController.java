@@ -3,12 +3,10 @@ package com.alta.web.controller;
 import com.alta.dto.ZnoDto;
 import com.alta.service.ZnoService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Slf4j
 @RequestMapping("/api/v1/znos")
 @RequiredArgsConstructor
 @RestController

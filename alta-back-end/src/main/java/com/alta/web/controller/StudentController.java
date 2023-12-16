@@ -5,11 +5,10 @@ import com.alta.entity.Student;
 import com.alta.service.StudentService;
 import com.alta.service.TaskService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
-@Slf4j
 @RequestMapping("/api/v1/students")
 @RequiredArgsConstructor
 @RestController
