@@ -20,5 +20,5 @@ public interface TopicService {
 
     Topic findById(int topicId);
 
-    Topic findByTitle(String title);
+    Topic findByName(String name);
 }

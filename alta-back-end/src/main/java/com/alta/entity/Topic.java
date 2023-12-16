@@ -18,7 +18,7 @@ public class Topic {
     @SequenceGenerator(name="id_generator", sequenceName = "topic_id_sequence", initialValue = 1, allocationSize = 20)
     private int id;
 
-    private String title;
+    private String name;
 
     @JdbcTypeCode(SqlTypes.JSON)
     private List<String> subtopics;

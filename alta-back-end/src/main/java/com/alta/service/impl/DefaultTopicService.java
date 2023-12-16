@@ -30,7 +30,7 @@ public class DefaultTopicService implements TopicService {
     }
 
     @Override
-    public Topic findByTitle(String title) {
-        return topicRepository.findByTitle(title);
+    public Topic findByName(String name) {
+        return topicRepository.findByName(name);
     }
 }

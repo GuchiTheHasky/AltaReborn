@@ -22,13 +22,13 @@ START 1;
 create table if not exists topic
 (
     id integer default nextval('topic_id_sequence') not null,
-    title varchar(255) not null,
+    name varchar(255) not null,
     subtopics json not null default '[]'::json,
     primary key (id)
 );
 
-insert into topic (title) values ('Числа і вирази');
-insert into topic (title) values ('Рівняння, нерівності та їхні системи');
+insert into topic (name) values ('Числа і вирази');
+insert into topic (name) values ('Рівняння, нерівності та їхні системи');
 
 
 

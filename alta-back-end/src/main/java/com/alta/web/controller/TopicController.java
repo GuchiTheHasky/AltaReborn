@@ -26,7 +26,7 @@ public class TopicController {
     }
 
     @GetMapping("/{title}")
-    public TopicDto findByTitle(@PathVariable("title") String title) {
-        return topicMapper.toTopicDto(topicService.findByTitle(title));
+    public TopicDto findByName(@PathVariable("name") String name) {
+        return topicMapper.toTopicDto(topicService.findByName(name));
     }
 }
