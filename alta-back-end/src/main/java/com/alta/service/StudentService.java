@@ -1,7 +1,6 @@
 package com.alta.service;
 
 import com.alta.dto.StudentDto;
-import com.alta.entity.Student;
 import java.util.List;
 
 /**
@@ -17,12 +16,5 @@ public interface StudentService {
      * @return A list of StudentDto objects representing the available students.
      */
     List<StudentDto> findAll();
-
-
-    /**
-     * Gets a Student object based on its unique identifier.
-     * @param studentId : The unique identifier of the Student object to be found.
-     */
-    Student findById(int studentId);
 
 }

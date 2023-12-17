@@ -19,14 +19,4 @@ public class TopicController {
     public List<TopicDto> findAll() {
         return topicService.findAll();
     }
-
-    @GetMapping("/{id}")
-    public TopicDto findById(@PathVariable("id") int id) {
-        return topicMapper.toTopicDto(topicService.findById(id));
-    }
-
-    @GetMapping("/{title}")
-    public TopicDto findByName(@PathVariable("name") String name) {
-        return topicMapper.toTopicDto(topicService.findByName(name));
-    }
 }

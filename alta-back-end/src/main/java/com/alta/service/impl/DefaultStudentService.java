@@ -1,8 +1,6 @@
 package com.alta.service.impl;
 
 import com.alta.dto.StudentDto;
-import com.alta.entity.Student;
-import com.alta.exception.StudentException;
 import com.alta.mapper.StudentMapper;
 import com.alta.repository.StudentRepository;
 import com.alta.service.StudentService;
@@ -20,10 +18,5 @@ public class DefaultStudentService implements StudentService {
     @Override
     public List<StudentDto> findAll() {
         return studentRepository.findAll().stream().map(studentMapper::toStudentDto).collect(Collectors.toList());
-    }
-
-    @Override
-    public Student findById(int studentId) {
-        return studentRepository.findById(studentId).orElseThrow(() -> new StudentException(studentId));
     }
 }

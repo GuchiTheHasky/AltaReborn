@@ -1,7 +1,6 @@
 package com.alta.service;
 
 import com.alta.dto.TopicDto;
-import com.alta.entity.Topic;
 import java.util.List;
 
 /**
@@ -18,7 +17,4 @@ public interface TopicService {
      */
     List<TopicDto> findAll();
 
-    Topic findById(int topicId);
-
-    Topic findByName(String name);
 }
