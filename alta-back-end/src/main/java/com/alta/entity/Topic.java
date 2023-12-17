@@ -21,6 +21,7 @@ public class Topic {
     private String name;
 
     @JdbcTypeCode(SqlTypes.JSON)
+    @JsonIgnore
     private List<String> subtopics;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "topic")

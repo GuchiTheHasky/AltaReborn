@@ -10,6 +10,6 @@ public class TaskDto {
     private String description;
     private Topic topic;
     private String answer;
-    private String imageUrl;
+    private String pathToImage;
     private String level;
 }

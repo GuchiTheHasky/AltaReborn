@@ -26,8 +26,8 @@ public class Task {
 
     private String answer;
 
-    @Column(name="image_url")
-    private String imageUrl;
+    @Column(name="path_to_image")
+    private String pathToImage;
 
     private String level;
 

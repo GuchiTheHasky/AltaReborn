@@ -47,7 +47,7 @@ class TaskControllerITest extends AbstractDataBase {
         TaskDto taskDto = new TaskDto();
         taskDto.setDescription("text_4");
         taskDto.setAnswer("answer_to_4");
-        taskDto.setImageUrl("image_4");
+        taskDto.setPathToImage("image_4");
         taskDto.setLevel("level_4");
 
         this.mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/tasks/save").contentType(MediaType.APPLICATION_JSON)

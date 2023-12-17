@@ -64,15 +64,15 @@ create table if not exists task
     description varchar(255) not null,
     topic_id int,
     answer varchar(255) not null,
-    image_url varchar(255) not null,
+    path_to_image varchar(255) not null,
     level varchar(128) not null,
     primary key (id),
     foreign key (topic_id) references topic (id)
 );
 
-insert into task (number, description, answer, image_url, level) values (10, 'description_1', 'answer_to_1', 'image_url_1', 'level_1');
-insert into task (number, description, answer, image_url, level) values (20, 'description_2', 'answer_to_2', 'image_url_2', 'level_2');
-insert into task (number, description, answer, image_url, level) values (30, 'description_3', 'answer_to_3', 'image_url-3', 'level_3');
+insert into task (number, description, answer, path_to_image, level) values (10, 'description_1', 'answer_to_1', 'image_url_1', 'level_1');
+insert into task (number, description, answer, path_to_image, level) values (20, 'description_2', 'answer_to_2', 'image_url_2', 'level_2');
+insert into task (number, description, answer, path_to_image, level) values (30, 'description_3', 'answer_to_3', 'image_url-3', 'level_3');
 
 
 

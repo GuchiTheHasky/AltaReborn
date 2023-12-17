@@ -47,7 +47,7 @@ public class DefaultTaskService implements TaskService {
                 .map(taskRequired -> {
                     taskRequired.setDescription(taskDto.getDescription());
                     taskRequired.setAnswer(taskDto.getAnswer());
-                    taskRequired.setImageUrl(taskDto.getImageUrl());
+                    taskRequired.setPathToImage(taskDto.getPathToImage());
                     taskRequired.setLevel(taskDto.getLevel());
                     return taskMapper.toTaskDto(taskRepository.save(taskRequired));
                 })

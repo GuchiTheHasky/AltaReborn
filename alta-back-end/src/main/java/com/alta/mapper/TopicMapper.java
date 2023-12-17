@@ -11,5 +11,6 @@ public interface TopicMapper {
     @Mapping(target = "tasks", ignore = true)
     Topic toTopic(TopicDto topicDto);
 
+
     TopicDto toTopicDto(Topic topic);
 }
