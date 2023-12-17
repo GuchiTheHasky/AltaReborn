@@ -10,7 +10,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@Entity
+@Entity(name="topic")
+@Table(schema="alta")
 @Data
 public class Topic {
     @Id

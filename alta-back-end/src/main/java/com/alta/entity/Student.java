@@ -9,7 +9,8 @@ import lombok.ToString;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity
+@Entity(name="student")
+@Table(schema="alta")
 @EqualsAndHashCode(exclude = "tasks")
 @ToString(exclude = "tasks")
 @Data

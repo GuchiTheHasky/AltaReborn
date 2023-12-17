@@ -10,7 +10,8 @@ import java.util.Set;
 @Data
 @EqualsAndHashCode(exclude = "students")
 @ToString(exclude = "students")
-@Entity
+@Entity(name="task")
+@Table(schema="alta")
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_generator")
