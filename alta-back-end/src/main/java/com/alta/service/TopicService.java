@@ -17,4 +17,5 @@ public interface TopicService {
      */
     List<TopicDto> findAll();
 
+    TopicDto findById(int i);
 }

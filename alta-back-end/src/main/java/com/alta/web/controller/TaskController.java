@@ -18,4 +18,8 @@ public class TaskController {
         return taskService.findAll();
     }
 
+    @PutMapping("/update/{id}")
+    public TaskDto update(@PathVariable("id") int id, @RequestBody TaskDto taskDto) {
+        return taskService.update(id, taskDto);
+    }
 }

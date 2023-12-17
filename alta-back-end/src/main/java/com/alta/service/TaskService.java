@@ -15,4 +15,14 @@ public interface TaskService {
      * @return A list of TaskDto objects representing the available tasks.
      */
     List<TaskDto> findAll();
+
+    /**
+     * Updates an existing Task object with the provided information.
+     * @param id : The unique identifier of the Task object to be updated.
+     * @param taskDto : An object containing the updated information for the task.
+     * @return An object representing the updated task.
+     */
+    TaskDto update(int id, TaskDto taskDto);
+
+    TaskDto findById(int i);
 }
