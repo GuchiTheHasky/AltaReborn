@@ -1,6 +1,5 @@
 package com.alta.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -31,6 +30,5 @@ public class Student {
     private String comment;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "students")
-    @JsonIgnore
     private Set<Task> tasks = new HashSet<>();
 }

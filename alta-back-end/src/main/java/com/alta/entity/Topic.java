@@ -1,6 +1,5 @@
 package com.alta.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.JdbcTypeCode;
@@ -22,10 +21,8 @@ public class Topic {
     private String name;
 
     @JdbcTypeCode(SqlTypes.JSON)
-    @JsonIgnore
     private List<String> subtopics;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "topic")
-    @JsonIgnore
     private Set<Task> tasks = new HashSet<>();
 }

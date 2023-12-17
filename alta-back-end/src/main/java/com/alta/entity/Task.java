@@ -21,7 +21,7 @@ public class Task {
     private int number;
     private String description;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="topic_id", referencedColumnName = "id")
     private Topic topic;
 
@@ -32,15 +32,11 @@ public class Task {
 
     private String level;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(
             name="task_student",
             joinColumns = @JoinColumn(name="task_id"),
             inverseJoinColumns = @JoinColumn(name="student_id")
     )
     private Set<Student> students = new HashSet<>();
-
-    public void addStudent(Student student) {
-        students.add(student);
-    }
 }
