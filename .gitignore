@@ -5,3 +5,5 @@ application-dev.yml
 /alta-back-end/target/
 /alta-front-end.iml
 .log
+/alta-back-end.iml
+/logs/
