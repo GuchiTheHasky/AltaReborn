@@ -7,14 +7,14 @@ export const columns: GridColDef[] = [
 		headerClassName: 'super-app-theme--header',
 	},
 	{
-		field: 'class',
+		field: 'grade',
 		headerName: 'Клас',
 		width: 150,
 		headerClassName: 'super-app-theme--header',
 	},
 	{
-		field: 'status',
-		headerName: 'Статус',
+		field: 'comment',
+		headerName: 'Коментар',
 		width: 150,
 		headerClassName: 'super-app-theme--header',
 	},
