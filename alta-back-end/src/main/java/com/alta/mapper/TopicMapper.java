@@ -7,10 +7,8 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface TopicMapper {
-    @Mapping(target = "subtopics", ignore = true)
-    @Mapping(target = "tasks", ignore = true)
+    //@Mapping(target = "tasks", ignore = true) // todo: check it, I supposed that it is not necessary
     Topic toTopic(TopicDto topicDto);
-
 
     TopicDto toTopicDto(Topic topic);
 }

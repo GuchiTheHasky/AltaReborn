@@ -1,23 +1,26 @@
 package com.alta.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.*;
+import org.hibernate.annotations.JdbcType;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
-@Entity(name="student")
-@Table(schema="alta")
-@EqualsAndHashCode(exclude = "tasks")
-@ToString(exclude = "tasks")
+@Entity
+@Table(schema="alta_reborn", name="student")
 @Data
+@NoArgsConstructor
+@EqualsAndHashCode(exclude = {"tasks"})
+@AllArgsConstructor
 public class Student {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_generator")
-    @SequenceGenerator(name="id_generator", sequenceName = "student_id_sequence", initialValue = 1, allocationSize = 20)
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "student_id")
+    private int studentId;
 
     @Column(name = "first_name")
     private String firstName;
@@ -29,6 +32,8 @@ public class Student {
     private String grade;
     private String comment;
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "students")
-    private Set<Task> tasks = new HashSet<>();
+    @JdbcTypeCode(SqlTypes.JSON)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "student")
+    private Set<Task> tasks;
+
 }

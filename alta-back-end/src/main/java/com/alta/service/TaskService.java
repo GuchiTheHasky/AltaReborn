@@ -1,7 +1,10 @@
 package com.alta.service;
 
 import com.alta.dto.TaskDto;
+import com.alta.web.controller.request.TaskRequest;
+
 import java.util.List;
+import java.util.zip.ZipOutputStream;
 
 /**
  * Interface for managing the Task data.
@@ -25,4 +28,7 @@ public interface TaskService {
     TaskDto update(int id, TaskDto taskDto);
 
     TaskDto findById(int i);
+
+    void getZipTaskByFilter(ZipOutputStream zipOutputStream, String fileName, Integer studentId, List<TaskRequest> filteredTaskDtoList);
+
 }

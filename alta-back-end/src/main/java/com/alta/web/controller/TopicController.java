@@ -1,10 +1,12 @@
 package com.alta.web.controller;
 
 import com.alta.dto.TopicDto;
-import com.alta.mapper.TopicMapper;
 import com.alta.service.TopicService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import java.util.List;
 
 
@@ -12,8 +14,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 public class TopicController {
+
     private final TopicService topicService;
-    private final TopicMapper topicMapper;
 
     @GetMapping
     public List<TopicDto> findAll() {

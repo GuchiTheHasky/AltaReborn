@@ -1,42 +1,51 @@
 package com.alta.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
 import java.util.HashSet;
 import java.util.Set;
 
+//@EqualsAndHashCode(exclude = "students")
+//@ToString(exclude = "students")
 @Data
-@EqualsAndHashCode(exclude = "students")
-@ToString(exclude = "students")
-@Entity(name="task")
-@Table(schema="alta")
+@Entity
+@Table(schema="alta_reborn", name="task")
+@EqualsAndHashCode
+@NoArgsConstructor
+@AllArgsConstructor
 public class Task {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_generator")
-    @SequenceGenerator(name="id_generator", sequenceName = "task_id_sequence", initialValue = 1, allocationSize = 20)
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int taskId;
 
-    private int number;
     private String description;
-
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="topic_id", referencedColumnName = "id")
-    private Topic topic;
 
     private String answer;
 
-    @Column(name="path_to_image")
-    private String pathToImage;
+    @Column(name="image_path")
+    private String imagePath;
 
     private String level;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(
-            name="task_student",
-            joinColumns = @JoinColumn(name="task_id"),
-            inverseJoinColumns = @JoinColumn(name="student_id")
-    )
-    private Set<Student> students = new HashSet<>();
+    @ManyToOne
+    private Topic topic;
+
+    @ManyToOne
+    private Student student;
 }
+
+
+// @ManyToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name="topic_id", referencedColumnName = "id")
+//    private Topic topic;
+//
+//    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    @JoinTable(
+//            name="task_student",
+//            joinColumns = @JoinColumn(name="task_id"),
+//            inverseJoinColumns = @JoinColumn(name="student_id")
+//    )
+//    private Set<Student> students = new HashSet<>();
