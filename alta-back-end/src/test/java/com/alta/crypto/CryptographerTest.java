@@ -11,10 +11,10 @@ class CryptographerTest {
     @Test
     @DisplayName("Test Cryptographer, check the encrypted value differs from the original, decrypted value identical to the original")
     public void testCryptographerEncryptDecrypt() throws Exception {
-        String ORIGINAL = "textForEncryption";
-        String textEncrypted = Cryptographer.crypt(Cipher.ENCRYPT_MODE, ORIGINAL);
-        assertNotEquals(textEncrypted, ORIGINAL);
+        String originalText = "textForEncryption";
+        String textEncrypted = Cryptographer.crypt(Cipher.ENCRYPT_MODE, originalText);
+        assertNotEquals(textEncrypted, originalText);
         String textDecrypted = Cryptographer.crypt(Cipher.DECRYPT_MODE, textEncrypted);
-        assertEquals(textDecrypted, ORIGINAL);
+        assertEquals(textDecrypted, originalText);
     }
 }
