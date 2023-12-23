@@ -3,7 +3,9 @@ package com.alta.web.controller;
 import com.alta.dto.TaskDto;
 import com.alta.service.TaskService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -14,8 +16,17 @@ public class TaskController {
     private final TaskService taskService;
 
     @GetMapping
-    public List<TaskDto> findAll() {
-        return taskService.findAll();
+    public ModelAndView findAll(String name, ModelMap map) {
+        List<TaskDto> tasks = taskService.findAll();
+        map.addAttribute("tasks", tasks);
+        return new ModelAndView("task_list", map);
+    }
+
+    @GetMapping("/answers")
+    public ModelAndView findAllWithAnswer(String name, ModelMap map) {
+        List<TaskDto> tasksWithAnswers = taskService.findAll();
+        map.addAttribute("tasksWithAnswers", tasksWithAnswers);
+        return new ModelAndView("task_list_answers", map);
     }
 
     @PostMapping("/save")

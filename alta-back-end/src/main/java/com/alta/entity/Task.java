@@ -10,7 +10,8 @@ import java.util.Set;
 @Data
 @EqualsAndHashCode(exclude = "students")
 @ToString(exclude = "students")
-@Entity
+@Entity(name="task")
+@Table(schema="alta")
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,11 +19,12 @@ public class Task {
 
     private int number;
 
-    @Column(name="image_path")
-    private String imagePath;
+    @Column(name="path_to_image")
+    private String pathToImage;
 
     private String level;
-    private String text;
+
+    private String description;
     private String answer;
 
     @ManyToOne

@@ -1,4 +1,4 @@
-create table if not exists student
+create table if not exists alta.student
 (
     id serial primary key,
     first_name varchar(128) not null,

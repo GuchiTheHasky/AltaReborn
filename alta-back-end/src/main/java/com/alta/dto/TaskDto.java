@@ -11,9 +11,9 @@ import java.util.Set;
 public class TaskDto {
     private int id;
     private int number;
-    private String imagePath;
+    private String pathToImage;
     private String level;
-    private String text;
+    private String description;
     private String answer;
     private Topic topic;
     private Set<Student> students = new HashSet<>();
