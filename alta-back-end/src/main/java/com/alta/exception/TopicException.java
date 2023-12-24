@@ -6,4 +6,8 @@ public class TopicException extends RuntimeException {
     public TopicException(int id) {
         super(String.format(MESSAGE, id));
     }
+
+    public TopicException(String s) {
+        super(s);
+    }
 }

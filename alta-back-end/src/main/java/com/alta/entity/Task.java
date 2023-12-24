@@ -1,43 +1,40 @@
 package com.alta.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
-import java.util.HashSet;
-import java.util.Set;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 @Data
-@EqualsAndHashCode(exclude = "students")
-@ToString(exclude = "students")
 @Entity
+@Table(name = "task")
 public class Task {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int id;
-
-    private int number;
 
     @Column(name="image_path")
     private String imagePath;
 
     private String level;
     private String text;
+
+    @Column(name="text_html")
+    private String textHtml;
     private String answer;
 
     @ManyToOne
-    @JoinColumn(name="topic_id", referencedColumnName = "id")
+    @JsonBackReference
+    @JdbcTypeCode(SqlTypes.JSON)
+    @JoinColumn(name = "topic_id", referencedColumnName = "id" )
     private Topic topic;
 
-    @ManyToMany
-    @JoinTable(
-            name="task_student",
-            joinColumns = @JoinColumn(name="task_id"),
-            inverseJoinColumns = @JoinColumn(name="student_id")
-    )
-    private Set<Student> students = new HashSet<>();
+    @ManyToOne
+    @JsonManagedReference
+    @JdbcTypeCode(SqlTypes.JSON)
+    @JoinColumn(name = "student_id", referencedColumnName = "id" )
+    private Student student;
 
-    public void addStudent(Student student) {
-        students.add(student);
-    }
 }

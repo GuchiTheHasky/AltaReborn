@@ -18,19 +18,4 @@ public class ZnoController {
         return znoService.findAll();
     }
 
-    @PostMapping("/save")
-    public ZnoDto save(@RequestBody ZnoDto znoDto) {
-        return znoService.save(znoDto);
-    }
-
-    @DeleteMapping("/delete/{id}")
-    public void delete(@PathVariable("id") int id) {
-        znoService.delete(id);
-    }
-
-    @PutMapping("/update/{id}")
-    public ZnoDto update(@PathVariable("id") int id, @RequestBody ZnoDto znoDto) {
-        return znoService.update(id, znoDto);
-    }
-
 }

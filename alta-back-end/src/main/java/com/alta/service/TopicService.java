@@ -1,5 +1,6 @@
 package com.alta.service;
 
+import com.alta.dto.TaskDto;
 import com.alta.dto.TopicDto;
 import com.alta.entity.Topic;
 import java.util.List;
@@ -18,29 +19,8 @@ public interface TopicService {
      */
     List<TopicDto> findAll();
 
-    /**
-     * Saves a new Topic.
-     *
-     * @param topicDto : An object containing information about the topic to be saved.
-     * @return An object representing the newly saved topic.
-     */
-    TopicDto save(TopicDto topicDto);
+    Topic save(Topic topicDto);
 
-    /**
-     * Deletes a Topic object based on its unique identifier.
-     *
-     * @param id : The unique identifier of the Topic object to be deleted.
-     */
-    void delete(int id);
+    List<Topic> getTasksFromTopics(List<Integer> topicIds);
 
-    /**
-     * Updates an existing Topic object with the provided information.
-     *
-     * @param id : The unique identifier of the Topic object to be updated.
-     * @param topicDto : An object containing the updated information for the topic.
-     * @return An object representing the updated topic.
-     */
-    TopicDto update(int id, TopicDto topicDto);
-
-    Topic findById(int topicId);
 }

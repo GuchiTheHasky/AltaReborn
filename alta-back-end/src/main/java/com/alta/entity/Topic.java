@@ -1,28 +1,26 @@
 package com.alta.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Entity
+@Table(name = "topic")
 @Data
 public class Topic {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int id;
 
-    private String name;
+    private String title;
 
+    @JsonManagedReference
     @JdbcTypeCode(SqlTypes.JSON)
-    private List<String> subtopics;
-
     @OneToMany(mappedBy = "topic")
-    @JsonIgnore
-    private Set<Task> tasks = new HashSet<>();
+    private List<Task> tasks = new ArrayList<>();
 }

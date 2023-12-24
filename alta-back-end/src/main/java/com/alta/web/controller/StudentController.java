@@ -1,11 +1,12 @@
 package com.alta.web.controller;
 
 import com.alta.dto.StudentDto;
-import com.alta.entity.Student;
 import com.alta.service.StudentService;
 import com.alta.service.TaskService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -14,27 +15,10 @@ import java.util.List;
 @RestController
 public class StudentController {
     private final StudentService studentService;
-    private final TaskService taskService;
 
     @GetMapping
     public List<StudentDto> findAll() {
         return studentService.findAll();
     }
 
-    @PostMapping("/save")
-    public StudentDto save(@RequestBody StudentDto studentDto) {
-        return studentService.save(studentDto);
-    }
-
-    @DeleteMapping("/delete/{id}")
-    public void delete(@PathVariable("id") int id) {
-        Student student = studentService.findById(id);
-        taskService.deleteStudentFromTasks(student);
-        studentService.delete(id);
-    }
-
-    @PutMapping("/update/{id}")
-    public StudentDto update(@PathVariable("id") int id, @RequestBody StudentDto studentDto) {
-        return studentService.update(id, studentDto);
-    }
 }
