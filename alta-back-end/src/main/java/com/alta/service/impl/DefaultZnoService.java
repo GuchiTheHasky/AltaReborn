@@ -22,27 +22,4 @@ public class DefaultZnoService implements ZnoService {
     public List<ZnoDto> findAll() {
         return znoRepository.findAll().stream().map(znoMapper::toZnoDto).collect(Collectors.toList());
     }
-
-    @Override
-    public ZnoDto save(ZnoDto znoDto) {
-        Zno newZno = znoMapper.toZno(znoDto);
-        return znoMapper.toZnoDto(znoRepository.save(newZno));
-    }
-
-    @Override
-    public void delete(int id) {
-        znoRepository.findById(id).ifPresent(zno -> znoRepository.deleteById(id));
-    }
-
-    @Override
-    public ZnoDto update(int id, ZnoDto znoDto) {
-        return znoRepository.findById(id)
-                .map(znoRequired -> {
-                    znoRequired.setName(znoDto.getName());
-                    znoRequired.setYear(znoDto.getYear());
-                    return znoMapper.toZnoDto(znoRepository.save(znoRequired));
-                })
-                .orElseThrow(() -> new ZnoException(id));
-    }
 }
-
