@@ -2,10 +2,4 @@
 application-dev.yml
 /HELP.md
 /target/
-/alta-back-end/target/
-/alta-front-end.iml
-.log
-/alta-back-end.iml
-/db/
-/alta-back-end/alta-back-end.iml
-/logs/
+/alta-back-end/target
