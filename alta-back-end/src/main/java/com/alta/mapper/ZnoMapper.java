@@ -6,7 +6,6 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface ZnoMapper {
-
     Zno toZno(ZnoDto znoDto);
     ZnoDto toZnoDto(Zno zno);
 

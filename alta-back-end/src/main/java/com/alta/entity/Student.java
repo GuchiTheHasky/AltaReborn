@@ -1,21 +1,20 @@
 package com.alta.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@EqualsAndHashCode(exclude = "tasks")
-@ToString(exclude = "tasks")
+@Table(name = "students")
 @Data
 public class Student {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int id;
 
     @Column(name = "first_name")
@@ -26,9 +25,10 @@ public class Student {
 
     private String email;
     private String grade;
-    private String status;
+    private String comment;
 
-    @ManyToMany(mappedBy = "students")
-    @JsonIgnore
+    @JdbcTypeCode(SqlTypes.JSON)
+    @OneToMany(mappedBy = "student")
+    @JsonBackReference
     private Set<Task> tasks = new HashSet<>();
 }

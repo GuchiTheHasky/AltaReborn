@@ -23,31 +23,6 @@ public class DefaultStudentService implements StudentService {
     }
 
     @Override
-    public StudentDto save(StudentDto studentDto) {
-        Student newStudent = studentMapper.toStudent(studentDto);
-        return studentMapper.toStudentDto(studentRepository.save(newStudent));
-    }
-
-    @Override
-    public void delete(int id) {
-        studentRepository.findById(id).ifPresent(student -> studentRepository.deleteById(id));
-    }
-
-    @Override
-    public StudentDto update(int id, StudentDto studentDto) {
-        return studentRepository.findById(id)
-                .map(studentRequired -> {
-                    studentRequired.setFirstName(studentDto.getFirstName());
-                    studentRequired.setLastName(studentDto.getLastName());
-                    studentRequired.setEmail(studentDto.getEmail());
-                    studentRequired.setGrade(studentDto.getGrade());
-                    studentRequired.setStatus(studentDto.getStatus());
-                    return studentMapper.toStudentDto(studentRepository.save(studentRequired));
-                })
-                .orElseThrow(() -> new StudentException(id));
-    }
-
-    @Override
     public Student findById(int studentId) {
         return studentRepository.findById(studentId).orElseThrow(() -> new StudentException(studentId));
     }

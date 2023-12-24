@@ -1,10 +1,6 @@
 package com.alta.dto;
 
-import com.alta.entity.Task;
 import lombok.Data;
-
-import java.util.HashSet;
-import java.util.Set;
 
 @Data
 public class StudentDto {
@@ -13,6 +9,5 @@ public class StudentDto {
     private String lastName;
     private String email;
     private String grade;
-    private String status;
-    private Set<Task> tasks = new HashSet<>();
+    private String comment;
 }
