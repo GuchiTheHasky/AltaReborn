@@ -1,6 +1,7 @@
 import { Layout } from '../../components/layout/layout.component';
 import { Students } from '../../pages/students';
 import { createBrowserRouter } from 'react-router-dom';
+import {Topics} from "../../pages/topics.tsx";
 
 
 export const router = createBrowserRouter([
@@ -16,6 +17,10 @@ export const router = createBrowserRouter([
 				path: 'students',
 				element: <Students />,
 			},
+			{
+				path: 'topics',
+				element: <Topics />,
+			}
 		],
 	},
 ]);
