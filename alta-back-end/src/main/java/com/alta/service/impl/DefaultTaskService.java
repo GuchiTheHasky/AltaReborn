@@ -21,6 +21,8 @@ public class DefaultTaskService implements TaskService {
 
     @Override
     public List<TaskDto> findAll() {
+        List<Task> tasks = taskRepository.findAll();
+
         return taskRepository.findAll().stream().map(taskMapper::toTaskDto).collect(Collectors.toList());
     }
 

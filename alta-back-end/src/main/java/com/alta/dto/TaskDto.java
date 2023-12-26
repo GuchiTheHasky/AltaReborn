@@ -10,5 +10,5 @@ public class TaskDto {
     private String text;
     private String textHtml;
     private String answer;
-    private String topicTitle;
+    private String title;
 }

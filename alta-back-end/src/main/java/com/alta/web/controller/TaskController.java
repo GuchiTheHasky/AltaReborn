@@ -1,6 +1,7 @@
 package com.alta.web.controller;
 
 import com.alta.dto.TaskDto;
+import com.alta.dto.TopicDto;
 import com.alta.entity.Topic;
 import com.alta.service.TaskService;
 import com.alta.service.TopicService;
@@ -18,11 +19,20 @@ public class TaskController {
     private final TaskService taskService;
     private final TopicService topicService;
 
+//    @GetMapping("/all")
+//    public List<Topic> getTasksForTopics(@RequestParam(name = "topicIds") List<Integer> topicIds) {
+//        return topicService.getTasksFromTopics(topicIds);
+//    }
+    
     @GetMapping("/all")
-    public List<Topic> getTasksForTopics(@RequestParam(name = "topicIds") List<Integer> topicIds) {
-        return topicService.getTasksFromTopics(topicIds);
+    public List<TaskDto> getTasksForTopics() {
+        return taskService.findAll();
     }
 
+    @GetMapping("/dto")
+    public List<TopicDto> getTasksDtoForTopics() {
+        return topicService.findAll();
+    }
 
     @GetMapping
     public ModelAndView findAll(String name, ModelMap map) {
