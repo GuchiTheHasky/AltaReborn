@@ -3,3 +3,7 @@ application-dev.yml
 /HELP.md
 /target/
 /alta-back-end/target
+/db/
+/logs/
+/alta-back-end.iml
+/alta-front-end.iml

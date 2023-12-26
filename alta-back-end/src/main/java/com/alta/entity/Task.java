@@ -15,25 +15,27 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int id;
 
-    @Column(name="image_path")
+    @Column(name = "image_path")
     private String imagePath;
 
     private String level;
     private String text;
 
-    @Column(name="text_html")
+    @Column(name = "texthtml")
     private String textHtml;
     private String answer;
+    private String title;
+
+    @Column(name = "is_completed")
+    private boolean isCompleted;
 
     @ManyToOne
     @JsonBackReference
-    @JdbcTypeCode(SqlTypes.JSON)
-    @JoinColumn(name = "topic_id", referencedColumnName = "id" )
+    @JoinColumn(name = "topic_id", referencedColumnName = "id")
     private Topic topic;
 
     @ManyToOne
     @JsonManagedReference
-    @JdbcTypeCode(SqlTypes.JSON)
     @JoinColumn(name = "student_id", referencedColumnName = "id" )
     private Student student;
 

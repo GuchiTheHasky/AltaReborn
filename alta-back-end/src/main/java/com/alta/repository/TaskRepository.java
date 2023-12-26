@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 public interface TaskRepository extends JpaRepository<Task, Integer> {
-    @Query("SELECT t FROM Task t WHERE t.topic.id = :id")
-    List<Task> findAllByTopicId(@Param("id") int topicId);
+//    @Query("SELECT t FROM Task t WHERE t.topic.id = :id")
+//    List<Task> findAllByTopicId(@Param("id") int topicId);
 
 }

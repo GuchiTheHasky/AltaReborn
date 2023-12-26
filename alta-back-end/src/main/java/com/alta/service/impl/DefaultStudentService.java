@@ -19,6 +19,7 @@ public class DefaultStudentService implements StudentService {
 
     @Override
     public List<StudentDto> findAll() {
+        List<Student> students = studentRepository.findAll();
         return studentRepository.findAll().stream().map(studentMapper::toStudentDto).collect(Collectors.toList());
     }
 
