@@ -6,12 +6,6 @@ interface CustomLinkProps {
 }
 
 // eslint-disable-next-line react-refresh/only-export-components
-// const ImageLink: FC<CustomLinkProps> = ({ value: link }) => {
-//     const imagePath = `${link}`;
-//     return <a href={imagePath}>{link}</a>;
-// };
-
-// eslint-disable-next-line react-refresh/only-export-components
 const ImageLink: FC<CustomLinkProps> = ({ value: link }) => {
     const imagePath = `${link}`;
     return <img src={imagePath} alt="Image" />;

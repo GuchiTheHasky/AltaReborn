@@ -14,7 +14,6 @@ export const TasksTable: FC<TasksTableProps> = ({ tasks }) => {
       title: "",
       imagePath: "",
       level: "",
-      text: "",
       textHtml: "",
       answer: "",
     },
