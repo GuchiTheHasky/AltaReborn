@@ -1,5 +1,5 @@
-import { api } from '../../core/api';
-import { useQuery } from '@tanstack/react-query';
+import {api} from '../../core/api';
+import {useQuery} from '@tanstack/react-query';
 
 
 const getTasks = async () => {
@@ -9,10 +9,8 @@ const getTasks = async () => {
 };
 
 export const useGetTasks = () => {
-    const query = useQuery({
+    return useQuery({
         queryKey: ['tasks'],
         queryFn: getTasks,
     });
-
-    return query;
 };

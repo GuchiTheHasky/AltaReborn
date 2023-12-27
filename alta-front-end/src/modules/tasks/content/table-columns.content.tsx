@@ -1,34 +1,33 @@
 import {GridColDef} from "@mui/x-data-grid";
+import {FC} from "react";
+
+interface CustomLinkProps {
+    value: string;
+}
+
+// eslint-disable-next-line react-refresh/only-export-components
+const ImageLink: FC<CustomLinkProps> = ({ value: link }) => {
+    const imagePath = `${link}`;
+    return <img src={imagePath} alt="Image" />;
+};
 
 export const columns: GridColDef[] = [
     {
         field: 'title',
         headerName: 'Тема',
-        width: 250,
+        width: 200,
         headerClassName: 'super-app-theme--header',
     },
     {
         field: 'level',
         headerName: 'Рівень',
-        width: 150,
-        headerClassName: 'super-app-theme--header',
-    },
-    {
-        field: 'grade',
-        headerName: 'Клас',
-        width: 100,
-        headerClassName: 'super-app-theme--header',
-    },
-    {
-        field: 'text',
-        headerName: 'Текст',
-        width: 250,
+        width: 75,
         headerClassName: 'super-app-theme--header',
     },
     {
         field: 'textHtml',
         headerName: 'Текст HTML',
-        width: 250,
+        width: 400,
         headerClassName: 'super-app-theme--header',
     },
     {
@@ -36,5 +35,12 @@ export const columns: GridColDef[] = [
         headerName: 'Відповідь',
         width: 100,
         headerClassName: 'super-app-theme--header',
+    },
+    {
+        field: 'imagePath',
+        headerName: 'Зображення',
+        width: 550,
+        headerClassName: 'super-app-theme--header',
+        renderCell: (params) => <ImageLink value={params.value as string} />
     }
 ];
