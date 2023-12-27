@@ -1,4 +1,4 @@
-import { DataGrid } from "@mui/x-data-grid";
+import {DataGrid} from "@mui/x-data-grid";
 import { useEffect, useState, FC } from "react";
 import { TasksResponse } from "../../api/tasks/dto/tasks-response.dto";
 import { columns } from "./content/table-columns.content";
@@ -20,25 +20,28 @@ export const TasksTable: FC<TasksTableProps> = ({ tasks }) => {
     },
   ]);
 
+
+
   useEffect(() => {
     if (tasks) {
       setLoadedTasks(tasks);
     }
   }, [tasks]);
 
-  return (
-    <div className="h-[500px] w-[700px]">
-      <DataGrid
-        rows={loadedTasks}
-        columns={columns}
-        initialState={{
-          pagination: {
-            paginationModel: { page: 0, pageSize: 10 },
-          },
-        }}
-        pageSizeOptions={[5, 10]}
-        checkboxSelection
-      />
-    </div>
+    return (
+      <div style={{height: '500px', width: '1400px'}}>
+        <DataGrid
+            rows={loadedTasks}
+            columns={columns}
+            initialState={{
+                pagination: {
+                    paginationModel: { page: 0, pageSize: 10 },
+                },
+            }}
+            pageSizeOptions={[5, 10, 20, 50, 100]}
+            checkboxSelection
+            getRowHeight={() => 'auto'} getEstimatedRowHeight={() => 200}
+        />
+      </div>
   );
 }
