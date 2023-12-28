@@ -1,47 +1,58 @@
-import { DataGrid } from '@mui/x-data-grid';
-import { columns } from './content/table-columns.content'; // Імпорт конфігурації стовпців таблиці
-import { useEffect, useState, FC } from 'react';
-import { StudentResponse } from '../../api/students/dto/students-response.dto'; // Імпорт типу даних студента
+import {DataGrid, GridRowId} from '@mui/x-data-grid';
+import {columns} from './content/table-columns.content.tsx';
+import {useEffect, useState, FC} from 'react';
+import {StudentResponse} from '../../api/students/dto/students-response.dto';
 
-// Інтерфейс для властивостей компонента StudentsTable
 interface StudentsTableProps {
-	students: StudentResponse[] | undefined;
+    students: StudentResponse[] | undefined;
 }
 
-export const StudentsTable: FC<StudentsTableProps> = ({ students }) => {
-	// Стан для зберігання завантажених студентів для відображення у таблиці
-	const [loadedStudents, setLoadedStudents] = useState<StudentResponse[]>([
-		{
-			id: 1,
-			firstName: '',
-			lastName: '',
-			grade: '',
-			comment: '',
-		},
-	]);
+export const StudentsTable: FC<StudentsTableProps> = ({students}) => {
+    const [loadedStudents, setLoadedStudents] = useState<StudentResponse[]>([
+        {
+            id: 1,
+            firstName: '',
+            lastName: '',
+            grade: '',
+            comment: '',
+        },
+    ]);
+    const [selectionModel, setSelectionModel] = useState<GridRowId[]>([]);
 
-	useEffect(() => {
-		// Перевірка чи передано значення для students
-		if (students) {
-			// Оновлення стану loadedStudents з переданими students
-			setLoadedStudents(students);
-		}
-	}, [students]);
 
-	// Повертає JSX елемент, який містить таблицю студентів
-	return (
-		<div className="h-[500px] w-[700px]">
-			<DataGrid
-				rows={loadedStudents}
-				columns={columns}
-				initialState={{
-					pagination: {
-						paginationModel: { page: 0, pageSize: 10 },
-					},
-				}}
-				pageSizeOptions={[5, 10]}
-				checkboxSelection
-			/>
-		</div>
-	);
+    useEffect(() => {
+        if (students) {
+            setLoadedStudents(students);
+        }
+    }, [students]);
+
+    return (
+        <div className="h-[500px] w-[700px]">
+            <DataGrid
+                rows={loadedStudents}
+                columns={columns}
+                initialState={{
+                    pagination: {
+                        paginationModel: {page: 0, pageSize: 10},
+                    },
+                }}
+                sx={{
+                    '& .MuiDataGrid-columnHeaderCheckbox .MuiDataGrid-columnHeaderTitleContainer': {
+                        display: 'none',
+                    },
+                }}
+                pageSizeOptions={[5, 10]}
+                onRowSelectionModelChange={(selection) => {
+                    if (selection.length > 1) {
+                        const selectionSet = new Set(selectionModel);
+                        const result = selection.filter((s) => !selectionSet.has(s));
+
+                        setSelectionModel(result);
+                    } else {
+                        setSelectionModel(selection);
+                    }
+                }}
+            />
+        </div>
+    );
 };
