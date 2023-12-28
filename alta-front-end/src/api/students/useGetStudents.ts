@@ -1,17 +1,15 @@
-import { api } from '../../core/api';
-import { useQuery } from '@tanstack/react-query';
+import {api} from '../../core/api';
+import {useQuery} from '@tanstack/react-query';
 
 const getStudents = async () => {
-	const { data } = await api.get('/students');
+    const {data} = await api.get('/students');
 
-	return data;
+    return data;
 };
 
 export const useGetStudents = () => {
-	const query = useQuery({
-		queryKey: ['students'],
-		queryFn: getStudents,
-	});
-
-	return query;
+    return useQuery({
+        queryKey: ['students'],
+        queryFn: getStudents,
+    });
 };

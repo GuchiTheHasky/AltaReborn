@@ -1,18 +1,18 @@
 import {GridColDef} from "@mui/x-data-grid";
 import {FC} from "react";
 
-interface CustomLinkProps {
+interface TaskContent {
     value: string;
 }
 
 // eslint-disable-next-line react-refresh/only-export-components
-const ImageRender: FC<CustomLinkProps> = ({ value: link }) => {
+const ImageRender: FC<TaskContent> = ({value: link}) => {
     const imagePath = `${link}`;
-    return <img src={imagePath} alt="Image" />;
+    return <img src={imagePath} alt="Image"/>;
 };
 
-const HtmlRenderer: FC<CustomLinkProps> = ({ value: htmlContent }) => {
-    return <div dangerouslySetInnerHTML={{ __html: htmlContent }} />;
+const HtmlRenderer: FC<TaskContent> = ({value: htmlContent}) => {
+    return <div dangerouslySetInnerHTML={{__html: htmlContent}}/>;
 };
 
 export const columns: GridColDef[] = [
@@ -33,7 +33,7 @@ export const columns: GridColDef[] = [
         headerName: 'Текст HTML',
         width: 400,
         headerClassName: 'super-app-theme--header',
-        renderCell: (params) => <HtmlRenderer value={params.value as string} />,
+        renderCell: (params) => <HtmlRenderer value={params.value as string}/>,
     },
     {
         field: 'answer',
@@ -46,6 +46,6 @@ export const columns: GridColDef[] = [
         headerName: 'Зображення',
         width: 550,
         headerClassName: 'super-app-theme--header',
-        renderCell: (params) => <ImageRender value={params.value as string} />
+        renderCell: (params) => <ImageRender value={params.value as string}/>
     }
 ];
