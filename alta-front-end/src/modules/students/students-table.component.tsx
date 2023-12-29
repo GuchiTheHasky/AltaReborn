@@ -26,6 +26,21 @@ export const StudentsTable: FC<StudentsTableProps> = ({students}) => {
         }
     }, [students]);
 
+    const handleRowSelection = (selectedRows: GridRowId[]) => {
+        setSelectionModel(selectedRows);
+
+        if (selectedRows.length > 0) {
+            const selectedStudent = loadedStudents.find(student => student.id === selectedRows[0]);
+
+            if (selectedStudent !== undefined && selectedStudent !== null) {
+                localStorage.setItem('selectedStudent', JSON.stringify(selectedStudent));
+                console.log(localStorage.getItem('selectedStudent'));
+            } else {
+                console.error('Selected student is undefined or null');
+            }
+        }
+    };
+
     return (
         <div className="h-[500px] w-[700px]">
             <DataGrid
@@ -42,16 +57,18 @@ export const StudentsTable: FC<StudentsTableProps> = ({students}) => {
                     },
                 }}
                 pageSizeOptions={[5, 10]}
-                onRowSelectionModelChange={(selection) => {
-                    if (selection.length > 1) {
-                        const selectionSet = new Set(selectionModel);
-                        const result = selection.filter((s) => !selectionSet.has(s));
-
-                        setSelectionModel(result);
-                    } else {
-                        setSelectionModel(selection);
-                    }
-                }}
+                // onRowSelectionModelChange={(selection) => {
+                //     if (selection.length > 1) {
+                //         const selectionSet = new Set(selectionModel);
+                //         const result = selection.filter((s) => !selectionSet.has(s));
+                //
+                //         setSelectionModel(result);
+                //     } else {
+                //         setSelectionModel(selection);
+                //     }
+                // }}
+                rowSelectionModel={selectionModel}
+                onRowSelectionModelChange={handleRowSelection}
             />
         </div>
     );
