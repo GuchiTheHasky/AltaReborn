@@ -6,6 +6,5 @@ export interface StudentResponse {
   lastName: string;
   grade: string,
   comment: string
-
 }
 
