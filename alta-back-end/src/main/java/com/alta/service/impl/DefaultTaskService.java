@@ -9,6 +9,7 @@ import com.alta.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,6 +45,22 @@ public class DefaultTaskService implements TaskService {
                     return taskMapper.toTaskDto(taskRepository.save(taskRequired));
                 })
                 .orElseThrow(() -> new TaskException(id));
+    }
+
+    @Override
+    public List<TaskDto> getTasksFromTopics(List<Integer> topicIds, Integer studentId) {
+        System.out.println("Received request with topics: " + topicIds + " and studentId: " + studentId);
+        return taskRepository.findByTopicIds(topicIds).stream().map(taskMapper::toTaskDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<TaskDto> getTasksFromTopics(List<Integer> topicIds) {
+        return taskRepository.findByTopicIds(topicIds).stream().map(taskMapper::toTaskDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<TaskDto> findAllByIds(List<Integer> taskIds) {
+        return taskRepository.findAllByIds(taskIds).stream().map(taskMapper::toTaskDto).collect(Collectors.toList());
     }
 
     Task findById(int taskId) {

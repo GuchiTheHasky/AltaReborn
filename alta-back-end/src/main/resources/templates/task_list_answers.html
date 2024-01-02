@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      lang="ua">
 <head>
     <meta http-equiv="Content-Type"
           content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1">-->
     <title>Task list with answers</title>
     <link rel="stylesheet"
           href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
@@ -16,18 +17,21 @@
         <table class="table table-responsive table-bordered table-striped text-center table-hover">
             <thead>
             <tr class="table-success">
+                <th>Task title</th>
                 <th>Task level</th>
-                <th>Task image</th>
                 <th>Task description</th>
                 <th>Task answer</th>
             </tr>
             </thead>
             <tbody>
-            <tr data-th-each="task : ${tasksWithAnswers}">
-                <td data-th-text="${task.level}"></td>
-                <td><img data-th-src="@{${task.pathToImage}}"></td>
-                <td data-th-utext="${task.description}"></td>
-                <td data-th-text="${task.answer}"></td>
+            <tr th:each="task : ${tasksWithAnswers}">
+                <td th:text="${task.title}"></td>
+                <td th:text="${task.level}"></td>
+                <td>
+                    <img th:src="@{${task.imagePath}}" alt="">
+                </td>
+                <td th:text="${task.textHtml}"></td>
+                <td th:text="${task.answer}"></td>
             </tr>
             </tbody>
         </table>

@@ -1,4 +1,4 @@
-import logo from '../../assets/alta-logo.svg';
+import logo from '../../assets/vite.svg';
 
 export const Header = () => {
   return (
