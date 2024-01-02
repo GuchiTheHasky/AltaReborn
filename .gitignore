@@ -7,3 +7,5 @@ application-dev.yml
 /logs/
 /alta-back-end.iml
 /alta-front-end.iml
+/alta-front-end/.env
+/alta-front-end/middleware.js

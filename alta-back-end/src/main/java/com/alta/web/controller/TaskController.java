@@ -2,10 +2,10 @@ package com.alta.web.controller;
 
 import com.alta.dto.TaskDto;
 import com.alta.dto.TopicDto;
-import com.alta.entity.Topic;
 import com.alta.service.TaskService;
 import com.alta.service.TopicService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,11 +18,14 @@ import java.util.List;
 public class TaskController {
     private final TaskService taskService;
     private final TopicService topicService;
+@GetMapping("/fetch")
+public List<TaskDto> fetchData(
+        @RequestParam(name = "topics", required = false) List<Integer> topics,
+        @RequestParam(name = "student", required = false) Integer studentId) {
+    System.out.println("Received request with topics: " + topics + " and studentId: " + studentId);
 
-//    @GetMapping("/all")
-//    public List<Topic> getTasksForTopics(@RequestParam(name = "topicIds") List<Integer> topicIds) {
-//        return topicService.getTasksFromTopics(topicIds);
-//    }
+    return taskService.getTasksFromTopics(topics, studentId);
+}
     
     @GetMapping("/all")
     public List<TaskDto> getTasksForTopics() {
@@ -42,10 +45,10 @@ public class TaskController {
     }
 
     @GetMapping("/answers")
-    public ModelAndView findAllWithAnswer(String name, ModelMap map) {
-        List<TaskDto> tasksWithAnswers = taskService.findAll();
-        map.addAttribute("tasksWithAnswers", tasksWithAnswers);
-        return new ModelAndView("task_list_answers", map);
+    public ModelAndView findAllWithAnswer(ModelMap model, @RequestParam(name = "tasks", required = false) List<Integer> tasks) {
+        List<TaskDto> tasksWithAnswers = taskService.findAllByIds(tasks);
+        model.addAttribute("tasksWithAnswers", tasksWithAnswers);
+        return new ModelAndView("task_list_answers", model);
     }
 
 

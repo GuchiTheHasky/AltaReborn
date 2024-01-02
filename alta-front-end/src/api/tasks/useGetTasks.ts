@@ -3,8 +3,7 @@ import {useQuery} from '@tanstack/react-query';
 
 
 const getTasks = async () => {
-    const { data } = await api.get('/tasks/all');
-
+    const { data } = await api.get('/tasks/fetch');
     return data;
 };
 

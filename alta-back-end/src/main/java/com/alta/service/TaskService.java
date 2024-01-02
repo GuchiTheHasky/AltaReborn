@@ -2,6 +2,8 @@ package com.alta.service;
 
 import com.alta.dto.TaskDto;
 import com.alta.entity.Student;
+import com.alta.entity.Task;
+
 import java.util.List;
 
 /**
@@ -32,5 +34,11 @@ public interface TaskService {
      * @return An object representing the updated task.
      */
     TaskDto update(int id, TaskDto taskDto);
+
+    List<TaskDto> getTasksFromTopics(List<Integer> topicIds, Integer studentId);
+
+    List<TaskDto> getTasksFromTopics(List<Integer> topicIds);
+
+    List<TaskDto> findAllByIds(List<Integer> taskIds);
 
 }
