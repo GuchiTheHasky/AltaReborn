@@ -23,7 +23,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public List<TaskDto> updateStudentTasksAndRetrieveDto(int studentId, List<Integer> taskIds) {
-        studentService.assigneTasks(studentId, taskIds);
+        studentService.assignTasks(studentId, taskIds);
         return taskService.findAllByIds(taskIds);
     }
 

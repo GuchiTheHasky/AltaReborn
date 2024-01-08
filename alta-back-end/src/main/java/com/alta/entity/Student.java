@@ -1,6 +1,5 @@
 package com.alta.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.JdbcTypeCode;
@@ -25,10 +24,6 @@ public class Student {
     private String email;
     private String grade;
     private String comment;
-
-    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
-    @JsonBackReference                           // todo: I suppose we don't need this anymore. Make sure and delete if so.
-    private List<Task> tasks = new ArrayList<>();// todo: Also drop redundant column in the table (use migration).
 
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "tasks_ids")

@@ -23,7 +23,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr data-th-each="task : ${tasks}">
+                    <tr data-th-each="task : ${taskList}">
                         <td data-th-text="${task.level}"></td>
                         <td><img data-th-src="@{${task.pathToImage}}"></td>
                         <td data-th-utext="${task.description}"></td>

@@ -25,5 +25,5 @@ public interface StudentService { // todo: check documentation.
      */
     Student findById(int studentId);
 
-    void assigneTasks(int id, List<Integer> tasks);
+    void assignTasks(int id, List<Integer> tasks);
 }

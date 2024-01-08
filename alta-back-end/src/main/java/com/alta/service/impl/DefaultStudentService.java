@@ -31,7 +31,7 @@ public class DefaultStudentService implements StudentService {
 
     @Override
     @Transactional
-    public void assigneTasks(int id, List<Integer> tasks) {
+    public void assignTasks(int id, List<Integer> tasks) {
         studentRepository.updateTasksIds(id, tasks.toString());
     }
 }
