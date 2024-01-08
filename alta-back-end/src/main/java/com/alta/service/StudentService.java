@@ -10,7 +10,7 @@ import java.util.List;
  * Provides functionality to return, save, update, and delete Student objects.
  */
 
-public interface StudentService {
+public interface StudentService { // todo: check documentation.
 
     /**
      * Returns a list of all Student objects available.
@@ -24,4 +24,6 @@ public interface StudentService {
      * @param studentId : The unique identifier of the Student object to be found.
      */
     Student findById(int studentId);
+
+    void assigneTasks(int id, List<Integer> tasks);
 }

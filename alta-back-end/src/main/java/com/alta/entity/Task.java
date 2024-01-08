@@ -27,16 +27,20 @@ public class Task {
     private String title;
 
     @Column(name = "is_completed")
-    private boolean isCompleted;
+    private boolean isCompleted; // todo: rename to isCompleted. Also drop redundant column in the table (use migration).
 
     @ManyToOne
     @JsonBackReference
     @JoinColumn(name = "topic_id", referencedColumnName = "id")
     private Topic topic;
 
-    @ManyToOne
+    //@JdbcTypeCode(SqlTypes.JSON)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JsonManagedReference
     @JoinColumn(name = "student_id", referencedColumnName = "id" )
-    private Student student;
+    private Student student;    // todo: I suppose we don't need this anymore. Make sure and delete if so.
+                                // todo: Also drop redundant column in the table (use migration).
+
 
 }
+

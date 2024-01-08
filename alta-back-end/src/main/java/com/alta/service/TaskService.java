@@ -11,7 +11,10 @@ import java.util.List;
  * Provides functionality to return, save, update, and delete Task objects.
  */
 
-public interface TaskService {
+public interface TaskService {  // todo: check documentation.
+    List<TaskDto> filterOfUnfinishedTasks(List<Integer> topicIds, List<Integer> tasksIds);
+
+
     /**
      * Returns a list of all Tasks objects available.
      * @return A list of TaskDto objects representing the available tasks.
@@ -34,10 +37,6 @@ public interface TaskService {
      * @return An object representing the updated task.
      */
     TaskDto update(int id, TaskDto taskDto);
-
-    List<TaskDto> getTasksFromTopics(List<Integer> topicIds, Integer studentId);
-
-    List<TaskDto> getTasksFromTopics(List<Integer> topicIds);
 
     List<TaskDto> findAllByIds(List<Integer> taskIds);
 

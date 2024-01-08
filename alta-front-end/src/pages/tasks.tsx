@@ -4,6 +4,8 @@ import {GreenButton} from "../components/buttons/green-button.component.tsx";
 import {TasksResponse} from "../api/tasks/dto/tasks-response.dto.ts";
 import {useState} from "react";
 import {api} from "../core/api.ts";
+import {StudentResponse} from "../api/students/dto/students-response.dto.ts";
+import {useAppContext} from "../api/context/appContext.tsx";
 
 
 export const Tasks = () => {
@@ -11,20 +13,21 @@ export const Tasks = () => {
     const tasks = location.state?.tasks || [];
 
     const [selectedTask, setSelectedTask] = useState<TasksResponse[]>();
-
+    const { selectedStudent } = useAppContext();
     const handleAnswers = () => {
-        answers(selectedTask);
+        answers(selectedTask, selectedStudent);
     };
 
     const handleNoAnswers = () => {
 
     };
 
-    const answers = async (tasks: TasksResponse[] | undefined) => {
+    const answers = async (tasks: TasksResponse[] | undefined, student: StudentResponse | null) => {
         const tasksIds = tasks?.map(task => task.id).join(',');
         const response = await api.get('/tasks/answers', {
             params: {
                 tasks: tasksIds,
+                student: student?.id
             },
             headers: {
                 'Content-Type': 'application/json',

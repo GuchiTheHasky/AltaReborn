@@ -18,7 +18,7 @@ export const Topics = () => {
 
   const sendToBackend = async (topics: TopicResponse[] | undefined, student: StudentResponse | null) => {
       const topicsIds = topics?.map(topic => topic.id).join(',');
-      const response = await api.get('/tasks/fetch', {
+      const response = await api.get('/tasks/unfinished', {
           params: {
               topics: topicsIds,
               student: student?.id,
