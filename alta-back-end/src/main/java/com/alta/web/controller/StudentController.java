@@ -14,11 +14,11 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 public class StudentController {
-    private final StudentService studentService;
+    private final StudentService studentService; // todo: remove deprecated field;
 
     @GetMapping
     public List<StudentDto> findAll() {
-        return studentService.findAll();
+        return studentService.findAll();  // todo: create method List<StudentDto>findAllStudents() in MainFacade;
     }
 
 }

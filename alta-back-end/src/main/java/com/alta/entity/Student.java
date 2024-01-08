@@ -6,8 +6,7 @@ import lombok.Data;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "students")
@@ -27,8 +26,11 @@ public class Student {
     private String grade;
     private String comment;
 
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
+    @JsonBackReference                           // todo: I suppose we don't need this anymore. Make sure and delete if so.
+    private List<Task> tasks = new ArrayList<>();// todo: Also drop redundant column in the table (use migration).
+
     @JdbcTypeCode(SqlTypes.JSON)
-    @OneToMany(mappedBy = "student")
-    @JsonBackReference
-    private Set<Task> tasks = new HashSet<>();
+    @Column(name = "tasks_ids")
+    private List<Integer> tasksIds = new ArrayList<>();
 }

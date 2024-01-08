@@ -6,8 +6,10 @@ import com.alta.exception.StudentException;
 import com.alta.mapper.StudentMapper;
 import com.alta.repository.StudentRepository;
 import com.alta.service.StudentService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,12 +21,17 @@ public class DefaultStudentService implements StudentService {
 
     @Override
     public List<StudentDto> findAll() {
-        List<Student> students = studentRepository.findAll();
         return studentRepository.findAll().stream().map(studentMapper::toStudentDto).collect(Collectors.toList());
     }
 
     @Override
     public Student findById(int studentId) {
         return studentRepository.findById(studentId).orElseThrow(() -> new StudentException(studentId));
+    }
+
+    @Override
+    @Transactional
+    public void assigneTasks(int id, List<Integer> tasks) {
+        studentRepository.updateTasksIds(id, tasks.toString());
     }
 }

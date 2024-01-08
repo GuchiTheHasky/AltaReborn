@@ -10,7 +10,7 @@ import java.util.List;
  * Provides functionality to return, save, update, and delete Topic objects.
  */
 
-public interface TopicService {
+public interface TopicService { // todo: check documentation.
 
     /**
      * Returns a list of all Topic objects available.

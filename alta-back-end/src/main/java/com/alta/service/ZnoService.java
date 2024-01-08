@@ -9,7 +9,7 @@ import java.util.List;
  * Provides functionality to return, save, update, and delete Zno objects.
  */
 
-public interface ZnoService {
+public interface ZnoService {  // todo: check documentation.
 
     /**
      * Returns a list of all Zno objects available.
