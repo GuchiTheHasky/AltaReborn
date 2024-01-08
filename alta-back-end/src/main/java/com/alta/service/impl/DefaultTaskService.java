@@ -29,19 +29,6 @@ public class DefaultTaskService implements TaskService {
     }
 
     @Override
-    public List<TaskDto> findAll() { // todo: I guess, we don't use it.
-        List<Task> tasks = taskRepository.findAll();
-
-        return taskRepository.findAll().stream().map(taskMapper::toTaskDto).collect(Collectors.toList());
-    }
-
-    @Override // todo: I guess, we don't use it, yet;
-    public TaskDto save(TaskDto taskDto) {
-        Task newTask = taskMapper.toTask(taskDto);
-        return taskMapper.toTaskDto(taskRepository.save(newTask));
-    }
-
-    @Override
     public TaskDto update(int id, TaskDto taskDto) {
         return taskRepository.findById(id)
                 .map(taskRequired -> {
@@ -58,10 +45,6 @@ public class DefaultTaskService implements TaskService {
     @Override
     public List<TaskDto> findAllByIds(List<Integer> taskIds) {
         return taskRepository.findAllByIds(taskIds).stream().map(taskMapper::toTaskDto).collect(Collectors.toList());
-    }
-
-    Task findById(int taskId) { // todo: I guess it's also not used;
-        return taskRepository.findById(taskId).orElseThrow(() -> new TaskException(taskId));
     }
 
 }

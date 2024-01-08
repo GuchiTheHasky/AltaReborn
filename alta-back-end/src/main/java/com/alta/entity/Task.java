@@ -9,7 +9,7 @@ import lombok.ToString;
 @Data
 @Entity
 @Table(name = "task")
-@ToString(exclude = {"topic", "isCompleted"})
+@ToString(exclude = {"topic"})
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -25,9 +25,6 @@ public class Task {
     private String textHtml;
     private String answer;
     private String title;
-
-    @Column(name = "is_completed")
-    private boolean isCompleted;
 
     @ManyToOne
     @JsonBackReference

@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type"
           content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Task list</title>
+    <title>Task list without answers</title>
     <link rel="stylesheet"
           href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
@@ -17,6 +17,7 @@
             <table class="table table-responsive table-bordered table-striped text-center table-hover">
                 <thead>
                     <tr class="table-success">
+                        <th>Task title</th>
                         <th>Task level</th>
                         <th>Task image</th>
                         <th>Task description</th>
@@ -24,9 +25,12 @@
                 </thead>
                 <tbody>
                     <tr data-th-each="task : ${taskList}">
+                        <td data-th-text="${task.title}"></td>
                         <td data-th-text="${task.level}"></td>
-                        <td><img data-th-src="@{${task.pathToImage}}"></td>
-                        <td data-th-utext="${task.description}"></td>
+                        <td>
+                            <img data-th-src="@{${task.imagePath}}" alt="">
+                        </td>
+                        <td data-th-utext="${task.textHtml}"></td>
                     </tr>
                 </tbody>
             </table>

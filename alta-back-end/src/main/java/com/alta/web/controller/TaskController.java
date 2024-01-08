@@ -40,7 +40,7 @@ public class TaskController {
     }
 
 
-    @GetMapping // todo: update method, make it work with new facade, use 'findAllWithAnswer' as example;
+    @GetMapping("/noAnswers") // todo: update method, make it work with new facade, use 'findAllWithAnswer' as example;
     public ModelAndView findAll(ModelMap model,
                                 @RequestParam(name = "tasks") List<Integer> tasks,
                                 @RequestParam(name = "student") Integer studentId)  {

@@ -14,22 +14,6 @@ import java.util.List;
 public interface TaskService {  // todo: check documentation.
     List<TaskDto> filterOfUnfinishedTasks(List<Integer> topicIds, List<Integer> tasksIds);
 
-
-    /**
-     * Returns a list of all Tasks objects available.
-     * @return A list of TaskDto objects representing the available tasks.
-     */
-    List<TaskDto> findAll();
-
-
-    /**
-     * Saves a new Task.
-     * @param taskDto : An object containing information about the task to be saved.
-     * @return An object representing the newly saved task.
-     */
-    TaskDto save(TaskDto taskDto);
-
-
     /**
      * Updates an existing Task object with the provided information.
      * @param id : The unique identifier of the Task object to be updated.
