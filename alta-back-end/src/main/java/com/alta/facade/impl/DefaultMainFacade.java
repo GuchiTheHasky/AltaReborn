@@ -1,6 +1,8 @@
 package com.alta.facade.impl;
 
+import com.alta.dto.StudentDto;
 import com.alta.dto.TaskDto;
+import com.alta.dto.TopicDto;
 import com.alta.facade.MainFacade;
 import com.alta.service.*;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +17,7 @@ public class DefaultMainFacade implements MainFacade {
     private final TaskFilter taskFilter;
     private final TaskService taskService;
     private final StudentService studentService;
+    private final TopicService topicService;
 
     @Override
     public List<TaskDto> findUnfinishedTasks(List<Integer> topicIds, Integer studentId) {
@@ -27,5 +30,18 @@ public class DefaultMainFacade implements MainFacade {
         return taskService.findAllByIds(taskIds);
     }
 
+    @Override
+    public List<StudentDto> findAllStudents() {
+        return studentService.findAll();
+    }
 
+    @Override
+    public TaskDto updateTask(int id, TaskDto taskDto) {
+        return taskService.update(id, taskDto);
+    }
+
+    @Override
+    public List<TopicDto> findAllTopics() {
+        return topicService.findAll();
+    }
 }

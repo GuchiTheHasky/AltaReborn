@@ -1,11 +1,7 @@
 package com.alta.web.controller;
 
 import com.alta.dto.TaskDto;
-import com.alta.dto.TopicDto;
 import com.alta.facade.MainFacade;
-import com.alta.service.StudentService;
-import com.alta.service.TaskService;
-import com.alta.service.TopicService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -40,7 +36,7 @@ public class TaskController {
     }
 
 
-    @GetMapping("/noAnswers") // todo: update method, make it work with new facade, use 'findAllWithAnswer' as example;
+    @GetMapping("/noAnswers")
     public ModelAndView findAll(ModelMap model,
                                 @RequestParam(name = "tasks") List<Integer> tasks,
                                 @RequestParam(name = "student") Integer studentId)  {
@@ -51,8 +47,8 @@ public class TaskController {
     }
 
 
-//    @PutMapping("/update/{id}") // todo: update method, make it work with new facade.
-//    public TaskDto update(@PathVariable("id") int id, @RequestBody TaskDto taskDto) {
-//        return taskService.update(id, taskDto);
-//    }
+    @PutMapping("/update/{id}")
+    public TaskDto update(@PathVariable("id") int id, @RequestBody TaskDto taskDto) {
+        return mainFacade.updateTask(id, taskDto);
+    }
 }

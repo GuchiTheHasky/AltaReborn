@@ -1,8 +1,7 @@
 package com.alta.web.controller;
 
 import com.alta.dto.TopicDto;
-import com.alta.entity.Topic;
-import com.alta.service.TopicService;
+import com.alta.facade.MainFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,15 +11,10 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 public class TopicController {
-    private final TopicService topicService; // todo: remove deprecated field, use MainFacade instead;
+    private final MainFacade mainFacade;
 
     @GetMapping
     public List<TopicDto> findAll() {
-        return topicService.findAll(); // todo: create method List<TopicDto>findAllTopics() in MainFacade;
-    }
-
-    @PostMapping
-    public Topic save(@RequestBody Topic topicDto) { // todo: in my opinion, we don't need this method.
-        return topicService.save(topicDto);
+        return mainFacade.findAllTopics();
     }
 }

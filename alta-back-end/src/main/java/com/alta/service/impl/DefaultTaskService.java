@@ -1,12 +1,9 @@
 package com.alta.service.impl;
 
 import com.alta.dto.TaskDto;
-import com.alta.entity.Student;
-import com.alta.entity.Task;
 import com.alta.exception.TaskException;
 import com.alta.mapper.TaskMapper;
 import com.alta.repository.TaskRepository;
-import com.alta.service.StudentService;
 import com.alta.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
