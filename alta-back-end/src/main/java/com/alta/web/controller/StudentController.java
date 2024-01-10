@@ -1,8 +1,7 @@
 package com.alta.web.controller;
 
 import com.alta.dto.StudentDto;
-import com.alta.service.StudentService;
-import com.alta.service.TaskService;
+import com.alta.facade.MainFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,11 +13,11 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 public class StudentController {
-    private final StudentService studentService; // todo: remove deprecated field;
+    private final MainFacade mainFacade;
 
     @GetMapping
     public List<StudentDto> findAll() {
-        return studentService.findAll();  // todo: create method List<StudentDto>findAllStudents() in MainFacade;
+        return mainFacade.findAllStudents();
     }
 
 }

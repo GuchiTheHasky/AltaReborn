@@ -19,8 +19,25 @@ export const Tasks = () => {
     };
 
     const handleNoAnswers = () => {
-
+        noAnswers(selectedTask, selectedStudent);
     };
+
+    const noAnswers = async (tasks: TasksResponse[] | undefined, student: StudentResponse | null) => {
+            const tasksIds = tasks?.map(task => task.id).join(',');
+            const response = await api.get('/tasks/noAnswers', {
+                params: {
+                    tasks: tasksIds,
+                    student: student?.id
+                },
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            const blob = new Blob([response.data], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+
+            window.open(url, '_blank');
+        };
 
     const answers = async (tasks: TasksResponse[] | undefined, student: StudentResponse | null) => {
         const tasksIds = tasks?.map(task => task.id).join(',');
