@@ -30,7 +30,7 @@
                         <td>
                             <img data-th-src="@{${task.imagePath}}" alt="">
                         </td>
-                        <td data-th-utext="${task.textHtml}"></td>
+                        <td data-th-utext="${#strings.replace(#strings.replace(task.textHtml, '\(', ''), '\)', '')}"></td>
                     </tr>
                 </tbody>
             </table>
