@@ -1,7 +1,6 @@
 package com.alta.service.impl;
 
 import com.alta.dto.TopicDto;
-import com.alta.entity.Topic;
 import com.alta.mapper.TopicMapper;
 import com.alta.repository.TopicRepository;
 import com.alta.service.TopicService;
@@ -22,15 +21,5 @@ public class DefaultTopicService implements TopicService {
         return topicRepository.findAll().stream()
                 .map(topicMapper::toTopicDto)
                 .collect(Collectors.toList());
-    }
-
-    @Override
-    public Topic save(Topic topicDto) {
-        return topicRepository.save(topicDto);
-    }
-
-    @Override
-    public List<Topic> getTasksFromTopics(List<Integer> topicIds) {
-        return topicRepository.findAllById(topicIds);
     }
 }
