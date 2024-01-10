@@ -12,4 +12,6 @@ public interface TaskFilter {
      * @return List of TaskDto objects representing the tasks filtered according to the principle stated above.
      */
     List<TaskDto> filterOfUnfinishedTasks(List<Integer> topicsIds, Integer studentId);
+
+    List<Integer> filterOfUniqueTasks(List<Integer> tasksIds, Integer studentId);
 }

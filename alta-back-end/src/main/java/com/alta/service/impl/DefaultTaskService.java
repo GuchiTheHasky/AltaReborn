@@ -17,13 +17,13 @@ public class DefaultTaskService implements TaskService {
     private final TaskRepository taskRepository;
     private final TaskMapper taskMapper;
 
-    @Override
-    public List<TaskDto> filterOfUnfinishedTasks(List<Integer> topicIds, List<Integer> tasksIds) {
-        return taskRepository.findByTopicIds(topicIds).stream()
-                .filter(task -> !tasksIds.contains(task.getId()))
-                .map(taskMapper::toTaskDto)
-                .collect(Collectors.toList());
-    }
+//    @Override
+//    public List<TaskDto> filterOfUnfinishedTasks(List<Integer> topicIds, List<Integer> tasksIds) {
+//        return taskRepository.findByTopicIds(topicIds).stream()
+//                .filter(task -> !tasksIds.contains(task.getId()))
+//                .map(taskMapper::toTaskDto)
+//                .collect(Collectors.toList());
+//    }
 
     @Override
     public TaskDto update(int id, TaskDto taskDto) {

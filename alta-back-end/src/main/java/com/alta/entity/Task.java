@@ -9,7 +9,7 @@ import lombok.ToString;
 @Data
 @Entity
 @Table(name = "task")
-@ToString(exclude = {"topic"})
+//@ToString(exclude = {"topic"})
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -26,9 +26,9 @@ public class Task {
     private String answer;
     private String title;
 
-    @ManyToOne
-    @JsonBackReference
-    @JoinColumn(name = "topic_id", referencedColumnName = "id")
-    private Topic topic;
+//    @ManyToOne
+//    @JsonBackReference
+//    @JoinColumn(name = "topic_id", referencedColumnName = "id")
+//    private Topic topic;
 }
 

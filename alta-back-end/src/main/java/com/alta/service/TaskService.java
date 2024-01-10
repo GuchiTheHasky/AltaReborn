@@ -16,7 +16,7 @@ public interface TaskService {
      * @param tasksIds : The list of IDs of the Task objects to be excluded.
      * @return List of TaskDto objects representing the tasks filtered according to the principle stated above.
      */
-    List<TaskDto> filterOfUnfinishedTasks(List<Integer> topicsIds, List<Integer> tasksIds);
+   // List<TaskDto> filterOfUnfinishedTasks(List<Integer> topicsIds, List<Integer> tasksIds);
 
     /**
      * Updates an existing Task object with the provided information.
