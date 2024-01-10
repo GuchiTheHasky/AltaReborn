@@ -32,4 +32,6 @@ public interface TaskService {
      * @return List of TaskDto objects representing the tasks that match the provided IDs.
      */
     List<TaskDto> findAllByIds(List<Integer> tasksIds);
+
+    TaskDto findById(Integer taskId);
 }

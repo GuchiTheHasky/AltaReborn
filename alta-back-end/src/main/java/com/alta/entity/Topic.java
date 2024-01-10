@@ -23,4 +23,8 @@ public class Topic {
     @JdbcTypeCode(SqlTypes.JSON)
     @OneToMany(mappedBy = "topic")
     private List<Task> tasks = new ArrayList<>();
+
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(name = "tasks_ids")
+    private List<Integer> tasksIds = new ArrayList<>();
 }

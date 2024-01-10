@@ -44,4 +44,9 @@ public class DefaultTaskService implements TaskService {
         return taskRepository.findAllByIds(taskIds).stream().map(taskMapper::toTaskDto).collect(Collectors.toList());
     }
 
+    @Override
+    public TaskDto findById(Integer taskId) {
+        return taskMapper.toTaskDto(taskRepository.findById(taskId)
+                .orElseThrow(() -> new TaskException(taskId)));
+    }
 }

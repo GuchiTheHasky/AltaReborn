@@ -1,0 +1,1 @@
+alter table public.topic add column tasks_ids jsonb default '[]'::jsonb;

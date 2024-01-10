@@ -1,6 +1,7 @@
 package com.alta.service;
 
 import com.alta.dto.TopicDto;
+import com.alta.entity.Topic;
 import java.util.List;
 
 /**
@@ -15,4 +16,6 @@ public interface TopicService {
      * @return A list of TopicDto objects representing the available topics.
      */
     List<TopicDto> findAll();
+
+    List<Topic> findAllByIds(List<Integer> topicIds);
 }
