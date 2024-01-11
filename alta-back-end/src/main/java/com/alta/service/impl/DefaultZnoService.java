@@ -1,8 +1,6 @@
 package com.alta.service.impl;
 
 import com.alta.dto.ZnoDto;
-import com.alta.entity.Zno;
-import com.alta.exception.ZnoException;
 import com.alta.mapper.ZnoMapper;
 import com.alta.repository.ZnoRepository;
 import com.alta.service.ZnoService;

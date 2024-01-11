@@ -8,7 +8,8 @@ public class TaskDto {
     private String imagePath;
     private String level;
     private String text;
-    private String textHtml;
+
+//    private String textHtml;
     private String answer;
     private String title;
 }

@@ -10,13 +10,6 @@ import java.util.List;
  */
 
 public interface TaskService {
-    /**
-     * Fetches a list of tasks based on Topic IDs, excluding Task objects of provided IDs.
-     * @param topicsIds : The list of IDs of the Topic objects on the basis of which tasks should be selected.
-     * @param tasksIds : The list of IDs of the Task objects to be excluded.
-     * @return List of TaskDto objects representing the tasks filtered according to the principle stated above.
-     */
-   // List<TaskDto> filterOfUnfinishedTasks(List<Integer> topicsIds, List<Integer> tasksIds);
 
     /**
      * Updates an existing Task object with the provided information.
@@ -33,5 +26,9 @@ public interface TaskService {
      */
     List<TaskDto> findAllByIds(List<Integer> tasksIds);
 
+    /**
+     * Gets a Task object based on its unique identifier.
+     * @param taskId : The unique identifier of the Task object to be found.
+     */
     TaskDto findById(Integer taskId);
 }

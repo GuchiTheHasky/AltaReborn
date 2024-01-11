@@ -6,7 +6,7 @@ import java.util.List;
 
 /**
  * Interface for managing the Topic data.
- * Provides functionality to return, save, update, and delete Topic objects.
+ * Provides functionality to return Topic objects.
  */
 
 public interface TopicService {
@@ -17,5 +17,9 @@ public interface TopicService {
      */
     List<TopicDto> findAll();
 
-    List<Topic> findAllByIds(List<Integer> topicIds);
+    /**
+     * Fetches a list of Topic objects based on their IDs.
+     * @param topicsIds : List of unique identifiers of Topic objects to be found.
+     */
+    List<Topic> findAllByIds(List<Integer> topicsIds);
 }

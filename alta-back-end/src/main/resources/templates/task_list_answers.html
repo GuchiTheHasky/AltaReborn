@@ -20,7 +20,7 @@
                     <th>Task title</th>
                     <th>Task level</th>
                     <th>Task image</th>
-                    <th>Task description</th>
+<!--                    <th>Task description</th> todo textHtml field-->
                     <th>Task answer</th>
                 </tr>
             </thead>
@@ -31,7 +31,7 @@
                     <td>
                         <img data-th-src="@{${task.imagePath}}" alt="">
                     </td>
-                    <td data-th-utext="${#strings.replace(#strings.replace(task.textHtml, '\(', ''), '\)', '')}"></td>
+<!--                    <td data-th-utext="${#strings.replace(#strings.replace(task.textHtml, '\(', ''), '\)', '')}"></td>-->
                     <td data-th-text="${task.answer}"></td>
                 </tr>
             </tbody>

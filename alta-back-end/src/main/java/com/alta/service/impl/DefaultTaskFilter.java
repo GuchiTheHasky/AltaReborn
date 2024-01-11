@@ -26,14 +26,10 @@ public class DefaultTaskFilter implements TaskFilter {
         List<Integer> tasksIds = student.getTasksIds();
 
         return topicService.findAllByIds(topicIds).stream()
-                // this peek line is just because we don't have data in tasks_ids column in db yet
-                //.peek(topic -> topic.setTasksIds(topic.getTasks().stream().map(Task::getId).collect(Collectors.toList())))
                 .flatMap(topic -> topic.getTasksIds().stream())
                 .filter(taskId -> !tasksIds.contains(taskId))
                 .map(taskService::findById)
                 .collect(Collectors.toList());
-
-        //return taskService.filterOfUnfinishedTasks(topicIds, tasksIds);
     }
 
     @Override
@@ -45,6 +41,4 @@ public class DefaultTaskFilter implements TaskFilter {
                 .filter(taskId -> !studentTasksIds.contains(taskId))
                 .collect(Collectors.toList());
     }
-
-
 }
