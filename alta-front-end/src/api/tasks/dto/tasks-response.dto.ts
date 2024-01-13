@@ -4,6 +4,6 @@ export interface TasksResponse {
     title: string;
     imagePath: string,
     level: string,
-    textHtml: string,
+    //textHtml: string, // todo: (textHtml)
     answer: string
 }
