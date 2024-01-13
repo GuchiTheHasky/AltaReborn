@@ -6,6 +6,7 @@ import {useState} from "react";
 import {api} from "../core/api.ts";
 import {StudentResponse} from "../api/students/dto/students-response.dto.ts";
 import {useAppContext} from "../api/context/appContext.tsx";
+import {YellowButton} from "../components/buttons/yellow-button.component.tsx";
 
 
 export const Tasks = () => {
@@ -20,6 +21,10 @@ export const Tasks = () => {
 
     const handleNoAnswers = () => {
         noAnswers(selectedTask, selectedStudent);
+    };
+
+    const backToTopics = () => {
+        window.history.back();
     };
 
     const noAnswers = async (tasks: TasksResponse[] | undefined, student: StudentResponse | null) => {
@@ -60,6 +65,9 @@ export const Tasks = () => {
     return (
         <div>
             <div className="flex gap-2.5">
+                <div>
+                    <YellowButton label="НАЗАД" onClick={backToTopics}/>
+                </div>
                 <div className="w-[300px]">
                     <GreenButton label="З ВІДПОВІДЯМИ" onClick={handleAnswers}/>
                 </div>

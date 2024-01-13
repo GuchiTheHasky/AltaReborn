@@ -16,7 +16,7 @@ export const TasksTable: FC<TasksTableProps> = ({ tasks, onSelectTask }) => {
       title: "",
       imagePath: "",
       level: "",
-      textHtml: "",
+    //  textHtml: "", todo: (textHtml)
       answer: "",
     },
   ]);
@@ -36,11 +36,16 @@ export const TasksTable: FC<TasksTableProps> = ({ tasks, onSelectTask }) => {
         onSelectTask(selectedTasks);
   };
 
+
     return (
-      <div style={{height: '500px', width: '1400px'}}>
+      <div style={{height: '500px', width: '1200px'}}>
         <DataGrid
             rows={loadedTasks}
-            columns={columns}
+            columns={columns.map(column => ({
+                ...column,
+                headerAlign: 'center',
+            }))}
+
             initialState={{
                 pagination: {
                     paginationModel: { page: 0, pageSize: 10 },
