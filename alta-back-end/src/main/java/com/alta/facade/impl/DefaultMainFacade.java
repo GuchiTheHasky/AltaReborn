@@ -26,7 +26,8 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public List<TaskDto> updateStudentTasksAndRetrieveDto(int studentId, List<Integer> taskIds) {
-        studentService.assignTasks(studentId, taskIds);
+        List<Integer> tasksToAssign = taskFilter.filterOfUniqueTasks(taskIds, studentId);
+        studentService.assignTasks(studentId, tasksToAssign);
         return taskService.findAllByIds(taskIds);
     }
 

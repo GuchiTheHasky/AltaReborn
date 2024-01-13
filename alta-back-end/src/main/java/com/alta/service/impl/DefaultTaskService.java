@@ -18,21 +18,13 @@ public class DefaultTaskService implements TaskService {
     private final TaskMapper taskMapper;
 
     @Override
-    public List<TaskDto> filterOfUnfinishedTasks(List<Integer> topicIds, List<Integer> tasksIds) {
-        return taskRepository.findByTopicIds(topicIds).stream()
-                .filter(task -> !tasksIds.contains(task.getId()))
-                .map(taskMapper::toTaskDto)
-                .collect(Collectors.toList());
-    }
-
-    @Override
     public TaskDto update(int id, TaskDto taskDto) {
         return taskRepository.findById(id)
                 .map(taskRequired -> {
                     taskRequired.setImagePath(taskDto.getImagePath());
                     taskRequired.setLevel(taskDto.getLevel());
                     taskRequired.setText(taskDto.getText());
-                    taskRequired.setTextHtml(taskDto.getTextHtml());
+//                    taskRequired.setTextHtml(taskDto.getTextHtml());
                     taskRequired.setAnswer(taskDto.getAnswer());
                     return taskMapper.toTaskDto(taskRepository.save(taskRequired));
                 })
@@ -44,4 +36,9 @@ public class DefaultTaskService implements TaskService {
         return taskRepository.findAllByIds(taskIds).stream().map(taskMapper::toTaskDto).collect(Collectors.toList());
     }
 
+    @Override
+    public TaskDto findById(Integer taskId) {
+        return taskMapper.toTaskDto(taskRepository.findById(taskId)
+                .orElseThrow(() -> new TaskException(taskId)));
+    }
 }

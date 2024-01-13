@@ -1,6 +1,5 @@
 package com.alta.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.JdbcTypeCode;
@@ -19,8 +18,7 @@ public class Topic {
 
     private String title;
 
-    @JsonManagedReference
     @JdbcTypeCode(SqlTypes.JSON)
-    @OneToMany(mappedBy = "topic")
-    private List<Task> tasks = new ArrayList<>();
+    @Column(name = "tasks_ids")
+    private List<Integer> tasksIds = new ArrayList<>();
 }
