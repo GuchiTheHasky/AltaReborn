@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface TaskRepository extends JpaRepository<Task, Integer> {
 
@@ -15,4 +16,8 @@ public interface TaskRepository extends JpaRepository<Task, Integer> {
     @Query("SELECT t FROM Task t WHERE t.id IN :taskIds")
     List<Task> findAllByIds(List<Integer> taskIds);
 
+    @Query("SELECT t FROM Task t WHERE t.topic.id IN :taskIds")
+    List<Task> findAllTaskIncludedInTopic(List<Integer> taskIds);
+
+    Optional<Task> findByTitle(String title);
 }

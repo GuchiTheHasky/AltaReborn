@@ -1,6 +1,7 @@
 package com.alta.service;
 
 import com.alta.dto.TaskDto;
+import com.alta.entity.Task;
 
 import java.util.List;
 
@@ -31,4 +32,6 @@ public interface TaskService {
      * @param taskId : The unique identifier of the Task object to be found.
      */
     TaskDto findById(Integer taskId);
+
+    Task findTaskById(int id);
 }

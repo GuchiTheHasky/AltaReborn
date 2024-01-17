@@ -41,4 +41,6 @@ public interface MainFacade {
      * @return A list of TopicDto objects representing the available topics.
      */
     List<TopicDto> findAllTopics();
+
+    TaskDto editTask(TaskDto taskDto);
 }

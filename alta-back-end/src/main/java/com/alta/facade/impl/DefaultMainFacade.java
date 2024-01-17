@@ -25,9 +25,9 @@ public class DefaultMainFacade implements MainFacade {
     }
 
     @Override
-    public List<TaskDto> updateStudentTasksAndRetrieveDto(int studentId, List<Integer> taskIds) {
-        List<Integer> tasksToAssign = taskFilter.filterOfUniqueTasks(taskIds, studentId);
-        studentService.assignTasks(studentId, tasksToAssign);
+    public List<TaskDto> updateStudentTasksAndRetrieveDto(int studentId, List<Integer> taskIds) { // todo rename method
+        //List<Integer> tasksToAssign = taskFilter.filterOfUniqueTasks(taskIds, studentId);
+        studentService.assignTasks(studentId, /*tasksToAssign*/ taskIds);
         return taskService.findAllByIds(taskIds);
     }
 
@@ -43,6 +43,11 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public List<TopicDto> findAllTopics() {
-        return topicService.findAll();
+        return null;//topicService.findAll();
+    }
+
+    @Override
+    public TaskDto editTask(TaskDto taskDto) {
+        return taskService.update(taskDto.getId(), taskDto);
     }
 }

@@ -21,5 +21,7 @@ public interface TopicService {
      * Fetches a list of Topic objects based on their IDs.
      * @param topicsIds : List of unique identifiers of Topic objects to be found.
      */
-    List<Topic> findAllByIds(List<Integer> topicsIds);
+    List<TopicDto> findAllByIds(List<Integer> topicsIds);
+
+    Topic findById(Integer topicId);
 }

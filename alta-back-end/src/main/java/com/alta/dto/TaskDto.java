@@ -12,4 +12,7 @@ public class TaskDto {
 //    private String textHtml;
     private String answer;
     private String title;
+    private int topicId;
+
+    private boolean isDeleted;
 }
