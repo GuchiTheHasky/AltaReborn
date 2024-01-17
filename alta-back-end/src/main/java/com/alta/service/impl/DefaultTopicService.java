@@ -25,7 +25,12 @@ public class DefaultTopicService implements TopicService {
     }
 
     @Override
-    public List<Topic> findAllByIds(List<Integer> topicsIds) {
-        return topicRepository.findAllByIds(topicsIds);
+    public List<TopicDto> findAllByIds(List<Integer> topicsIds) {
+        return topicRepository.findAllByIds(topicsIds).stream().map(topicMapper::toTopicDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public Topic findById(Integer topicId) {
+        return topicRepository.findById(topicId).orElseThrow(() -> new RuntimeException("Topic not found"));
     }
 }

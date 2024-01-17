@@ -2,6 +2,8 @@ package com.alta.web.controller;
 
 import com.alta.dto.TaskDto;
 import com.alta.facade.MainFacade;
+import com.alta.service.TaskService;
+import com.alta.service.TopicService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -14,14 +16,16 @@ import java.util.List;
 @RestController
 public class TaskController {
     private final MainFacade mainFacade;
-
+    private final TaskService taskService;
+    private final TopicService topicService;
 
     @GetMapping("/unfinished")
-    public List<TaskDto> fetchData(
+    public List<TaskDto> findAllUnfinishedTasks(
             @RequestParam(name = "topics", required = false) List<Integer> topics,
             @RequestParam(name = "student", required = false) Integer studentId) {
 
         return mainFacade.findUnfinishedTasks(topics, studentId);
+
     }
 
     @GetMapping("/answers")
@@ -50,5 +54,10 @@ public class TaskController {
     @PutMapping("/update/{id}")
     public TaskDto update(@PathVariable("id") int id, @RequestBody TaskDto taskDto) {
         return mainFacade.updateTask(id, taskDto);
+    }
+
+    @PostMapping("/edit")
+    public TaskDto edit(@RequestBody TaskDto taskDto) {
+        return mainFacade.editTask(taskDto);
     }
 }
