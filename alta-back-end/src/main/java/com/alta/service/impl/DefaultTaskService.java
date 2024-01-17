@@ -40,21 +40,24 @@ public class DefaultTaskService implements TaskService {
         Topic newTopic = topicRepository.findById(taskDto.getTopicId())
                 .orElseThrow(() -> new TopicException("Topic not found with id: " + taskDto.getTopicId()));
 
+        existingTask.setTopic(newTopic);
+
+
         // Перевірити, чи існує поточна тема у задачі та видалити її
-        Topic currentTopic = existingTask.getTopic();
-        if (currentTopic != null) {
-            currentTopic.getTasks().remove(existingTask);
+        //Topic currentTopic = existingTask.getTopic();
+        //if (currentTopic != null) {
+        //    currentTopic.getTasks().remove(existingTask);
             //topicRepository.save(currentTopic);
-        }
+        //}
 
         // Оновити тему у задачі та додати задачу до нової теми
-        existingTask.setTopic(newTopic);
-        newTopic.getTasks().add(existingTask);
+        //existingTask.setTopic(newTopic);
+        //newTopic.getTasks().add(existingTask);
 
         // Зберегти оновлену задачу
-        taskRepository.save(existingTask);
+        //taskRepository.save(existingTask);
         //topicRepository.save(newTopic);
-        return taskMapper.toTaskDto(existingTask);
+        return taskMapper.toTaskDto(taskRepository.save(existingTask));
     }
 
     @Override
