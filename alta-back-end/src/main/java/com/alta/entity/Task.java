@@ -19,7 +19,7 @@ import java.util.List;
 @Entity
 @Table(name = "task")
 @SQLRestriction("is_completed = false")
-@ToString(exclude = {"students", "topic"})
+@ToString(exclude = {"students"})
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

@@ -23,7 +23,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = "tasks")
 public class Topic {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -33,7 +32,7 @@ public class Topic {
 
     @JdbcTypeCode(SqlTypes.JSON)
     @OneToMany(mappedBy = "topic", fetch = FetchType.LAZY, orphanRemoval = true)
-    //@JsonIgnore//Properties("topic")
+    @JsonIgnore//Properties("topic")
     List<Task> tasks = new ArrayList<>();
 //    @Override
 //    public String toString() {
