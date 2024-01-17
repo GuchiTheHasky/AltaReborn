@@ -9,6 +9,8 @@ import org.mapstruct.Mapping;
 public interface TaskMapper {
     @Mapping(target = "answer", ignore = true)
     @Mapping(target = "title", ignore = true)
+    @Mapping(target = "students", ignore = true)
+    @Mapping(target = "topic", ignore = true)
     Task toTask(TaskDto taskDto);
     TaskDto toTaskDto(Task task);
 }

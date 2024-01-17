@@ -13,6 +13,7 @@ import java.util.*;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = "tasks")
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

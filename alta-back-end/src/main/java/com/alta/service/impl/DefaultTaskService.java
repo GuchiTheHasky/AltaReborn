@@ -29,8 +29,8 @@ public class DefaultTaskService implements TaskService {
     @Transactional
     public TaskDto update(int id, TaskDto taskDto) {
         Task existingTask = taskRepository.findById(taskDto.getId())
-                .orElseThrow(() -> new TaskException("Task not found with id: " + taskDto.getId()));
-
+               // .orElseThrow(() -> new TaskException("Task not found with id: " + taskDto.getId()));
+                .orElseThrow(() -> new TaskException(taskDto.getId()));
         // Оновити дані з DTO
         existingTask.setLevel(taskDto.getLevel());
         existingTask.setAnswer(taskDto.getAnswer());
@@ -38,8 +38,8 @@ public class DefaultTaskService implements TaskService {
 
         // Отримати нову тему за допомогою її ідентифікатора
         Topic newTopic = topicRepository.findById(taskDto.getTopicId())
-                .orElseThrow(() -> new TopicException("Topic not found with id: " + taskDto.getTopicId()));
-
+                //.orElseThrow(() -> new TopicException("Topic not found with id: " + taskDto.getTopicId()));
+                .orElseThrow(() -> new TopicException(taskDto.getTopicId()));
         existingTask.setTopic(newTopic);
 
 
