@@ -2,10 +2,7 @@ package com.alta.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.annotations.SQLRestriction;
 
 import java.util.ArrayList;
@@ -42,8 +39,16 @@ public class Task {
     @ManyToOne
     private Topic topic;
 
-    @ManyToMany(mappedBy = "tasks")
-    //@JsonIgnoreProperties("tasks")
+//    @ManyToMany(mappedBy = "tasks")
+//    //@JsonIgnoreProperties("tasks")
+//    private List<Student> students = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(
+            name="task_student",
+            joinColumns = @JoinColumn(name="task_id"),
+            inverseJoinColumns = @JoinColumn(name="student_id")
+    )
     private List<Student> students = new ArrayList<>();
 
     @Override

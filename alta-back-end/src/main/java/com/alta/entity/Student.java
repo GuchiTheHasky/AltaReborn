@@ -1,5 +1,6 @@
 package com.alta.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
@@ -13,6 +14,7 @@ import java.util.*;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(exclude = "tasks")
 @ToString(exclude = "tasks")
 public class Student {
     @Id
@@ -33,11 +35,15 @@ public class Student {
     @Column(name = "tasks_ids")
     private List<Integer> tasksIds = new ArrayList<>();
 
-    @ManyToMany//(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinTable(
-            name = "student_task",
-            joinColumns = @JoinColumn(name = "student_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "task_id", referencedColumnName = "id" , foreignKey = @ForeignKey(name = "none")))
+//    @ManyToMany//(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+//    @JoinTable(
+//            name = "student_task",
+//            joinColumns = @JoinColumn(name = "student_id", referencedColumnName = "id"),
+//            inverseJoinColumns = @JoinColumn(name = "task_id", referencedColumnName = "id" , foreignKey = @ForeignKey(name = "none")))
+//    private List<Task> tasks = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "students")
+    @JsonIgnore
     private List<Task> tasks = new ArrayList<>();
 
 

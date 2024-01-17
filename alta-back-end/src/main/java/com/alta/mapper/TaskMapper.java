@@ -12,5 +12,7 @@ public interface TaskMapper {
     @Mapping(target = "students", ignore = true)
     @Mapping(target = "topic", ignore = true)
     Task toTask(TaskDto taskDto);
+
+    @Mapping(target = "topicId", ignore = true)
     TaskDto toTaskDto(Task task);
 }
