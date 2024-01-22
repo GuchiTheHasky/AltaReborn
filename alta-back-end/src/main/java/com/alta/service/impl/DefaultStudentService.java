@@ -33,19 +33,18 @@ public class DefaultStudentService implements StudentService {
     }
 
     @Override
-    @Transactional
-    public void assignTasks(int id, List<Integer> tasks) {
-        Student student = studentRepository.findById(id).orElseThrow(() -> new StudentException(id));
-        List<Task> taskList = student.getTasks();
-        List<Task> tasksToAdd = taskRepository.findAllById(tasks);
-        taskList.addAll(tasksToAdd);
-        // studentRepository.updateTasksIds(id, tasks.toString());
+    public void save(Student student) {
         studentRepository.save(student);
     }
+
+//    @Override
+//    @Transactional
+//    public void assignTasks(int id, List<Integer> tasks) {
+//        Student student = studentRepository.findById(id).orElseThrow(() -> new StudentException(id));
+//        List<Task> taskList = student.getTasks();
+//        List<Task> tasksToAdd = taskRepository.findAllById(tasks);
+//        taskList.addAll(tasksToAdd);
+//        // studentRepository.updateTasksIds(id, tasks.toString());
+//        studentRepository.save(student);
+//    }
 }
-
-
-//public void addTask(Task task) {
-//    tasks.add(task);
-//    task.getStudents().add(this);
-//}

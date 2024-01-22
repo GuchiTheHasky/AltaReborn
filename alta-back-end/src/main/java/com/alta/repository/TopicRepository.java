@@ -24,4 +24,8 @@ public interface TopicRepository extends JpaRepository<Topic, Integer> {
     List<Topic> findAll();
     //@NonNull
     Page<Topic> findAll(/*@NonNull*/ Pageable pageable);
+
+
+    @Query("SELECT t FROM Topic t WHERE t.title = :title")
+    Optional<Topic> findByTitle(String title);
 }

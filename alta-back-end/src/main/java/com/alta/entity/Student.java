@@ -13,6 +13,8 @@ import java.util.*;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = {"tasks", "tasksIds"})
+@EqualsAndHashCode(exclude = "tasks")
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -28,11 +30,12 @@ public class Student {
     private String grade;
     private String comment;
 
-    @JdbcTypeCode(SqlTypes.JSON)
-    @Column(name = "tasks_ids")
-    private List<Integer> tasksIds = new ArrayList<>();
+//    @JdbcTypeCode(SqlTypes.JSON)
+//    @Column(name = "tasks_ids")
+//    private List<Integer> tasksIds = new ArrayList<>();
 
-    @ManyToMany//(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+ //   @ManyToMany(mappedBy = "students")
+    @ManyToMany
     @JoinTable(
             name = "student_task",
             joinColumns = @JoinColumn(name = "student_id", referencedColumnName = "id"),

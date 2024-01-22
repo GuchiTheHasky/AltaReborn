@@ -24,10 +24,5 @@ public interface StudentService {
      */
     Student findById(int studentId);
 
-    /**
-     * Updates a list of tasks ids to Student object.
-     * @param studentId : The unique identifier of the Student object to be found.
-     * @param tasksIds : List of tasks ids that should be set.
-     */
-    void assignTasks(int studentId, List<Integer> tasksIds);
+    void save(Student student);
 }

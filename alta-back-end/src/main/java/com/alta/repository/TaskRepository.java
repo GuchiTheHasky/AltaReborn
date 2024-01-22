@@ -19,5 +19,6 @@ public interface TaskRepository extends JpaRepository<Task, Integer> {
     @Query("SELECT t FROM Task t WHERE t.topic.id IN :taskIds")
     List<Task> findAllTaskIncludedInTopic(List<Integer> taskIds);
 
-    Optional<Task> findByTitle(String title);
+    @Query("SELECT t FROM Task t WHERE t.title IN :title")
+    List<Task> findAllByTitle(String title);
 }

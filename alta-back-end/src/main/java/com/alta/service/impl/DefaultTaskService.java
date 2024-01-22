@@ -9,12 +9,14 @@ import com.alta.mapper.TaskMapper;
 import com.alta.repository.TaskRepository;
 import com.alta.repository.TopicRepository;
 import com.alta.service.TaskService;
-import com.alta.service.TopicService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,38 +24,24 @@ import java.util.stream.Collectors;
 public class DefaultTaskService implements TaskService {
     private final TaskRepository taskRepository;
     private final TaskMapper taskMapper;
-    private final TopicService topicService;
     private final TopicRepository topicRepository;
 
     @Override
     @Transactional
-    public TaskDto update(int id, TaskDto taskDto) {
+    public TaskDto update(TaskDto taskDto) { // todo: fix it
         Task existingTask = taskRepository.findById(taskDto.getId())
                 .orElseThrow(() -> new TaskException("Task not found with id: " + taskDto.getId()));
 
-        // Оновити дані з DTO
+        Topic newTopic = topicRepository.findById(Integer.valueOf(taskDto.getTitle())) // todo: change exception
+                .orElseThrow(() -> new TopicException("Topic not found with title: " + taskDto.getTitle()));
+
         existingTask.setLevel(taskDto.getLevel());
         existingTask.setAnswer(taskDto.getAnswer());
-        existingTask.setTitle(taskDto.getTitle());
+        existingTask.setTitle(newTopic.getTitle());
 
-        // Отримати нову тему за допомогою її ідентифікатора
-        Topic newTopic = topicRepository.findById(taskDto.getTopicId())
-                .orElseThrow(() -> new TopicException("Topic not found with id: " + taskDto.getTopicId()));
-
-        // Перевірити, чи існує поточна тема у задачі та видалити її
-        Topic currentTopic = existingTask.getTopic();
-        if (currentTopic != null) {
-            currentTopic.getTasks().remove(existingTask);
-            //topicRepository.save(currentTopic);
-        }
-
-        // Оновити тему у задачі та додати задачу до нової теми
+        existingTask.removeTopic(existingTask.getTopic());
         existingTask.setTopic(newTopic);
-        newTopic.getTasks().add(existingTask);
 
-        // Зберегти оновлену задачу
-        taskRepository.save(existingTask);
-        //topicRepository.save(newTopic);
         return taskMapper.toTaskDto(existingTask);
     }
 
@@ -64,14 +52,19 @@ public class DefaultTaskService implements TaskService {
     }
 
     @Override
-    public TaskDto findById(Integer taskId) {
-        return taskMapper.toTaskDto(taskRepository.findById(taskId)
-                .orElseThrow(() -> new TaskException(taskId)));
+    public List<TaskDto> getUnfinishedTasks(List<Integer> selectedTopicsIdList, List<Task> completedTasks) {
+        List<Task> tasks = taskRepository.findAllTaskIncludedInTopic(selectedTopicsIdList);
+
+        Set<Task> uniqueTasksSet = new HashSet<>(tasks);
+        uniqueTasksSet.removeAll(completedTasks);
+        List<Task> uniqueTasks = new ArrayList<>(uniqueTasksSet);
+
+        return uniqueTasks.stream().map(taskMapper::toTaskDto).collect(Collectors.toList());
     }
 
     @Override
-    public Task findTaskById(int id) {
-        return taskRepository.findById(id)
-                .orElseThrow(() -> new TaskException(id));
+    public List<Task> findAllById(List<Integer> tasks) {
+        return taskRepository.findAllById(tasks);
     }
+
 }

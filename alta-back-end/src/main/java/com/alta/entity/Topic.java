@@ -2,6 +2,7 @@ package com.alta.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
@@ -31,18 +32,24 @@ public class Topic {
 
     private String title;
 
+    //@JsonManagedReference
     @JdbcTypeCode(SqlTypes.JSON)
     @OneToMany(mappedBy = "topic", fetch = FetchType.LAZY, orphanRemoval = true)
-    //@JsonIgnore//Properties("topic")
+    @JsonIgnoreProperties("topic")
     List<Task> tasks = new ArrayList<>();
-//    @Override
-//    public String toString() {
-//        return "Topic: {" + '\n' +
-//                "id=" + id + '\n' +
-//                ", title='" + title + '\n' +
-//                ", tasks=" + tasks + '}';
-//    }
+
+    public void addTask(Task task) {
+        tasks.add(task);
+        task.setTopic(this);
+    }
+    public void removeTask(Task task) {
+        tasks.remove(task);
+        task.setTopic(null);
+    }
+
 }
+
+
 
 
 //    @JdbcTypeCode(SqlTypes.JSON)

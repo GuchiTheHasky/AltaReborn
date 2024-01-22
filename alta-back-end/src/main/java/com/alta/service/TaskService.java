@@ -14,11 +14,10 @@ public interface TaskService {
 
     /**
      * Updates an existing Task object with the provided information.
-     * @param id : The unique identifier of the Task object to be updated.
      * @param taskDto : An object containing the updated information for the task.
      * @return An object representing the updated task.
      */
-    TaskDto update(int id, TaskDto taskDto);
+    TaskDto update(TaskDto taskDto);
 
     /**
      * Fetches a list of tasks based on their IDs.
@@ -27,11 +26,7 @@ public interface TaskService {
      */
     List<TaskDto> findAllByIds(List<Integer> tasksIds);
 
-    /**
-     * Gets a Task object based on its unique identifier.
-     * @param taskId : The unique identifier of the Task object to be found.
-     */
-    TaskDto findById(Integer taskId);
+    List<TaskDto> getUnfinishedTasks(List<Integer> selectedTopicsIdList, List<Task> completedTasks);
 
-    Task findTaskById(int id);
+    List<Task> findAllById(List<Integer> tasks);
 }

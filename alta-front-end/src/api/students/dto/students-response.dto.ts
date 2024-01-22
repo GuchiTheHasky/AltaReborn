@@ -1,10 +1,9 @@
-
-
 export interface StudentResponse {
   id: number;
-  firstName: string;
-  lastName: string;
+  fullName: string;
   grade: string,
   comment: string
 }
+
+
 

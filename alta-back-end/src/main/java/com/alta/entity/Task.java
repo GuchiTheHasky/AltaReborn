@@ -1,5 +1,7 @@
 package com.alta.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -38,12 +40,19 @@ public class Task {
     @Column(name = "is_completed")
     private boolean isDeleted;
 
+    @JsonIgnore
     @JoinColumn(name = "topic_id", referencedColumnName = "id")
     @ManyToOne
     private Topic topic;
 
+//    @ManyToMany
+//    @JoinTable(
+//            name = "student_task",
+//            joinColumns = @JoinColumn(name = "task_id", referencedColumnName = "id" , foreignKey = @ForeignKey(name = "none")),
+//            inverseJoinColumns = @JoinColumn(name = "student_id", referencedColumnName = "id"))
+
     @ManyToMany(mappedBy = "tasks")
-    //@JsonIgnoreProperties("tasks")
+    @JsonIgnoreProperties("tasks")
     private List<Student> students = new ArrayList<>();
 
     @Override
@@ -56,17 +65,23 @@ public class Task {
                 && answer.equals(((Task) o).getAnswer()) && level.equals(((Task) o).getLevel());
     }
 
-//    @Override
-//    public String toString() {
-//        return "Task: {" + '\n' +
-//                "id=" + id + '\n' +
-//                ", imagePath='" + imagePath + '\n' +
-//                ", level='" + level + '\n' +
-//                ", answer='" + answer + '\n' +
-//                ", title='" + title + '\n' + '}';
-//    }
+    public void addStudent(Student student) {
+        students.add(student);
+        student.getTasks().add(this);
+    }
+
+    public void removeStudent(Student student) {
+        students.remove(student);
+        student.getTasks().remove(this);
+    }
+
+    public void setTopic(Topic topic) {
+        this.topic = topic;
+        topic.getTasks().add(this);
+    }
+
+    public void removeTopic(Topic topic) {
+        this.topic = null;
+        topic.getTasks().remove(this);
+    }
 }
-
-
-//    @Column(name = "texthtml")
-//    private String textHtml;
