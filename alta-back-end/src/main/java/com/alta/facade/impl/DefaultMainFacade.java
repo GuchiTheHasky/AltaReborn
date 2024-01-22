@@ -2,9 +2,12 @@ package com.alta.facade.impl;
 
 import com.alta.dto.StudentDto;
 import com.alta.dto.TaskDto;
-import com.alta.dto.TopicDto;
+import com.alta.entity.Student;
+import com.alta.entity.Task;
 import com.alta.facade.MainFacade;
-import com.alta.service.*;
+import com.alta.service.StudentService;
+import com.alta.service.TaskService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,21 +17,27 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DefaultMainFacade implements MainFacade {
 
-    private final TaskFilter taskFilter;
     private final TaskService taskService;
     private final StudentService studentService;
-    private final TopicService topicService;
 
     @Override
     public List<TaskDto> findUnfinishedTasks(List<Integer> topicIds, Integer studentId) {
-        return taskFilter.filterOfUnfinishedTasks(topicIds, studentId);
+        return filterOfUnfinishedTasks(topicIds, studentId);
     }
 
     @Override
-    public List<TaskDto> updateStudentTasksAndRetrieveDto(int studentId, List<Integer> taskIds) {
-        List<Integer> tasksToAssign = taskFilter.filterOfUniqueTasks(taskIds, studentId);
-        studentService.assignTasks(studentId, tasksToAssign);
+    @Transactional
+    public List<TaskDto> updateStudentTasksAndRetrieveDto(int studentId, List<Integer> taskIds) { // todo rename method
+        assignTasks(studentId, taskIds);
         return taskService.findAllByIds(taskIds);
+    }
+
+    @Override
+    public List<TaskDto> filterOfUnfinishedTasks(List<Integer> selectedTopicsIdList, Integer studentId) {
+        Student student = studentService.findById(studentId);
+        List<Task> completedTasks = student.getTasks();
+
+        return taskService.getUnfinishedTasks(selectedTopicsIdList, completedTasks);
     }
 
     @Override
@@ -37,12 +46,17 @@ public class DefaultMainFacade implements MainFacade {
     }
 
     @Override
-    public TaskDto updateTask(int id, TaskDto taskDto) {
-        return taskService.update(id, taskDto);
+    public TaskDto updateTask(TaskDto taskDto) {
+        return taskService.update(taskDto);
     }
 
-    @Override
-    public List<TopicDto> findAllTopics() {
-        return topicService.findAll();
+
+    void assignTasks(int id, List<Integer> tasks) {
+        Student student = studentService.findById(id);
+        List<Task> taskList = student.getTasks();
+        List<Task> tasksToAdd = taskService.findAllById(tasks);
+        taskList.addAll(tasksToAdd);
+        studentService.save(student);
     }
+
 }

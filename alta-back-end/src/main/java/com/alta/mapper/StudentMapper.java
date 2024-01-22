@@ -7,8 +7,7 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface StudentMapper {
-    @Mapping(target = "tasksIds", ignore = true)
-    Student toStudent(StudentDto studentDto);
 
+    @Mapping(target = "fullName", expression = "java(student.getLastName() + ' ' + student.getFirstName())")
     StudentDto toStudentDto(Student student);
 }

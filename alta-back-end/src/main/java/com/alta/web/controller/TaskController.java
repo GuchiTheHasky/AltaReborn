@@ -17,17 +17,30 @@ public class TaskController {
 
 
     @GetMapping("/unfinished")
-    public List<TaskDto> fetchData(
+    public List<TaskDto> findAllUnfinishedTasks(
             @RequestParam(name = "topics", required = false) List<Integer> topics,
             @RequestParam(name = "student", required = false) Integer studentId) {
 
         return mainFacade.findUnfinishedTasks(topics, studentId);
+
+    }
+
+    @GetMapping("/test")
+    public List<TaskDto> testTasks(
+            @RequestParam(name = "topics", required = false) List<Integer> topics,
+            @RequestParam(name = "student", required = false) Integer studentId) {
+        System.out.println("topics: " + topics);
+        System.out.println("stud id: " + studentId);
+        return mainFacade.findUnfinishedTasks(topics, studentId);
+
     }
 
     @GetMapping("/answers")
     public ModelAndView findAllWithAnswer(ModelMap model,
                                           @RequestParam(name = "tasks") List<Integer> tasks,
                                           @RequestParam(name = "student") Integer studentId) {
+        System.out.println("tasks: " + tasks);
+        System.out.println("stud id: " + studentId);
 
         List<TaskDto> tasksWithAnswers = mainFacade.updateStudentTasksAndRetrieveDto(studentId, tasks);
 
@@ -46,9 +59,11 @@ public class TaskController {
         return new ModelAndView("task_list", model);
     }
 
+    @PutMapping("/{taskId}")
+    public TaskDto testUpdate(@PathVariable int taskId, @RequestBody TaskDto taskDto) {
 
-    @PutMapping("/update/{id}")
-    public TaskDto update(@PathVariable("id") int id, @RequestBody TaskDto taskDto) {
-        return mainFacade.updateTask(id, taskDto);
+        System.out.println("id: " + taskId);
+        System.out.println("taskDto: " + taskDto);
+        return mainFacade.updateTask(taskDto);
     }
 }

@@ -6,4 +6,8 @@ public class TaskException extends RuntimeException {
     public TaskException(int id) {
         super(String.format(MESSAGE, id));
     }
+
+    public TaskException(String title) {
+        super(String.format(MESSAGE, title));
+    }
 }

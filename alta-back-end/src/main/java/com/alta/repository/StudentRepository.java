@@ -12,5 +12,4 @@ public interface StudentRepository extends JpaRepository<Student, Integer> {
     @Query(value = "UPDATE students SET tasks_ids = tasks_ids || CAST(:taskId AS jsonb) WHERE id = :studentId", nativeQuery = true)
     void updateTasksIds(@Param("studentId") int studentId, @Param("taskId") String taskId);
 
-
 }

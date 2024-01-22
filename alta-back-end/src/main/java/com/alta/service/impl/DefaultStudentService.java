@@ -2,9 +2,11 @@ package com.alta.service.impl;
 
 import com.alta.dto.StudentDto;
 import com.alta.entity.Student;
+import com.alta.entity.Task;
 import com.alta.exception.StudentException;
 import com.alta.mapper.StudentMapper;
 import com.alta.repository.StudentRepository;
+import com.alta.repository.TaskRepository;
 import com.alta.service.StudentService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +19,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class DefaultStudentService implements StudentService {
     private final StudentRepository studentRepository;
+    private final TaskRepository taskRepository;
     private final StudentMapper studentMapper;
 
     @Override
@@ -30,8 +33,18 @@ public class DefaultStudentService implements StudentService {
     }
 
     @Override
-    @Transactional
-    public void assignTasks(int id, List<Integer> tasks) {
-        studentRepository.updateTasksIds(id, tasks.toString());
+    public void save(Student student) {
+        studentRepository.save(student);
     }
+
+//    @Override
+//    @Transactional
+//    public void assignTasks(int id, List<Integer> tasks) {
+//        Student student = studentRepository.findById(id).orElseThrow(() -> new StudentException(id));
+//        List<Task> taskList = student.getTasks();
+//        List<Task> tasksToAdd = taskRepository.findAllById(tasks);
+//        taskList.addAll(tasksToAdd);
+//        // studentRepository.updateTasksIds(id, tasks.toString());
+//        studentRepository.save(student);
+//    }
 }
