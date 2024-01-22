@@ -1,9 +1,12 @@
-import logo from '../../assets/vite.svg';
+import logo from '../../assets/logo.svg';
+import {Link} from "react-router-dom";
 
 export const Header = () => {
-  return (
-    <div className='pt-4'>
-      <img src={logo} alt='logo' className='w-[220px] h-[112px]'/>
-    </div>
-  )
+    return (
+        <div>
+            <Link to={'/'} className='w-[220px] h-[112px] block'>
+                <img src={logo} alt='logo' className='w-[220px] h-[112px]'/>
+            </Link>
+        </div>
+    )
 }

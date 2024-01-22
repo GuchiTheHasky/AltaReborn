@@ -1,11 +1,11 @@
 import { useLocation } from 'react-router-dom';
-import {GreenButton} from "../components/buttons/green-button.component.tsx";
-import {TasksResponse} from "../api/tasks/dto/tasks-response.dto.ts";
+import {Button} from "../../components/buttons/green-button.component.tsx";
+import {TasksResponse} from "../../api/tasks/dto/tasks-response.dto.ts";
 import {useEffect, useState} from "react";
-import {YellowButton} from "../components/buttons/yellow-button.component.tsx";
+import {YellowButton} from "../../components/buttons/yellow-button.component.tsx";
 import {DataGrid} from "@mui/x-data-grid";
-import {columns} from "../modules/tasks/content/table-columns.content.tsx";
-import {api} from "../core/api.ts";
+import {columns} from "../../modules/tasks/content/table-columns.content.tsx";
+import {api} from "../../core/api.ts";
 
 export const Tasks = () => {
     const location = useLocation();
@@ -49,10 +49,10 @@ export const Tasks = () => {
                     <YellowButton label="НАЗАД" onClick={() => window.history.back()}/>
                 </div>
                 <div className="w-[300px]">
-                    <GreenButton label="З ВІДПОВІДЯМИ" onClick={handleAnswers}/>
+                    <Button label="З ВІДПОВІДЯМИ" onClick={handleAnswers}/>
                 </div>
                 <div className="w-[300px]" onClick={() => {}}>
-                    <GreenButton label="БЕЗ ВІДПОВІДЕЙ"/>
+                    <Button label="БЕЗ ВІДПОВІДЕЙ"/>
                 </div>
             </div>
 

@@ -1,21 +1,29 @@
-import { Button as MaterialButton } from '@mui/material';
-import { FC } from 'react';
+import {Button as MaterialButton} from '@mui/material';
+import {ButtonHTMLAttributes, FC} from 'react';
 
-interface GreenButtonProps {
-	label: string;
-	onClick?: () => void;
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+    label: string;
+    color: 'yellow' | 'green';
 }
 
-export const GreenButton: FC<GreenButtonProps> = ({ label, onClick }: GreenButtonProps) => {
-	return (
-		<MaterialButton
-			variant="contained"
-			className="w-full"
-			style={{ backgroundColor: '#79aa2d' }}
-			onClick={onClick}
-		>
-			{label}
-		</MaterialButton>
-	);
+export const Button: FC<ButtonProps> = ({label, onClick, className, color}) => {
+console.log("color: ", bgColor(color));
+    return (
+        <MaterialButton
+            variant="contained"
+            className={`"w-full" ${className} ${bgColor(color)}`}
+            onClick={onClick}
+        >
+            {label}
+        </MaterialButton>
+    );
 };
 
+
+function bgColor(color: 'yellow' | 'green') {
+    if (color === 'yellow') {
+        return 'bg-[#fcc44d]';
+    } else {
+        return 'bg-[#79aa2d]';
+    }
+}
