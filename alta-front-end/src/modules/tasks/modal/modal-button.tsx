@@ -23,16 +23,6 @@ const ModalButton = ({ currentTask }) => {
         setOpen(false);
     };
 
-    // const handleSaveChanges = () => {
-    //     console.log('Selected Topic:', selectedTopic);
-    //     console.log('Level:', level);
-    //     console.log('Answer:', answer);
-    //
-    //     // Додайте додаткову логіку для збереження даних або виклику функції збереження
-    //     // Закрийте модальне вікно
-    //     handleCloseModal();
-    // };
-
     const handleSaveChanges = async () => {
         try {
             const taskData = {

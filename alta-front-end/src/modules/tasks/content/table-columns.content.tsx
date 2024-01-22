@@ -1,6 +1,6 @@
 import {GridColDef, } from "@mui/x-data-grid";
 import {FC} from "react";
-import ModalButton from "../modal/ModalButton.tsx";
+import ModalButton from "../modal/modal-button.tsx";
 
 
 interface TaskContent {
@@ -55,4 +55,3 @@ export const columns: GridColDef[] = [
 ];
 
 
-// (params) => <ModalButton entity={params.row as Entity}  id={params.row.id}
