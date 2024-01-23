@@ -2,11 +2,13 @@ package com.alta.facade.impl;
 
 import com.alta.dto.StudentDto;
 import com.alta.dto.TaskDto;
+import com.alta.dto.TopicDto;
 import com.alta.entity.Student;
 import com.alta.entity.Task;
 import com.alta.facade.MainFacade;
 import com.alta.service.StudentService;
 import com.alta.service.TaskService;
+import com.alta.service.TopicService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,7 +18,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class DefaultMainFacade implements MainFacade {
-
+    private final TopicService topicService;
     private final TaskService taskService;
     private final StudentService studentService;
 
@@ -38,6 +40,11 @@ public class DefaultMainFacade implements MainFacade {
         List<Task> completedTasks = student.getTasks();
 
         return taskService.getUnfinishedTasks(selectedTopicsIdList, completedTasks);
+    }
+
+    @Override
+    public List<TopicDto> findAllTopics() {
+        return topicService.findAll();
     }
 
     @Override
