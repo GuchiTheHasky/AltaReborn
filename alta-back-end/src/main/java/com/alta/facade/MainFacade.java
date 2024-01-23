@@ -43,4 +43,9 @@ public interface MainFacade {
      */
     List<TaskDto> filterOfUnfinishedTasks(List<Integer> topicsIds, Integer studentId);
 
+    /**
+     * Returns a list of all Topic objects available.
+     * @return A list of TopicDto objects representing the available topics.
+     */
+    List<TopicDto> findAllTopics();
 }
