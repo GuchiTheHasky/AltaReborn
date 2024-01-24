@@ -8,7 +8,6 @@ import com.alta.mapper.StudentMapper;
 import com.alta.repository.StudentRepository;
 import com.alta.repository.TaskRepository;
 import com.alta.service.StudentService;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -33,8 +32,21 @@ public class DefaultStudentService implements StudentService {
     }
 
     @Override
+    public List<Student> findAllById(List<Integer> studentsIds) {
+        return studentRepository.findAllById(studentsIds);
+    }
+
+    @Override
     public void save(Student student) {
         studentRepository.save(student);
+    }
+
+    @Override
+    public List<Task> getTasks(List<Student> students) {
+        return students.stream()
+                .flatMap(student -> student.getTasks().stream())
+                .distinct()
+                .collect(Collectors.toList());
     }
 
 //    @Override

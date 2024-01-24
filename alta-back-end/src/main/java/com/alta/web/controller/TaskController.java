@@ -16,24 +16,32 @@ public class TaskController {
     private final MainFacade mainFacade;
 
 
+//    @GetMapping("/unfinished")
+//    public List<TaskDto> findAllUnfinishedTasks(
+//            @RequestParam(name = "topics", required = false) List<Integer> topics,
+//            @RequestParam(name = "student", required = false) Integer studentId) {
+//
+//        return mainFacade.findUnfinishedTasks(topics, studentId);
+//
+//    }
+
     @GetMapping("/unfinished")
     public List<TaskDto> findAllUnfinishedTasks(
             @RequestParam(name = "topics", required = false) List<Integer> topics,
-            @RequestParam(name = "student", required = false) Integer studentId) {
+            @RequestParam(name = "student", required = false) List<Integer> studentsIds) {
 
-        return mainFacade.findUnfinishedTasks(topics, studentId);
-
+        return mainFacade.findUnfinishedTasks(topics, studentsIds);
     }
 
-    @GetMapping("/test")
-    public List<TaskDto> testTasks(
-            @RequestParam(name = "topics", required = false) List<Integer> topics,
-            @RequestParam(name = "student", required = false) Integer studentId) {
-        System.out.println("topics: " + topics);
-        System.out.println("stud id: " + studentId);
-        return mainFacade.findUnfinishedTasks(topics, studentId);
-
-    }
+//    @GetMapping("/test")
+//    public List<TaskDto> testTasks(
+//            @RequestParam(name = "topics", required = false) List<Integer> topics,
+//            @RequestParam(name = "student", required = false) Integer studentId) {
+//        System.out.println("topics: " + topics);
+//        System.out.println("stud id: " + studentId);
+//        return mainFacade.findUnfinishedTasks(topics, studentId);
+//
+//    }
 
     @GetMapping("/answers")
     public ModelAndView findAllWithAnswer(ModelMap model,
