@@ -29,8 +29,8 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     @Transactional
-    public List<TaskDto> updateStudentTasksAndRetrieveDto(int studentId, List<Integer> taskIds) { // todo rename method
-        assignTasks(studentId, taskIds);
+    public List<TaskDto> updateStudentTasksAndRetrieveDto(List<Integer> studentsIds, List<Integer> taskIds) { // todo rename method
+        assignTasks(studentsIds, taskIds);
         return taskService.findAllByIds(taskIds);
     }
 
@@ -62,6 +62,16 @@ public class DefaultMainFacade implements MainFacade {
         List<Task> completedTasks = studentService.getTasks(students);
 
         return taskService.getUnfinishedTasks(selectedTopicsIdList, completedTasks);
+    }
+
+    void assignTasks(List<Integer> studentsIds, List<Integer> tasks) {
+        List<Student> students = studentService.findAllById(studentsIds);
+        List<Task> tasksToAdd = taskService.findAllById(tasks);
+        students.stream()
+                .peek(student -> {
+                    student.getTasks().addAll(tasksToAdd);
+                })
+                .forEach(studentService::save);
     }
 
     void assignTasks(int id, List<Integer> tasks) {

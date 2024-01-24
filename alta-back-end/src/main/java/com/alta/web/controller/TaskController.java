@@ -46,11 +46,11 @@ public class TaskController {
     @GetMapping("/answers")
     public ModelAndView findAllWithAnswer(ModelMap model,
                                           @RequestParam(name = "tasks") List<Integer> tasks,
-                                          @RequestParam(name = "student") Integer studentId) {
+                                          @RequestParam(name = "student") List<Integer> studentsIds) {
         System.out.println("tasks: " + tasks);
-        System.out.println("stud id: " + studentId);
+        System.out.println("stud id: " + studentsIds);
 
-        List<TaskDto> tasksWithAnswers = mainFacade.updateStudentTasksAndRetrieveDto(studentId, tasks);
+        List<TaskDto> tasksWithAnswers = mainFacade.updateStudentTasksAndRetrieveDto(studentsIds, tasks);
 
         model.addAttribute("tasksWithAnswers", tasksWithAnswers);
         return new ModelAndView("task_list_answers", model);
@@ -60,12 +60,13 @@ public class TaskController {
     @GetMapping("/noAnswers")
     public ModelAndView findAll(ModelMap model,
                                 @RequestParam(name = "tasks") List<Integer> tasks,
-                                @RequestParam(name = "student") Integer studentId)  {
+                                @RequestParam(name = "student") List<Integer> studentsIds)  {
 
-        List<TaskDto> taskList = mainFacade.updateStudentTasksAndRetrieveDto(studentId, tasks);
+        List<TaskDto> taskList = mainFacade.updateStudentTasksAndRetrieveDto(studentsIds, tasks);
         model.addAttribute("taskList", taskList);
         return new ModelAndView("task_list", model);
     }
+
 
     @PutMapping("/{taskId}")
     public TaskDto testUpdate(@PathVariable int taskId, @RequestBody TaskDto taskDto) {

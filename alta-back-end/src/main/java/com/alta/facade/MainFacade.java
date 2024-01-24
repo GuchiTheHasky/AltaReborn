@@ -17,10 +17,10 @@ public interface MainFacade {
 
     /**
      * Updates the list of tasks of Student object and retrieve list of tasks that match ids specified.
-     * @param studentId : The unique identifier of the Student object which tasks should be updated.
+     * @param studentsIds : List of the IDs of the Student objects which tasks should be updated.
      * @param tasksIds : List of tasks ids that should be set.
      */
-    List<TaskDto> updateStudentTasksAndRetrieveDto(int studentId, List<Integer> tasksIds);
+    List<TaskDto> updateStudentTasksAndRetrieveDto(List<Integer> studentsIds, List<Integer> tasksIds);
 
     /**
      * Returns a list of all Student objects available.
