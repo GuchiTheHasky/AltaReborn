@@ -75,13 +75,13 @@ public class Task {
         student.getTasks().remove(this);
     }
 
-    public void setTopic(Topic topic) {
-        this.topic = topic;
-        topic.getTasks().add(this);
-    }
-
-    public void removeTopic(Topic topic) {
-        this.topic = null;
-        topic.getTasks().remove(this);
-    }
+//    public void setTopic(Topic topic) {
+//        this.topic = topic;
+//        topic.getTasks().add(this);
+//    }
+//
+//    public void removeTopic(Topic topic) {
+//        this.topic = null;
+//        topic.getTasks().remove(this);
+//    }
 }
