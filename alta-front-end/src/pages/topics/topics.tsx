@@ -1,43 +1,51 @@
 import {Button} from "../../components/buttons/green-button.component.tsx";
-// import {DataGrid} from "@mui/x-data-grid";
-// import {columns, topicsArray} from "../../modules/topics/content/table-columns.content.ts";
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {useStudents} from "../../context/data-provider.context.tsx";
 import {TopicsTable} from "./topics-table.component.tsx";
-import {getTopics} from "../../api/topics/useGetTopics.ts";
 import {TopicResponse} from "../../api/topics/dto/topics-response.dto.ts";
+import {getTopics} from "../../api/topics/useGetTopics.ts";
+import { api } from "../../core/api.ts";
 
 export const Topics = () => {
     const [selectedRows, setSelectedRows] = useState<number[]>([]);
     const [topics, setTopics] = useState<TopicResponse[]>([])
     const {selectedStudentIds} = useStudents();
     const navigate = useNavigate();
+    const [ topics, setTopics] = useState<TopicResponse[]>([]);
 
     useEffect(() => {
         getTopics().then(setTopics);
     }, []);
 
-    // const sendToBackend = async (selectedRows: number[] | undefined, selectedStudentId: string | null) => {
-    //     const topicsIds = selectedRows?.map(topic => topic).join(',');
-    //     const response = await api.get('/tasks/test', {
-    //         params: {
-    //             topics: topicsIds,
-    //             student: selectedStudentId,
-    //         },
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //         },
-    //     });
-    //     const tasks = response.data;
-    //     navigate('/tasks', {state: {tasks}});
-    //     console.log('response tasks: ', tasks);
-    // };
+    const sendToBackend = async (selectedRows: number[] | undefined, selectedStudentId: number[] | null) => {
+        const topicsIds = selectedRows?.join(',');
+        console.log('topicsIds: ', topicsIds);
+        console.log('selectedStudentId: ', selectedStudentId);
+        console.log('selectedRows: ', selectedRows);
+
+        try {
+            const response = await api.post('/tasks/unfinished', {
+                topics: selectedRows,
+                students: selectedStudentId,
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            const tasks = response.data;
+            navigate('/tasks', { state: { tasks } });
+            console.log('response tasks: ', tasks);
+        } catch (error) {
+            console.error('Error sending data to backend:', error);
+        }
+    };
 
     const handleNextButtonClick = () => {
         console.log("Вибрані id тем:", selectedRows);
         console.log("Вибраний студент:", selectedStudentIds);
-        // sendToBackend(selectedRows, selectedStudentIds);
+         sendToBackend(selectedRows, selectedStudentIds);
     };
 
     return (
@@ -45,18 +53,6 @@ export const Topics = () => {
             <h2 className="text-green-primary">Теми:</h2>
 
             <div className="min-h-[500px]">
-                {/*<DataGrid*/}
-                {/*    rows={topicsArray}*/}
-                {/*    columns={columns}*/}
-                {/*    initialState={{*/}
-                {/*        pagination: {*/}
-                {/*            paginationModel: {page: 0, pageSize: 10},*/}
-                {/*        },*/}
-                {/*    }}*/}
-                {/*    pageSizeOptions={[5, 10, 20, 50]}*/}
-                {/*    checkboxSelection*/}
-                {/*    onRowSelectionModelChange={(newSelection) => setSelectedRows(newSelection as number[])}*/}
-                {/*/>*/}
                 <TopicsTable setSelectedTopicIds={setSelectedRows} selectedTopicIds={selectedRows} topics={topics}/>
             </div>
 
