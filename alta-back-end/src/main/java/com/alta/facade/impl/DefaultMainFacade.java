@@ -5,7 +5,10 @@ import com.alta.dto.TaskDto;
 import com.alta.dto.TopicDto;
 import com.alta.entity.Student;
 import com.alta.entity.Task;
+import com.alta.entity.Topic;
 import com.alta.facade.MainFacade;
+import com.alta.mapper.StudentMapper;
+import com.alta.mapper.TopicMapper;
 import com.alta.service.StudentService;
 import com.alta.service.TaskService;
 import com.alta.service.TopicService;
@@ -14,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -21,10 +25,23 @@ public class DefaultMainFacade implements MainFacade {
     private final TopicService topicService;
     private final TaskService taskService;
     private final StudentService studentService;
+    private final TopicMapper topicMapper;
+    private final StudentMapper studentMapper;
+
+//    @Override
+//    public List<TaskDto> findUnfinishedTasks(List<Integer> topicIds, List<Integer> studentsIds) {
+//        return filterOfUnfinishedTasks(topicIds, studentsIds);
+//    }
 
     @Override
-    public List<TaskDto> findUnfinishedTasks(List<Integer> topicIds, List<Integer> studentsIds) {
-        return filterOfUnfinishedTasks(topicIds, studentsIds);
+    public List<TaskDto> findUnfinishedTasks(List<TopicDto> topicsDto, List<StudentDto> studentsDto) {
+        List<Topic> topics = topicsDto.stream()
+                .map(topicMapper::toTopic)
+                .collect(Collectors.toList());
+        List<Student> students = studentsDto.stream()
+                .map(studentMapper::toStudent)
+                .collect(Collectors.toList());
+        return filterOfUnfinishedTasks(topics, students);
     }
 
     @Override
@@ -57,11 +74,16 @@ public class DefaultMainFacade implements MainFacade {
 //        return taskService.getUnfinishedTasks(selectedTopicsIdList, completedTasks);
 //    }
 
-    List<TaskDto> filterOfUnfinishedTasks(List<Integer> selectedTopicsIdList, List<Integer> studentsIds) {
-        List<Student> students = studentService.findAllById(studentsIds);
-        List<Task> completedTasks = studentService.getTasks(students);
+//    List<TaskDto> filterOfUnfinishedTasks(List<Integer> selectedTopicsIdList, List<Integer> studentsIds) {
+//        List<Student> students = studentService.findAllById(studentsIds);
+//        List<Task> completedTasks = studentService.getTasks(students);
+//
+//        return taskService.getUnfinishedTasks(selectedTopicsIdList, completedTasks);
+//    }
 
-        return taskService.getUnfinishedTasks(selectedTopicsIdList, completedTasks);
+    List<TaskDto> filterOfUnfinishedTasks(List<Topic> selectedTopicsList, List<Student> students) {
+        List<Task> completedTasks = studentService.getTasks(students);
+        return taskService.getUnfinishedTasks(selectedTopicsList, completedTasks);
     }
 
     void assignTasks(List<Integer> studentsIds, List<Integer> tasks) {

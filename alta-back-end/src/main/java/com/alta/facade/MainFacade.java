@@ -3,17 +3,20 @@ package com.alta.facade;
 import com.alta.dto.StudentDto;
 import com.alta.dto.TaskDto;
 import com.alta.dto.TopicDto;
-
 import java.util.List;
 
 public interface MainFacade {
-    /**
-     * Fetches a list of unfinished tasks based on Students IDs and IDs of Topic objects.
-     * @param studentsIds : The List of Student objects IDs on the basis of which tasks should be selected.
-     * @param topicsIds : List of Topic objects IDs on the basis of which tasks should be selected.
-     * @return List of TaskDto objects representing the tasks that match the information provided.
-     */
-    List<TaskDto> findUnfinishedTasks(List<Integer> topicsIds, List<Integer> studentsIds);
+//    /**
+//     * Fetches a list of unfinished tasks based on Students IDs and IDs of Topic objects.
+//     * @param studentsIds : The List of Student objects IDs on the basis of which tasks should be selected.
+//     * @param topicsIds : List of Topic objects IDs on the basis of which tasks should be selected.
+//     * @return List of TaskDto objects representing the tasks that match the information provided.
+//     */
+   // List<TaskDto> findUnfinishedTasks(List<Integer> topicsIds, List<Integer> studentsIds);
+
+
+    List<TaskDto> findUnfinishedTasks(List<TopicDto> topics, List<StudentDto> students);
+
 
     /**
      * Updates the list of tasks of Student object and retrieve list of tasks that match ids specified.

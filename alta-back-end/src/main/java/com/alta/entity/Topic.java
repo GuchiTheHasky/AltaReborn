@@ -24,6 +24,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(exclude = "tasks")
 @ToString(exclude = "tasks")
 public class Topic {
     @Id

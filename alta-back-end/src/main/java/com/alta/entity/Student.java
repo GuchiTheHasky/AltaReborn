@@ -13,7 +13,7 @@ import java.util.*;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = {"tasks", "tasksIds"})
+@ToString(exclude = {"tasks"})
 @EqualsAndHashCode(exclude = "tasks")
 public class Student {
     @Id
