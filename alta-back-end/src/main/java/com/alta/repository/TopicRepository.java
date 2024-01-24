@@ -21,6 +21,7 @@ public interface TopicRepository extends JpaRepository<Topic, Integer> {
 
     //@NonNull
     @EntityGraph(value = "topic-entity-graph", type = EntityGraph.EntityGraphType.FETCH)
+    //@Query("SELECT t FROM Topic t JOIN fetch t.tasks")
     List<Topic> findAll();
     //@NonNull
     Page<Topic> findAll(/*@NonNull*/ Pageable pageable);

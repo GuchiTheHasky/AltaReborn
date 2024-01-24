@@ -51,18 +51,8 @@ public class DefaultTaskService implements TaskService {
                 .filter(task -> !task.isDeleted()).map(taskMapper::toTaskDto).collect(Collectors.toList());
     }
 
-    @Override
-    public List<TaskDto> getUnfinishedTasks(List<Topic> selectedTopicsIdList, List<Task> completedTasks) {
-        List<Task> tasks = taskRepository.findAllTaskIncludedInTopic(selectedTopicsIdList);
-
-        return tasks.stream()
-                .distinct()
-                .filter(task -> !completedTasks.contains(task))
-                .map(taskMapper::toTaskDto).collect(Collectors.toList());
-    }
-
 //    @Override
-//    public List<TaskDto> getUnfinishedTasks(List<Integer> selectedTopicsIdList, List<Task> completedTasks) {
+//    public List<TaskDto> getUnfinishedTasks(List<Topic> selectedTopicsIdList, List<Task> completedTasks) {
 //        List<Task> tasks = taskRepository.findAllTaskIncludedInTopic(selectedTopicsIdList);
 //
 //        return tasks.stream()
@@ -70,6 +60,16 @@ public class DefaultTaskService implements TaskService {
 //                .filter(task -> !completedTasks.contains(task))
 //                .map(taskMapper::toTaskDto).collect(Collectors.toList());
 //    }
+
+    @Override
+    public List<TaskDto> getUnfinishedTasks(List<Integer> selectedTopicsIdList, List<Task> completedTasks) {
+        List<Task> tasks = taskRepository.findAllTaskIncludedInTopic(selectedTopicsIdList);
+
+        return tasks.stream()
+                .distinct()
+                .filter(task -> !completedTasks.contains(task))
+                .map(taskMapper::toTaskDto).collect(Collectors.toList());
+    }
 
 //    @Override
 //    public List<TaskDto> getUnfinishedTasks(List<Integer> selectedTopicsIdList, List<Task> completedTasks) {

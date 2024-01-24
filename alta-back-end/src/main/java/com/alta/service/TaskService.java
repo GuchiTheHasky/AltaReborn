@@ -27,9 +27,9 @@ public interface TaskService {
      */
     List<TaskDto> findAllByIds(List<Integer> tasksIds);
 
-   // List<TaskDto> getUnfinishedTasks(List<Integer> selectedTopicsIdList, List<Task> completedTasks);
+    List<TaskDto> getUnfinishedTasks(List<Integer> selectedTopicsIdList, List<Task> completedTasks);
 
-    List<TaskDto> getUnfinishedTasks(List<Topic> selectedTopicsIdList, List<Task> completedTasks);
+   // List<TaskDto> getUnfinishedTasks(List<Topic> selectedTopicsIdList, List<Task> completedTasks);
 
     List<Task> findAllById(List<Integer> tasks);
 }
