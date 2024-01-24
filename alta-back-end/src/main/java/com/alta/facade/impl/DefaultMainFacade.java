@@ -23,23 +23,15 @@ public class DefaultMainFacade implements MainFacade {
     private final StudentService studentService;
 
     @Override
-    public List<TaskDto> findUnfinishedTasks(List<Integer> topicIds, Integer studentId) {
-        return filterOfUnfinishedTasks(topicIds, studentId);
+    public List<TaskDto> findUnfinishedTasks(List<Integer> topicIds, List<Integer> studentsIds) {
+        return filterOfUnfinishedTasks(topicIds, studentsIds);
     }
 
     @Override
     @Transactional
-    public List<TaskDto> updateStudentTasksAndRetrieveDto(int studentId, List<Integer> taskIds) { // todo rename method
-        assignTasks(studentId, taskIds);
+    public List<TaskDto> updateStudentTasksAndRetrieveDto(List<Integer> studentsIds, List<Integer> taskIds) { // todo rename method
+        assignTasks(studentsIds, taskIds);
         return taskService.findAllByIds(taskIds);
-    }
-
-    @Override
-    public List<TaskDto> filterOfUnfinishedTasks(List<Integer> selectedTopicsIdList, Integer studentId) {
-        Student student = studentService.findById(studentId);
-        List<Task> completedTasks = student.getTasks();
-
-        return taskService.getUnfinishedTasks(selectedTopicsIdList, completedTasks);
     }
 
     @Override
@@ -57,6 +49,30 @@ public class DefaultMainFacade implements MainFacade {
         return taskService.update(taskDto);
     }
 
+    //    @Override
+//    public List<TaskDto> filterOfUnfinishedTasks(List<Integer> selectedTopicsIdList, List<Integer> studentId) {
+//        Student student = studentService.findById(studentId);
+//        List<Task> completedTasks = student.getTasks();
+//
+//        return taskService.getUnfinishedTasks(selectedTopicsIdList, completedTasks);
+//    }
+
+    List<TaskDto> filterOfUnfinishedTasks(List<Integer> selectedTopicsIdList, List<Integer> studentsIds) {
+        List<Student> students = studentService.findAllById(studentsIds);
+        List<Task> completedTasks = studentService.getTasks(students);
+
+        return taskService.getUnfinishedTasks(selectedTopicsIdList, completedTasks);
+    }
+
+    void assignTasks(List<Integer> studentsIds, List<Integer> tasks) {
+        List<Student> students = studentService.findAllById(studentsIds);
+        List<Task> tasksToAdd = taskService.findAllById(tasks);
+        students.stream()
+                .peek(student -> {
+                    student.getTasks().addAll(tasksToAdd);
+                })
+                .forEach(studentService::save);
+    }
 
     void assignTasks(int id, List<Integer> tasks) {
         Student student = studentService.findById(id);

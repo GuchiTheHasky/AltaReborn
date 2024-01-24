@@ -2,6 +2,7 @@ package com.alta.service;
 
 import com.alta.dto.StudentDto;
 import com.alta.entity.Student;
+import com.alta.entity.Task;
 
 import java.util.List;
 
@@ -24,5 +25,9 @@ public interface StudentService {
      */
     Student findById(int studentId);
 
+    List<Student> findAllById(List<Integer> studentsIds);
+
     void save(Student student);
+
+    List<Task> getTasks(List<Student> students);
 }

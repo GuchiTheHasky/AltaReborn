@@ -55,12 +55,21 @@ public class DefaultTaskService implements TaskService {
     public List<TaskDto> getUnfinishedTasks(List<Integer> selectedTopicsIdList, List<Task> completedTasks) {
         List<Task> tasks = taskRepository.findAllTaskIncludedInTopic(selectedTopicsIdList);
 
-        Set<Task> uniqueTasksSet = new HashSet<>(tasks);
-        uniqueTasksSet.removeAll(completedTasks);
-        List<Task> uniqueTasks = new ArrayList<>(uniqueTasksSet);
-
-        return uniqueTasks.stream().map(taskMapper::toTaskDto).collect(Collectors.toList());
+        return tasks.stream()
+                .distinct()
+                .filter(task -> !completedTasks.contains(task))
+                .map(taskMapper::toTaskDto).collect(Collectors.toList());
     }
+
+//    @Override
+//    public List<TaskDto> getUnfinishedTasks(List<Integer> selectedTopicsIdList, List<Task> completedTasks) {
+//        List<Task> tasks = taskRepository.findAllTaskIncludedInTopic(selectedTopicsIdList);
+//        Set<Task> uniqueTasksSet = new HashSet<>(tasks);
+//        uniqueTasksSet.removeAll(completedTasks);
+//        List<Task> uniqueTasks = new ArrayList<>(uniqueTasksSet);
+//
+//        return uniqueTasks.stream().map(taskMapper::toTaskDto).collect(Collectors.toList());
+//    }
 
     @Override
     public List<Task> findAllById(List<Integer> tasks) {

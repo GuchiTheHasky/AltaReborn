@@ -8,19 +8,19 @@ import java.util.List;
 
 public interface MainFacade {
     /**
-     * Fetches a list of unfinished tasks based on Student ID and IDs of Topic objects.
-     * @param studentId : The ID of Student object on the basis of which tasks should be selected.
+     * Fetches a list of unfinished tasks based on Students IDs and IDs of Topic objects.
+     * @param studentsIds : The List of Student objects IDs on the basis of which tasks should be selected.
      * @param topicsIds : List of Topic objects IDs on the basis of which tasks should be selected.
      * @return List of TaskDto objects representing the tasks that match the information provided.
      */
-    List<TaskDto> findUnfinishedTasks(List<Integer> topicsIds, Integer studentId);
+    List<TaskDto> findUnfinishedTasks(List<Integer> topicsIds, List<Integer> studentsIds);
 
     /**
      * Updates the list of tasks of Student object and retrieve list of tasks that match ids specified.
-     * @param studentId : The unique identifier of the Student object which tasks should be updated.
+     * @param studentsIds : List of the IDs of the Student objects which tasks should be updated.
      * @param tasksIds : List of tasks ids that should be set.
      */
-    List<TaskDto> updateStudentTasksAndRetrieveDto(int studentId, List<Integer> tasksIds);
+    List<TaskDto> updateStudentTasksAndRetrieveDto(List<Integer> studentsIds, List<Integer> tasksIds);
 
     /**
      * Returns a list of all Student objects available.
@@ -34,14 +34,6 @@ public interface MainFacade {
      * @return An object representing the updated task.
      */
     TaskDto updateTask(TaskDto taskDto);
-
-    /**
-     * Fetches a list of unfinished tasks based on Student ID and IDs of Topic objects.
-     * @param studentId : The ID of Student object on the basis of which tasks should be selected.
-     * @param topicsIds : List of Topic objects IDs on the basis of which tasks should be selected.
-     * @return List of TaskDto objects representing the tasks filtered according to the principle stated above.
-     */
-    List<TaskDto> filterOfUnfinishedTasks(List<Integer> topicsIds, Integer studentId);
 
     /**
      * Returns a list of all Topic objects available.
