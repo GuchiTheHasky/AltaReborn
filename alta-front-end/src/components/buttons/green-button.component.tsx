@@ -7,7 +7,6 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 export const Button: FC<ButtonProps> = ({label, onClick, className, color}) => {
-console.log("color: ", bgColor(color));
     return (
         <MaterialButton
             variant="contained"
