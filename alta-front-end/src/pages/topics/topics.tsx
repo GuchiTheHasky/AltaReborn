@@ -1,15 +1,22 @@
 import {Button} from "../../components/buttons/green-button.component.tsx";
-import {DataGrid} from "@mui/x-data-grid";
-import {columns, topicsArray} from "../../modules/topics/content/table-columns.content.ts";
-import {useState} from "react";
+// import {DataGrid} from "@mui/x-data-grid";
+// import {columns, topicsArray} from "../../modules/topics/content/table-columns.content.ts";
+import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {useStudents} from "../../context/data-provider.context.tsx";
 import {TopicsTable} from "./topics-table.component.tsx";
+import {getTopics} from "../../api/topics/useGetTopics.ts";
+import {TopicResponse} from "../../api/topics/dto/topics-response.dto.ts";
 
 export const Topics = () => {
     const [selectedRows, setSelectedRows] = useState<number[]>([]);
+    const [topics, setTopics] = useState<TopicResponse[]>([])
     const {selectedStudentIds} = useStudents();
     const navigate = useNavigate();
+
+    useEffect(() => {
+        getTopics().then(setTopics);
+    }, []);
 
     // const sendToBackend = async (selectedRows: number[] | undefined, selectedStudentId: string | null) => {
     //     const topicsIds = selectedRows?.map(topic => topic).join(',');
@@ -50,7 +57,7 @@ export const Topics = () => {
                 {/*    checkboxSelection*/}
                 {/*    onRowSelectionModelChange={(newSelection) => setSelectedRows(newSelection as number[])}*/}
                 {/*/>*/}
-                <TopicsTable setSelectedTopicIds={setSelectedRows} selectedTopicIds={selectedRows} topics={topicsArray}/>
+                <TopicsTable setSelectedTopicIds={setSelectedRows} selectedTopicIds={selectedRows} topics={topics}/>
             </div>
 
             <div className={'flex justify-around mt-4 gap-5'}>
