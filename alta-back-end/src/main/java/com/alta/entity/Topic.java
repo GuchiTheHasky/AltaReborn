@@ -12,20 +12,20 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-@NamedEntityGraph(
-        name = "topic-entity-graph",
-        attributeNodes = {
-                @NamedAttributeNode("tasks")
-        }
-)
+//@NamedEntityGraph(
+//        name = "topic-entity-graph",
+//        attributeNodes = {
+//                @NamedAttributeNode("tasks")
+//        }
+//)
 @Entity
 @Table(name = "topic")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(exclude = "tasks")
-@ToString(exclude = "tasks")
+//@EqualsAndHashCode(exclude = "tasks")
+//@ToString(exclude = "tasks")
 public class Topic {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -34,19 +34,19 @@ public class Topic {
     private String title;
 
     //@JsonManagedReference
-    @JdbcTypeCode(SqlTypes.JSON)
-    @OneToMany(mappedBy = "topic", fetch = FetchType.LAZY, orphanRemoval = true)
-    @JsonIgnoreProperties("topic")
-    List<Task> tasks = new ArrayList<>();
+//    @JdbcTypeCode(SqlTypes.JSON)
+//    @OneToMany(mappedBy = "topic", fetch = FetchType.LAZY, orphanRemoval = true)
+//    @JsonIgnoreProperties("topic")
+//    List<Task> tasks = new ArrayList<>();
 
-    public void addTask(Task task) {
-        tasks.add(task);
-        task.setTopic(this);
-    }
-    public void removeTask(Task task) {
-        tasks.remove(task);
-        task.setTopic(null);
-    }
+//    public void addTask(Task task) {
+//        tasks.add(task);
+//        task.setTopic(this);
+//    }
+//    public void removeTask(Task task) {
+//        tasks.remove(task);
+//        task.setTopic(null);
+//    }
 
 }
 

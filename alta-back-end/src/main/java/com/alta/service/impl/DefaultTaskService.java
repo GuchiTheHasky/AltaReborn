@@ -39,10 +39,10 @@ public class DefaultTaskService implements TaskService {
         existingTask.setAnswer(taskDto.getAnswer());
         existingTask.setTitle(newTopic.getTitle());
 
-        existingTask.removeTopic(existingTask.getTopic());
+        //existingTask.removeTopic(existingTask.getTopic());
         existingTask.setTopic(newTopic);
 
-        return taskMapper.toTaskDto(existingTask);
+        return taskMapper.toTaskDto(taskRepository.save(existingTask));
     }
 
     @Override

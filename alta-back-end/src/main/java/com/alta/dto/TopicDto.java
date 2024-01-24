@@ -14,5 +14,5 @@ import java.util.List;
 public class TopicDto {
     private int id;
     private String title;
-    private List<Task> tasks;
+    //private List<Task> tasks;
 }

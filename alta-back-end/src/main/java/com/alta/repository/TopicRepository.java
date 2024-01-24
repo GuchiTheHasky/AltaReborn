@@ -20,7 +20,7 @@ public interface TopicRepository extends JpaRepository<Topic, Integer> {
     List<Topic> findAllByIds(List<Integer> topicsIds);
 
     //@NonNull
-    @EntityGraph(value = "topic-entity-graph", type = EntityGraph.EntityGraphType.FETCH)
+    //@EntityGraph(value = "topic-entity-graph", type = EntityGraph.EntityGraphType.FETCH)
     List<Topic> findAll();
     //@NonNull
     Page<Topic> findAll(/*@NonNull*/ Pageable pageable);
