@@ -9,6 +9,7 @@ import { api } from "../../core/api.ts";
 
 export const Topics = () => {
     const [selectedRows, setSelectedRows] = useState<number[]>([]);
+    const [topics, setTopics] = useState<TopicResponse[]>([])
     const {selectedStudentIds} = useStudents();
     const navigate = useNavigate();
     const [ topics, setTopics] = useState<TopicResponse[]>([]);
@@ -40,8 +41,6 @@ export const Topics = () => {
             console.error('Error sending data to backend:', error);
         }
     };
-
-
 
     const handleNextButtonClick = () => {
         console.log("Вибрані id тем:", selectedRows);
