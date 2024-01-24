@@ -28,21 +28,21 @@ public class DefaultMainFacade implements MainFacade {
     private final TopicMapper topicMapper;
     private final StudentMapper studentMapper;
 
-//    @Override
-//    public List<TaskDto> findUnfinishedTasks(List<Integer> topicIds, List<Integer> studentsIds) {
-//        return filterOfUnfinishedTasks(topicIds, studentsIds);
-//    }
-
     @Override
-    public List<TaskDto> findUnfinishedTasks(List<TopicDto> topicsDto, List<StudentDto> studentsDto) {
-        List<Topic> topics = topicsDto.stream()
-                .map(topicMapper::toTopic)
-                .collect(Collectors.toList());
-        List<Student> students = studentsDto.stream()
-                .map(studentMapper::toStudent)
-                .collect(Collectors.toList());
-        return filterOfUnfinishedTasks(topics, students);
+    public List<TaskDto> findUnfinishedTasks(List<Integer> topicIds, List<Integer> studentsIds) {
+        return filterOfUnfinishedTasks(topicIds, studentsIds);
     }
+
+//    @Override
+//    public List<TaskDto> findUnfinishedTasks(List<TopicDto> topicsDto, List<StudentDto> studentsDto) {
+//        List<Topic> topics = topicsDto.stream()
+//                .map(topicMapper::toTopic)
+//                .collect(Collectors.toList());
+//        List<Student> students = studentsDto.stream()
+//                .map(studentMapper::toStudent)
+//                .collect(Collectors.toList());
+//        return filterOfUnfinishedTasks(topics, students);
+//    }
 
     @Override
     @Transactional
@@ -74,17 +74,17 @@ public class DefaultMainFacade implements MainFacade {
 //        return taskService.getUnfinishedTasks(selectedTopicsIdList, completedTasks);
 //    }
 
-//    List<TaskDto> filterOfUnfinishedTasks(List<Integer> selectedTopicsIdList, List<Integer> studentsIds) {
-//        List<Student> students = studentService.findAllById(studentsIds);
-//        List<Task> completedTasks = studentService.getTasks(students);
-//
-//        return taskService.getUnfinishedTasks(selectedTopicsIdList, completedTasks);
-//    }
-
-    List<TaskDto> filterOfUnfinishedTasks(List<Topic> selectedTopicsList, List<Student> students) {
+    List<TaskDto> filterOfUnfinishedTasks(List<Integer> selectedTopicsIdList, List<Integer> studentsIds) {
+        List<Student> students = studentService.findAllById(studentsIds);
         List<Task> completedTasks = studentService.getTasks(students);
-        return taskService.getUnfinishedTasks(selectedTopicsList, completedTasks);
+
+        return taskService.getUnfinishedTasks(selectedTopicsIdList, completedTasks);
     }
+
+//    List<TaskDto> filterOfUnfinishedTasks(List<Topic> selectedTopicsList, List<Student> students) {
+//        List<Task> completedTasks = studentService.getTasks(students);
+//        return taskService.getUnfinishedTasks(selectedTopicsList, completedTasks);
+//    }
 
     void assignTasks(List<Integer> studentsIds, List<Integer> tasks) {
         List<Student> students = studentService.findAllById(studentsIds);
