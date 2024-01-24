@@ -10,4 +10,6 @@ public interface StudentMapper {
 
     @Mapping(target = "fullName", expression = "java(student.getLastName() + ' ' + student.getFirstName())")
     StudentDto toStudentDto(Student student);
+
+    Student toStudent(StudentDto student);
 }

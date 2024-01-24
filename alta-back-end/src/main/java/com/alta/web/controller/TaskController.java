@@ -1,6 +1,8 @@
 package com.alta.web.controller;
 
+import com.alta.dto.StudentDto;
 import com.alta.dto.TaskDto;
+import com.alta.dto.TopicDto;
 import com.alta.facade.MainFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ui.ModelMap;
@@ -25,13 +27,22 @@ public class TaskController {
 //
 //    }
 
+//    @GetMapping("/unfinished")
+//    public List<TaskDto> findAllUnfinishedTasks(
+//            @RequestParam(name = "topics", required = false) List<Integer> topics,
+//            @RequestParam(name = "student", required = false) List<Integer> studentsIds) {
+//
+//        return mainFacade.findUnfinishedTasks(topics, studentsIds);
+//    }
+
     @GetMapping("/unfinished")
     public List<TaskDto> findAllUnfinishedTasks(
-            @RequestParam(name = "topics", required = false) List<Integer> topics,
-            @RequestParam(name = "student", required = false) List<Integer> studentsIds) {
+            @RequestParam(name = "topics", required = false) List<TopicDto> topics,
+            @RequestParam(name = "student", required = false) List<StudentDto> students) {
 
-        return mainFacade.findUnfinishedTasks(topics, studentsIds);
+        return mainFacade.findUnfinishedTasks(topics, students);
     }
+
 
 //    @GetMapping("/test")
 //    public List<TaskDto> testTasks(
