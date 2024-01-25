@@ -63,19 +63,19 @@ class StudentControllerITest extends AbstractDataBase {
         StudentDto thirdStudentDto = studentDtoList.get(2);
 
         int expectedFirstId = 1;
-        String expectedFirstStudentFullName = "Anna Ivanova";
+        String expectedFirstStudentFullName = "Ivanova Anna";
         String expectedFirstStudentEmail = "burova@email";
         String expectedFirstStudentGrade = "10";
         String expectedFirstStudentComment = "offline";
 
         int expectedSecondId = 11;
-        String expectedSecondStudentFullName = "Olga Boiko";
+        String expectedSecondStudentFullName = "Boiko Olga";
         String expectedSecondStudentEmail = "boyko@email";
         String expectedSecondStudentGrade = "9";
         String expectedSecondStudentComment = "online";
 
         int expectedThirdId = 21;
-        String expectedThirdStudentFullName = "Anastasiya Moroz";
+        String expectedThirdStudentFullName = "Moroz Anastasiya";
         String expectedThirdStudentEmail = "moroz@email";
         String expectedThirdStudentGrade = "11";
         String expectedThirdStudentComment = "offline";

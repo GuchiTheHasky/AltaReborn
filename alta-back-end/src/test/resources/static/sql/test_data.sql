@@ -4,7 +4,7 @@ CREATE SEQUENCE student_id_sequence
 
 create table if not exists students
 (
-    id integer default nextval('students_id_sequence') not null,
+    id integer default nextval('student_id_sequence') not null,
     first_name varchar(128) not null,
     last_name varchar(128) not null,
     email varchar(128) not null,
