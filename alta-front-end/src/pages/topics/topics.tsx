@@ -6,13 +6,13 @@ import {TopicsTable} from "./topics-table.component.tsx";
 import {TopicResponse} from "../../api/topics/dto/topics-response.dto.ts";
 import {getTopics} from "../../api/topics/useGetTopics.ts";
 import { api } from "../../core/api.ts";
+import {Typography} from "@mui/material";
 
 export const Topics = () => {
     const [selectedRows, setSelectedRows] = useState<number[]>([]);
     const [topics, setTopics] = useState<TopicResponse[]>([])
     const {selectedStudentIds} = useStudents();
     const navigate = useNavigate();
-    const [ topics, setTopics] = useState<TopicResponse[]>([]);
 
     useEffect(() => {
         getTopics().then(setTopics);
@@ -50,7 +50,9 @@ export const Topics = () => {
 
     return (
         <>
-            <h2 className="text-green-primary">Теми:</h2>
+            <Typography variant="h4" component="h4" sx={{mb: 2}} className="text-green-primary">
+                Теми:
+            </Typography>
 
             <div className="min-h-[500px]">
                 <TopicsTable setSelectedTopicIds={setSelectedRows} selectedTopicIds={selectedRows} topics={topics}/>
