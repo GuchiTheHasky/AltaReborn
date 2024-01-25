@@ -28,7 +28,8 @@ import java.util.List;
 //@ToString(exclude = "tasks")
 public class Topic {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "topic_seq")
+    @SequenceGenerator(name = "topic_seq", sequenceName = "topic_id_sequence", allocationSize = 10)
     private int id;
 
     private String title;
