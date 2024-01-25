@@ -68,13 +68,13 @@ class StudentControllerITest extends AbstractDataBase {
         String expectedFirstStudentGrade = "10";
         String expectedFirstStudentComment = "offline";
 
-        int expectedSecondId = 11;
+        int expectedSecondId = 21;
         String expectedSecondStudentFullName = "Boiko Olga";
         String expectedSecondStudentEmail = "boyko@email";
         String expectedSecondStudentGrade = "9";
         String expectedSecondStudentComment = "online";
 
-        int expectedThirdId = 21;
+        int expectedThirdId = 41;
         String expectedThirdStudentFullName = "Moroz Anastasiya";
         String expectedThirdStudentEmail = "moroz@email";
         String expectedThirdStudentGrade = "11";

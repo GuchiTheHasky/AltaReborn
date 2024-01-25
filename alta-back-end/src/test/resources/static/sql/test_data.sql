@@ -1,5 +1,5 @@
 CREATE SEQUENCE student_id_sequence
-    INCREMENT 10
+    INCREMENT 20
     START 1;
 
 create table if not exists students
@@ -19,7 +19,7 @@ insert into students (first_name, last_name, email, grade, comment) values ('Ana
 
 
 CREATE SEQUENCE topic_id_sequence
-    INCREMENT 10
+    INCREMENT 20
     START 1;
 
 create table if not exists topic

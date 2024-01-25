@@ -64,7 +64,7 @@ class TopicControllerITest extends AbstractDataBase {
         int expectedFirstId = 1;
         String expectedFirstTopicTitle = "Числа і вирази";
 
-        int expectedSecondId = 11;
+        int expectedSecondId = 21;
         String expectedSecondTopicTitle = "Рівняння, нерівності та їхні системи";
 
         Assertions.assertNotNull(topicDtoList);

@@ -29,7 +29,7 @@ import java.util.List;
 public class Topic {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "topic_seq")
-    @SequenceGenerator(name = "topic_seq", sequenceName = "topic_id_sequence", allocationSize = 10)
+    @SequenceGenerator(name = "topic_seq", sequenceName = "topic_id_sequence", allocationSize = 20)
     private int id;
 
     private String title;
