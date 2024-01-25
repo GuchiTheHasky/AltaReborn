@@ -3,6 +3,8 @@ package com.alta.facade;
 import com.alta.dto.StudentDto;
 import com.alta.dto.TaskDto;
 import com.alta.dto.TopicDto;
+import com.alta.entity.Student;
+
 import java.util.List;
 
 public interface MainFacade {
@@ -43,4 +45,6 @@ public interface MainFacade {
      * @return A list of TopicDto objects representing the available topics.
      */
     List<TopicDto> findAllTopics();
+
+    List<Student> findAllStudentsById(List<Integer> studentsIds);
 }

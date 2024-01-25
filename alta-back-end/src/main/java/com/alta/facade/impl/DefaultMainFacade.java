@@ -57,6 +57,11 @@ public class DefaultMainFacade implements MainFacade {
     }
 
     @Override
+    public List<Student> findAllStudentsById(List<Integer> studentsIds) {
+        return studentService.findAllById(studentsIds);
+    }
+
+    @Override
     public List<StudentDto> findAllStudents() {
         return studentService.findAll();
     }

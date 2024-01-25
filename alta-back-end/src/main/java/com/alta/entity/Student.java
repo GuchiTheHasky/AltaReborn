@@ -17,7 +17,8 @@ import java.util.*;
 @EqualsAndHashCode(exclude = "tasks")
 public class Student {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "stud_seq")
+    @SequenceGenerator(name = "stud_seq", sequenceName = "student_id_sequence", allocationSize = 20)
     private int id;
 
     @Column(name = "first_name")
