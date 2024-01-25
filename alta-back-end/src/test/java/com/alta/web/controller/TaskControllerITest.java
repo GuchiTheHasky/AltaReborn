@@ -2,11 +2,13 @@ package com.alta.web.controller;
 
 import com.alta.AbstractDataBase;
 import com.alta.dto.TaskDto;
+import com.alta.entity.Task;
 import com.alta.facade.MainFacade;
+import com.alta.service.TaskService;
 import com.alta.web.entity.TasksRequest;
 import jakarta.transaction.Transactional;
+import org.junit.Assert;
 import org.junit.jupiter.api.*;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,7 +22,8 @@ import org.springframework.http.MediaType;
 
 import java.util.Arrays;
 import java.util.List;
-import static org.mockito.Mockito.*;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 @SpringBootTest
@@ -31,8 +34,11 @@ class TaskControllerITest extends AbstractDataBase {
     @Autowired
     private MockMvc mockMvc;
 
-    @Mock
+    @Autowired
     private MainFacade mainFacade;
+
+    @Autowired
+    private TaskService taskService;
 
 
     @DynamicPropertySource
@@ -71,10 +77,10 @@ class TaskControllerITest extends AbstractDataBase {
         List<Integer> tasks = Arrays.asList(1, 21, 41, 61);
         List<Integer> studentsIds = Arrays.asList(1, 21, 41);
 
-        List<TaskDto> mockedTasksWithAnswers = Arrays.asList(new TaskDto(), new TaskDto(), new TaskDto(), new TaskDto());
+        List<Task> tasksOfStudentsForNow = mainFacade.findAllStudentsById(studentsIds).stream()
+                .flatMap(student -> student.getTasks().stream()).toList();
 
-        when(mainFacade.updateStudentTasksAndRetrieveDto(studentsIds, tasks))
-                .thenReturn(mockedTasksWithAnswers);
+        assertTrue(tasksOfStudentsForNow.isEmpty());
 
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/tasks/answers")
                         .param("tasks", "1", "21", "41", "61")
@@ -82,5 +88,13 @@ class TaskControllerITest extends AbstractDataBase {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.view().name("task_list_answers"))
                 .andExpect(MockMvcResultMatchers.model().attributeExists("tasksWithAnswers"));
+
+        List<Integer> tasksAssignedToStudents = mainFacade.findAllStudentsById(studentsIds).stream()
+                .flatMap(student -> student.getTasks().stream())
+                .map(Task::getId)
+                .distinct()
+                .toList();
+
+        Assertions.assertEquals(tasks, tasksAssignedToStudents);
     }
 }
