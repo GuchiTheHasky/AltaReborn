@@ -1,11 +1,9 @@
-import { useLocation } from 'react-router-dom';
+import {useLocation} from 'react-router-dom';
 import {Button} from "../../components/buttons/green-button.component.tsx";
 import {TasksResponse} from "../../api/tasks/dto/tasks-response.dto.ts";
 import {useEffect, useState} from "react";
-import {YellowButton} from "../../components/buttons/yellow-button.component.tsx";
-import {DataGrid} from "@mui/x-data-grid";
-import {columns} from "../../modules/tasks/content/table-columns.content.tsx";
 import {api} from "../../core/api.ts";
+import {TasksTable} from "./tasks-table.component.jsx.tsx";
 
 export const Tasks = () => {
     const location = useLocation();
@@ -16,8 +14,9 @@ export const Tasks = () => {
     const [loadedTasks, setLoadedTasks] = useState<TasksResponse[]>([]);
     const [selectedRows, setSelectedRows] = useState<number[]>([]);
 
-    useEffect(() => { setLoadedTasks(tasks) }, [tasks]);
-
+    useEffect(() => {
+        setLoadedTasks(tasks)
+    }, [tasks]);
 
 
     const answers = async (selectedRows: number[] | undefined, selectedStudentId: string | null) => {
@@ -31,58 +30,32 @@ export const Tasks = () => {
                 'Content-Type': 'application/json',
             },
         });
-        const blob = new Blob([response.data], { type: 'text/html' });
+        const blob = new Blob([response.data], {type: 'text/html'});
         const url = URL.createObjectURL(blob);
 
         window.open(url, '_blank');
     };
 
-        const handleAnswers = () => {
+    const handleAnswers = () => {
         answers(selectedRows, selectedStudentId);
     };
 
 
     return (
         <div>
-            <div className="flex gap-2.5">
-                <div>
-                    <YellowButton label="НАЗАД" onClick={() => window.history.back()}/>
-                </div>
-                <div className="w-[300px]">
-                    <Button label="З ВІДПОВІДЯМИ" onClick={handleAnswers}/>
-                </div>
-                <div className="w-[300px]" onClick={() => {}}>
-                    <Button label="БЕЗ ВІДПОВІДЕЙ"/>
-                </div>
+            <div className={'flex justify-around mt-2 gap-3'}>
+                <Button className={'flex-1 '} color={"yellow"} label={'НАЗАД'} onClick={() => window.history.back()}/>
+
+                <Button className={'flex-1 '} color={"green"} label={'З ВІДПОВІДЯМИ'} onClick={handleAnswers}/>
+
+                <Button className={'flex-1 '} color={"green"} label={'БЕЗ ВІДПОВІДЕЙ'}/>
             </div>
 
-            <div className="flex w-full flex-col items-center justify-center gap-4 pt-8">
-                <h2 className="text-green-primary w-[700px]">Завдання:</h2>
-
-                <div style={{height: '500px', width: '1200px'}}>
-                    <DataGrid
-                        rows={loadedTasks}
-                        columns={columns.map(column => ({
-                            ...column,
-                            headerAlign: 'center',
-                        }))}
-
-                        initialState={{
-                            pagination: {
-                                paginationModel: {page: 0, pageSize: 10},
-                            },
-                        }}
-                        pageSizeOptions={[5, 10, 20, 50, 100]}
-                        checkboxSelection
-                        getRowHeight={() => 'auto'}
-                        getEstimatedRowHeight={() => 200}
-                        rowSelectionModel={selectedRows}
-                        onRowSelectionModelChange={(newSelection) => setSelectedRows(newSelection as number[])}
-                    />
-
-                </div>
+            <div className="flex justify-around mt-2 gap-3">
+                <TasksTable tasks={tasks}
+                            selectedTaskIds={selectedRows}
+                            setSelectedTaskIds={setSelectedRows}/>
             </div>
-
         </div>
     );
 };
