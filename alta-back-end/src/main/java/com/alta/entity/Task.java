@@ -24,7 +24,8 @@ import java.util.List;
 @ToString(exclude = {"students", "topic"})
 public class Task {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "task_seq")
+    @SequenceGenerator(name = "task_seq", sequenceName = "task_id_sequence", allocationSize = 20)
     private int id;
 
     @Column(name = "image_path")
