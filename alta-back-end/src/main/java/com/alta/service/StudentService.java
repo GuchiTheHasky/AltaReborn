@@ -5,6 +5,7 @@ import com.alta.entity.Student;
 import com.alta.entity.Task;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Interface for managing the Student data.
@@ -30,4 +31,6 @@ public interface StudentService {
     void save(Student student);
 
     List<Task> getTasks(List<Student> students);
+
+    Map<Student, List<Task>> getTasksForEachStudent(List<Student> students);
 }

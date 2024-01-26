@@ -1,10 +1,13 @@
 package com.alta.service.impl;
 
+import com.alta.dto.StudentDto;
 import com.alta.dto.TaskDto;
+import com.alta.entity.Student;
 import com.alta.entity.Task;
 import com.alta.entity.Topic;
 import com.alta.exception.TaskException;
 import com.alta.exception.TopicException;
+import com.alta.mapper.StudentMapper;
 import com.alta.mapper.TaskMapper;
 import com.alta.repository.TaskRepository;
 import com.alta.repository.TopicRepository;
@@ -13,11 +16,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
+
 
 @Service
 @RequiredArgsConstructor
@@ -25,6 +26,7 @@ public class DefaultTaskService implements TaskService {
     private final TaskRepository taskRepository;
     private final TaskMapper taskMapper;
     private final TopicRepository topicRepository;
+    private final StudentMapper studentMapper;
 
     @Override
     @Transactional
@@ -71,6 +73,20 @@ public class DefaultTaskService implements TaskService {
                 .map(taskMapper::toTaskDto).collect(Collectors.toList());
     }
 
+    @Override
+    public Map<String, List<TaskDto>> getUnfinishedTasksForEachStudent(List<Integer> selectedTopicsIdList, Map<Student, List<Task>> completedTasks) {
+        List<Task> tasks = taskRepository.findAllTaskIncludedInTopic(selectedTopicsIdList);
+
+        return completedTasks.entrySet().stream()
+                .collect(Collectors.toMap(
+                        entry -> studentMapper.toStudentDto(entry.getKey()).getFullName(),
+                        entry -> tasks.stream()
+                                .filter(task -> !entry.getValue().contains(task))
+                                .map(taskMapper::toTaskDto)
+                                .collect(Collectors.toList())
+                ));
+    }
+
 //    @Override
 //    public List<TaskDto> getUnfinishedTasks(List<Integer> selectedTopicsIdList, List<Task> completedTasks) {
 //        List<Task> tasks = taskRepository.findAllTaskIncludedInTopic(selectedTopicsIdList);
@@ -85,5 +101,6 @@ public class DefaultTaskService implements TaskService {
     public List<Task> findAllById(List<Integer> tasks) {
         return taskRepository.findAllById(tasks);
     }
+
 
 }

@@ -1,10 +1,13 @@
 package com.alta.service;
 
+import com.alta.dto.StudentDto;
 import com.alta.dto.TaskDto;
+import com.alta.entity.Student;
 import com.alta.entity.Task;
 import com.alta.entity.Topic;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Interface for managing the Task data.
@@ -32,4 +35,6 @@ public interface TaskService {
    // List<TaskDto> getUnfinishedTasks(List<Topic> selectedTopicsIdList, List<Task> completedTasks);
 
     List<Task> findAllById(List<Integer> tasks);
+
+    Map<String, List<TaskDto>> getUnfinishedTasksForEachStudent(List<Integer> selectedTopicsIdList, Map<Student, List<Task>> completedTasks);
 }
