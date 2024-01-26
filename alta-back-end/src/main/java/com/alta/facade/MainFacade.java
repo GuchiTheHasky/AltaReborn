@@ -4,6 +4,7 @@ import com.alta.dto.StudentDto;
 import com.alta.dto.TaskDto;
 import com.alta.dto.TopicDto;
 import java.util.List;
+import java.util.Map;
 
 public interface MainFacade {
 //    /**
@@ -43,4 +44,6 @@ public interface MainFacade {
      * @return A list of TopicDto objects representing the available topics.
      */
     List<TopicDto> findAllTopics();
+
+    Map<String, List<TaskDto>> findUnfinishedTasksForEachStudent(List<Integer> topics, List<Integer> studentsIds);
 }

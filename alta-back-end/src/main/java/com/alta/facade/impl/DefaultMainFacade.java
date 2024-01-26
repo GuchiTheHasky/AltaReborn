@@ -5,7 +5,6 @@ import com.alta.dto.TaskDto;
 import com.alta.dto.TopicDto;
 import com.alta.entity.Student;
 import com.alta.entity.Task;
-import com.alta.entity.Topic;
 import com.alta.facade.MainFacade;
 import com.alta.mapper.StudentMapper;
 import com.alta.mapper.TopicMapper;
@@ -17,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -31,6 +30,11 @@ public class DefaultMainFacade implements MainFacade {
     @Override
     public List<TaskDto> findUnfinishedTasks(List<Integer> topicIds, List<Integer> studentsIds) {
         return filterOfUnfinishedTasks(topicIds, studentsIds);
+    }
+
+    @Override
+    public Map<String, List<TaskDto>> findUnfinishedTasksForEachStudent(List<Integer> topicIds, List<Integer> studentsIds) {
+        return filterOnUnfinishedTasksForEachStudent(topicIds, studentsIds);
     }
 
 //    @Override
@@ -79,6 +83,13 @@ public class DefaultMainFacade implements MainFacade {
         List<Task> completedTasks = studentService.getTasks(students);
 
         return taskService.getUnfinishedTasks(selectedTopicsIdList, completedTasks);
+    }
+
+    Map<String, List<TaskDto>> filterOnUnfinishedTasksForEachStudent(List<Integer> selectedTopicsIdList, List<Integer> studentsIds) {
+        List<Student> students = studentService.findAllById(studentsIds);
+        Map<Student, List<Task>> completedTasks = studentService.getTasksForEachStudent(students);
+
+        return taskService.getUnfinishedTasksForEachStudent(selectedTopicsIdList, completedTasks);
     }
 
 //    List<TaskDto> filterOfUnfinishedTasks(List<Topic> selectedTopicsList, List<Student> students) {

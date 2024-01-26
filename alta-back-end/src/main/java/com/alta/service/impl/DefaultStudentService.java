@@ -11,7 +11,9 @@ import com.alta.service.StudentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -47,6 +49,17 @@ public class DefaultStudentService implements StudentService {
                 .flatMap(student -> student.getTasks().stream())
                 .distinct()
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Map<Student, List<Task>> getTasksForEachStudent(List<Student> students) {
+        Map<Student, List<Task>> tasksForEachStudent= new HashMap<>();
+
+        students.forEach(student -> {
+                    tasksForEachStudent.put(student, student.getTasks());
+                });
+
+        return tasksForEachStudent;
     }
 
 //    @Override

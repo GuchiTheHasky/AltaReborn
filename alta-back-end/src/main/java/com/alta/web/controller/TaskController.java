@@ -1,9 +1,8 @@
 package com.alta.web.controller;
 
-import com.alta.dto.StudentDto;
 import com.alta.dto.TaskDto;
-import com.alta.dto.TopicDto;
 import com.alta.facade.MainFacade;
+import com.alta.web.entity.TasksResponse;
 import com.alta.web.entity.TasksRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ui.ModelMap;
@@ -28,16 +27,29 @@ public class TaskController {
 //
 //    }
 
+//    @PostMapping("/unfinished")
+//    public List<TaskDto> findAllUnfinishedTasks(@RequestBody TasksRequest request) {
+//        List<Integer> topics = request.getTopics();
+//        List<Integer> studentsIds = request.getStudents();
+//
+//        System.out.println("topics: " + topics);
+//        System.out.println("studentsIds: " + studentsIds);
+//
+//        return mainFacade.findUnfinishedTasks(topics, studentsIds);
+//    }
+
     @PostMapping("/unfinished")
-    public List<TaskDto> findAllUnfinishedTasks(@RequestBody TasksRequest request) {
+    public TasksResponse findAllUnfinishedTasks(@RequestBody TasksRequest request) {
         List<Integer> topics = request.getTopics();
         List<Integer> studentsIds = request.getStudents();
 
-        System.out.println("topics: " + topics);
-        System.out.println("studentsIds: " + studentsIds);
+        TasksResponse response = new TasksResponse();
+        response.setUnfinishedTasksForAllStudentsSelected(mainFacade.findUnfinishedTasks(topics, studentsIds));
+        response.setUnfinishedTasksForEachStudentSelected(mainFacade.findUnfinishedTasksForEachStudent(topics, studentsIds));
 
-        return mainFacade.findUnfinishedTasks(topics, studentsIds);
+        return response;
     }
+
 
 
 //    @GetMapping("/unfinished")
