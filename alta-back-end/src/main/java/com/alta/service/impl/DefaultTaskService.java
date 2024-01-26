@@ -78,11 +78,10 @@ public class DefaultTaskService implements TaskService {
         List<Task> tasks = taskRepository.findAllTaskIncludedInTopic(selectedTopicsIdList);
 
         return completedTasks.entrySet().stream()
-                .peek(entry -> entry.getValue().addAll(tasks))
                 .collect(Collectors.toMap(
                         entry -> studentMapper.toStudentDto(entry.getKey()).getFullName(),
-                        entry -> entry.getValue().stream()
-                                .distinct()
+                        entry -> tasks.stream()
+                                .filter(task -> !entry.getValue().contains(task))
                                 .map(taskMapper::toTaskDto)
                                 .collect(Collectors.toList())
                 ));
