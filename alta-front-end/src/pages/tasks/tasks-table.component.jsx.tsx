@@ -2,6 +2,7 @@ import {TasksResponse} from "../../api/tasks/dto/tasks-response.dto.ts";
 import {GridRowId} from "@mui/x-data-grid";
 import {FC} from "react";
 import {Checkbox, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
+import {ImageRender} from "./image.tsx";
 
 interface TasksTableProps {
     tasks: TasksResponse;
@@ -12,12 +13,20 @@ interface TasksTableProps {
 
 export const TasksTable: FC<TasksTableProps> = ({tasks, setSelectedTaskIds, selectedTaskIds}) => {
     console.log('Tasks: ', tasks);
-    console.log("here: ", tasks instanceof Array);
-    console.log("hetre: ", tasks instanceof Object);
 
+    // const handleRowSelection = (selectedRows: GridRowId[]) => {
+    //     const selectedIds = selectedRows.map((row) => Number(row));
+    //     setSelectedTaskIds(selectedIds);
+    // };
     const handleRowSelection = (selectedRows: GridRowId[]) => {
         const selectedIds = selectedRows.map((row) => Number(row));
-        setSelectedTaskIds(selectedIds);
+
+        // Перевірка, чи елемент вже вибраний
+        const newSelectedIds = selectedTaskIds.includes(selectedIds[0])
+            ? selectedTaskIds.filter((id) => id !== selectedIds[0])  // Видалення, якщо вже вибраний
+            : [...selectedTaskIds, ...selectedIds];  // Додавання, якщо ще не вибраний
+
+        setSelectedTaskIds(newSelectedIds);
     };
 
     return (
@@ -51,7 +60,9 @@ export const TasksTable: FC<TasksTableProps> = ({tasks, setSelectedTaskIds, sele
                                 {task.title}
                             </TableCell>
                             <TableCell>{task.level}</TableCell>
-                            <TableCell>{task.imagePath}</TableCell>
+                            <TableCell>
+                                <ImageRender value={task.imagePath}/>
+                            </TableCell>
                             <TableCell>{task.answer}</TableCell>
                             <TableCell>Редагувати</TableCell>
                         </TableRow>
@@ -72,7 +83,9 @@ export const TasksTable: FC<TasksTableProps> = ({tasks, setSelectedTaskIds, sele
                                 {task.title}
                             </TableCell>
                             <TableCell>{task.level}</TableCell>
-                            <TableCell>{task.imagePath}</TableCell>
+                            <TableCell>
+                                <ImageRender value={task.imagePath}/>
+                            </TableCell>
                             <TableCell>{task.answer}</TableCell>
                             <TableCell>Редагувати</TableCell>
                         </TableRow>
