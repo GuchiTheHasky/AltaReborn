@@ -45,12 +45,6 @@ public class Task {
     @ManyToOne
     private Topic topic;
 
-//    @ManyToMany
-//    @JoinTable(
-//            name = "student_task",
-//            joinColumns = @JoinColumn(name = "task_id", referencedColumnName = "id" , foreignKey = @ForeignKey(name = "none")),
-//            inverseJoinColumns = @JoinColumn(name = "student_id", referencedColumnName = "id"))
-
     @ManyToMany(mappedBy = "tasks")
     @JsonIgnoreProperties("tasks")
     private List<Student> students = new ArrayList<>();
