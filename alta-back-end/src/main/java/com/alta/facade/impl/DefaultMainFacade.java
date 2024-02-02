@@ -16,6 +16,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -63,7 +64,13 @@ public class DefaultMainFacade implements MainFacade {
 
     List<TaskDto> filterOfTasksCompletedByAtLeastOneStudent(List<Integer> selectedTopicsIdList, List<Integer> studentsIds) {
         List<Student> students = studentService.findAllById(studentsIds);
-        List<Task> completedTasks = studentService.getTasks(students);
+//        List<Task> completedTasks = new ArrayList<>();
+//        for (Student student : students) {
+//            List<Task> tasks = student.getTasks();
+//            completedTasks.addAll(tasks);
+//        }
+
+       List<Task> completedTasks = studentService.getTasks(students);
 
         return taskService.getTasksCompletedByAtLeastOneStudent(selectedTopicsIdList, completedTasks);
 
@@ -94,10 +101,6 @@ public class DefaultMainFacade implements MainFacade {
         return taskService.getUnfinishedTasks(selectedTopicsIdList, completedTasks);
     }
 
-//    List<TaskDto> filterOfUnfinishedTasks(List<Topic> selectedTopicsList, List<Student> students) {
-//        List<Task> completedTasks = studentService.getTasks(students);
-//        return taskService.getUnfinishedTasks(selectedTopicsList, completedTasks);
-//    }
 
     void assignTasks(List<Integer> studentsIds, List<Integer> tasks) {
         List<Student> students = studentService.findAllById(studentsIds);

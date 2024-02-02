@@ -10,6 +10,7 @@ export const Tasks = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const tasks = location.state?.tasks || [];
     const selectedStudentId = localStorage.getItem("studentId");
+    console.log("tasks: ", tasks);
 
     const [loadedTasks, setLoadedTasks] = useState<TasksResponse[]>([]);
     const [selectedRows, setSelectedRows] = useState<number[]>([]);
