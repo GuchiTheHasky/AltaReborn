@@ -32,4 +32,6 @@ public interface TaskService {
    // List<TaskDto> getUnfinishedTasks(List<Topic> selectedTopicsIdList, List<Task> completedTasks);
 
     List<Task> findAllById(List<Integer> tasks);
+
+    List<TaskDto> getTasksCompletedByAtLeastOneStudent(List<Integer> selectedTopicsIdList, List<Task> completedTasks);
 }

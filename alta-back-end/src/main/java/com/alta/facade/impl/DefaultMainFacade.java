@@ -57,6 +57,19 @@ public class DefaultMainFacade implements MainFacade {
     }
 
     @Override
+    public List<TaskDto> findTasksCompletedByAtLeastOneStudent(List<Integer> topicsIds, List<Integer> studentsIds) {
+        return filterOfTasksCompletedByAtLeastOneStudent(topicsIds, studentsIds);
+    }
+
+    List<TaskDto> filterOfTasksCompletedByAtLeastOneStudent(List<Integer> selectedTopicsIdList, List<Integer> studentsIds) {
+        List<Student> students = studentService.findAllById(studentsIds);
+        List<Task> completedTasks = studentService.getTasks(students);
+
+        return taskService.getTasksCompletedByAtLeastOneStudent(selectedTopicsIdList, completedTasks);
+
+    }
+
+    @Override
     public List<StudentDto> findAllStudents() {
         return studentService.findAll();
     }

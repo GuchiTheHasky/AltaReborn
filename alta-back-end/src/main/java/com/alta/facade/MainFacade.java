@@ -43,4 +43,6 @@ public interface MainFacade {
      * @return A list of TopicDto objects representing the available topics.
      */
     List<TopicDto> findAllTopics();
+
+    List<TaskDto> findTasksCompletedByAtLeastOneStudent(List<Integer> topics, List<Integer> studentsIds);
 }

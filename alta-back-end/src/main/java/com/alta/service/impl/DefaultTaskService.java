@@ -86,4 +86,14 @@ public class DefaultTaskService implements TaskService {
         return taskRepository.findAllById(tasks);
     }
 
+    @Override
+    public List<TaskDto> getTasksCompletedByAtLeastOneStudent(List<Integer> selectedTopicsIdList, List<Task> completedTasks) {
+        List<Task> tasks = taskRepository.findAllTaskIncludedInTopic(selectedTopicsIdList);
+
+        return tasks.stream()
+                .distinct()
+                .filter(completedTasks::contains)
+                .map(taskMapper::toTaskDto).collect(Collectors.toList());
+    }
+
 }
