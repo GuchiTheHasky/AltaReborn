@@ -1,8 +1,15 @@
+interface TaskDto {
+    id: number;
+    imagePath: string;
+    level: string;
+    text: string;
+    answer: string;
+    title: string;
+    topicId: number;
+    isDeleted: boolean;
+}
 
 export interface TasksResponse {
-    id: number;
-    title: string;
-    imagePath: string,
-    level: string,
-    answer: string
+    unfinishedTasksForAllStudentsSelected: TaskDto[];
+    tasksCompletedByAtLeastOneStudent: TaskDto[];
 }

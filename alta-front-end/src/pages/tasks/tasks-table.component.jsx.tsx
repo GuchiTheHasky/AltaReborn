@@ -4,12 +4,16 @@ import {FC} from "react";
 import {Checkbox, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
 
 interface TasksTableProps {
-    tasks: TasksResponse[]
+    tasks: TasksResponse;
     selectedTaskIds: number[];
     setSelectedTaskIds: (value: number[]) => void;
 }
 
+
 export const TasksTable: FC<TasksTableProps> = ({tasks, setSelectedTaskIds, selectedTaskIds}) => {
+    console.log('Tasks: ', tasks);
+    console.log("here: ", tasks instanceof Array);
+    console.log("hetre: ", tasks instanceof Object);
 
     const handleRowSelection = (selectedRows: GridRowId[]) => {
         const selectedIds = selectedRows.map((row) => Number(row));
@@ -30,16 +34,38 @@ export const TasksTable: FC<TasksTableProps> = ({tasks, setSelectedTaskIds, sele
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {tasks.map((task) => (
+
+                    {tasks.unfinishedTasksForAllStudentsSelected.map((task) => (
                         <TableRow
-                            key={`task-key-#1-${task.id}`}
+                            key={`unfinished-task-key-${task.id}`}
                             sx={{'&:last-child td, &:last-child th': {border: 0}, cursor: 'pointer'}}
                         >
                             <TableCell padding="checkbox">
                                 <Checkbox
                                     // color="primary"
-                                    // checked={selectedTaskIds.indexOf(task.id) !== -1}
-                                     onClick={(event) => handleRowSelection([task.id])}
+                                    checked={selectedTaskIds.indexOf(task.id) !== -1}
+                                    onClick={(event) => handleRowSelection([task.id])}
+                                />
+                            </TableCell>
+                            <TableCell component="th" scope="row">
+                                {task.title}
+                            </TableCell>
+                            <TableCell>{task.level}</TableCell>
+                            <TableCell>{task.imagePath}</TableCell>
+                            <TableCell>{task.answer}</TableCell>
+                            <TableCell>Редагувати</TableCell>
+                        </TableRow>
+                    ))}
+                    {tasks.tasksCompletedByAtLeastOneStudent.map((task) => (
+                        <TableRow
+                            key={`completed-task-key-${task.id}`}
+                            sx={{'&:last-child td, &:last-child th': {border: 0}, cursor: 'pointer'}}
+                        >
+                            <TableCell padding="checkbox">
+                                <Checkbox
+                                    // color="primary"
+                                    checked={selectedTaskIds.indexOf(task.id) !== -1}
+                                    onClick={(event) => handleRowSelection([task.id])}
                                 />
                             </TableCell>
                             <TableCell component="th" scope="row">
@@ -56,3 +82,4 @@ export const TasksTable: FC<TasksTableProps> = ({tasks, setSelectedTaskIds, sele
         </TableContainer>);
 
 }
+
