@@ -15,7 +15,7 @@ export const Tasks = () => {
     const [selectedRows, setSelectedRows] = useState<number[]>([]);
 
     useEffect(() => {
-        setLoadedTasks(tasks)
+        setLoadedTasks([tasks])
     }, [tasks]);
 
 
