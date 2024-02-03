@@ -5,9 +5,9 @@ import com.alta.dto.TaskDto;
 import com.alta.dto.TopicDto;
 import com.alta.entity.Student;
 import com.alta.entity.Task;
-import com.alta.entity.Topic;
 import com.alta.facade.MainFacade;
 import com.alta.mapper.StudentMapper;
+import com.alta.mapper.TaskMapper;
 import com.alta.mapper.TopicMapper;
 import com.alta.service.StudentService;
 import com.alta.service.TaskService;
@@ -16,9 +16,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,6 +27,7 @@ public class DefaultMainFacade implements MainFacade {
     private final StudentService studentService;
     private final TopicMapper topicMapper;
     private final StudentMapper studentMapper;
+    private final TaskMapper taskMapper;
 
     @Override
     public List<TaskDto> findUnfinishedTasks(List<Integer> topicIds, List<Integer> studentsIds) {
@@ -48,9 +47,8 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     @Transactional
-    public List<TaskDto> updateStudentTasksAndRetrieveDto(List<Integer> studentsIds, List<Integer> taskIds) { // todo rename method
-        assignTasks(studentsIds, taskIds);
-        return taskService.findAllByIds(taskIds);
+    public Map<String, List<TaskDto>> updateStudentTasksAndRetrieveDto(List<Integer> studentsIds, List<Integer> taskIds) { // todo rename method
+        return assignTasks(studentsIds, taskIds);
     }
 
     @Override
@@ -103,14 +101,28 @@ public class DefaultMainFacade implements MainFacade {
     }
 
 
-    void assignTasks(List<Integer> studentsIds, List<Integer> tasks) {
+    Map<String, List<TaskDto>> assignTasks(List<Integer> studentsIds, List<Integer> tasks) {
         List<Student> students = studentService.findAllById(studentsIds);
         List<Task> tasksToAdd = taskService.findAllById(tasks);
-        students.stream()
-                .peek(student -> {
-                    student.getTasks().addAll(tasksToAdd);
-                })
-                .forEach(studentService::save);
+        Map<String, List<TaskDto>> tasksAssignedToStudents = new HashMap<>();
+
+        students.forEach(student -> {
+            List<Task> newTasks = tasksToAdd.stream()
+                    .filter(task -> !student.getTasks().contains(task))
+                    .toList();
+
+            if (!newTasks.isEmpty()) {
+                student.getTasks().addAll(newTasks);
+
+                List<TaskDto> newTasksDto = newTasks.stream().map(taskMapper::toTaskDto).collect(Collectors.toList());
+
+                tasksAssignedToStudents.put(student.getLastName() + ' ' + student.getFirstName(), newTasksDto);
+
+                studentService.save(student);
+            }
+        });
+
+        return tasksAssignedToStudents;
     }
 
 //    void assignTasks(int id, List<Integer> tasks) {
