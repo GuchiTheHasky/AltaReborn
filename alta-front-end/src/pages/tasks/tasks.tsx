@@ -4,32 +4,45 @@ import {TasksResponse} from "../../api/tasks/dto/tasks-response.dto.ts";
 import {useEffect, useState} from "react";
 import {api} from "../../core/api.ts";
 import {TasksTable} from "./tasks-table.component.jsx.tsx";
+import {EditTaskModal} from "./modal.tsx";
 
 export const Tasks = () => {
     const location = useLocation();
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const tasks = location.state?.tasks || [];
-    const selectedStudentId = localStorage.getItem("studentId");
-    console.log("tasks: ", tasks);
+    const selectedStudentIds: number[] = JSON.parse(localStorage.getItem("selectedStudentIds") || "[]");
 
     const [loadedTasks, setLoadedTasks] = useState<TasksResponse[]>([]);
     const [selectedRows, setSelectedRows] = useState<number[]>([]);
+
+    //
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [editTaskId, setEditTaskId] = useState<number | null>(null);
+
+    const openModal = (taskId: number) => {
+        setEditTaskId(taskId);
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setEditTaskId(null);
+        setIsModalOpen(false);
+    };
+
+    //
 
     useEffect(() => {
         setLoadedTasks([tasks])
     }, [tasks]);
 
 
-    const answers = async (selectedRows: number[] | undefined, selectedStudentId: string | null) => {
-        const tasksIds = selectedRows?.map(task => task).join(',');
-        const response = await api.get('/tasks/answers', {
-            params: {
-                tasks: tasksIds,
-                student: selectedStudentId
-            },
-            headers: {
-                'Content-Type': 'application/json',
-            },
+    const answers = async (selectedRows: number[] | undefined, selectedStudentIds: number[] | null) => {
+        const tasksIds = selectedRows?.map(task => task);
+
+        const response = await api.post('/tasks/answers', {
+            tasks: tasksIds,
+            student: selectedStudentIds,
         });
         const blob = new Blob([response.data], {type: 'text/html'});
         const url = URL.createObjectURL(blob);
@@ -38,7 +51,7 @@ export const Tasks = () => {
     };
 
     const handleAnswers = () => {
-        answers(selectedRows, selectedStudentId);
+        answers(selectedRows, selectedStudentIds);
     };
 
 
@@ -55,7 +68,15 @@ export const Tasks = () => {
             <div className="flex justify-around mt-2 gap-3">
                 <TasksTable tasks={tasks}
                             selectedTaskIds={selectedRows}
-                            setSelectedTaskIds={setSelectedRows}/>
+                            setSelectedTaskIds={setSelectedRows}
+                            openModal={openModal}/>
+
+                {isModalOpen && (
+                    <EditTaskModal
+                        taskId={editTaskId!}
+                        onClose={closeModal}
+                    />
+                )}
             </div>
         </div>
     );

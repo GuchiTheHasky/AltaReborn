@@ -4,6 +4,7 @@ import com.alta.dto.StudentDto;
 import com.alta.dto.TaskDto;
 import com.alta.dto.TopicDto;
 import com.alta.facade.MainFacade;
+import com.alta.web.entity.ModelRequest;
 import com.alta.web.entity.TasksRequest;
 import com.alta.web.entity.TasksResponse;
 import lombok.RequiredArgsConstructor;
@@ -72,12 +73,12 @@ public class TaskController {
 //
 //    }
 
-    @GetMapping("/answers")
-    public ModelAndView findAllWithAnswer(ModelMap model,
-                                          @RequestParam(name = "tasks") List<Integer> tasks,
-                                          @RequestParam(name = "student") List<Integer> studentsIds) {
-        System.out.println("tasks: " + tasks);
-        System.out.println("stud id: " + studentsIds);
+    @PostMapping("/answers")
+    public ModelAndView findAllWithAnswer(ModelMap model, @RequestBody ModelRequest request) {
+        System.out.println("tasks: " + request.getTasks());
+        System.out.println("stud id: " + request.getStudent());
+        List<Integer> tasks = request.getTasks();
+        List<Integer> studentsIds = request.getStudent();
 
         List<TaskDto> tasksWithAnswers = mainFacade.updateStudentTasksAndRetrieveDto(studentsIds, tasks);
 

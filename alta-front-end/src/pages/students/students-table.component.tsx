@@ -36,6 +36,8 @@ export const StudentsTable: FC<StudentsTableProps> = ({students, setSelectedStud
                 selectedStudentIds.slice(selectedIndex + 1),
             );
         }
+        localStorage.setItem("selectedStudentIds", JSON.stringify(newSelected));
+
         setSelectedStudentIds(newSelected);
     };
 

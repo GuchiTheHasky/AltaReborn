@@ -10,9 +10,7 @@ import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.SQLRestriction;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 
 @Getter
@@ -47,7 +45,7 @@ public class Task {
 
     @ManyToMany(mappedBy = "tasks")
     @JsonIgnoreProperties("tasks")
-    private List<Student> students = new ArrayList<>();
+    private Set<Student> students = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {

@@ -8,16 +8,13 @@ interface TasksTableProps {
     tasks: TasksResponse;
     selectedTaskIds: number[];
     setSelectedTaskIds: (value: number[]) => void;
+    openModal: (taskId: number) => void;
 }
 
 
-export const TasksTable: FC<TasksTableProps> = ({tasks, setSelectedTaskIds, selectedTaskIds}) => {
-    console.log('Tasks: ', tasks);
+export const TasksTable: FC<TasksTableProps> = ({tasks, setSelectedTaskIds, selectedTaskIds, openModal}) => {
 
-    // const handleRowSelection = (selectedRows: GridRowId[]) => {
-    //     const selectedIds = selectedRows.map((row) => Number(row));
-    //     setSelectedTaskIds(selectedIds);
-    // };
+
     const handleRowSelection = (selectedRows: GridRowId[]) => {
         const selectedIds = selectedRows.map((row) => Number(row));
 
@@ -53,7 +50,7 @@ export const TasksTable: FC<TasksTableProps> = ({tasks, setSelectedTaskIds, sele
                                 <Checkbox
                                     // color="primary"
                                     checked={selectedTaskIds.indexOf(task.id) !== -1}
-                                    onClick={(event) => handleRowSelection([task.id])}
+                                    onClick={() => handleRowSelection([task.id])}
                                 />
                             </TableCell>
                             <TableCell component="th" scope="row">
@@ -64,19 +61,25 @@ export const TasksTable: FC<TasksTableProps> = ({tasks, setSelectedTaskIds, sele
                                 <ImageRender value={task.imagePath}/>
                             </TableCell>
                             <TableCell>{task.answer}</TableCell>
-                            <TableCell>Редагувати</TableCell>
+                            <TableCell>
+                                <button onClick={() => openModal(task.id)}>Редагувати</button>
+                            </TableCell>
                         </TableRow>
                     ))}
                     {tasks.tasksCompletedByAtLeastOneStudent.map((task) => (
                         <TableRow
                             key={`completed-task-key-${task.id}`}
-                            sx={{'&:last-child td, &:last-child th': {border: 0}, cursor: 'pointer'}}
+                            sx={{
+                                '&:last-child td, &:last-child th': {border: 0},
+                                cursor: 'pointer',
+                                backgroundColor: 'lightgrey'
+                        }}
                         >
                             <TableCell padding="checkbox">
                                 <Checkbox
                                     // color="primary"
                                     checked={selectedTaskIds.indexOf(task.id) !== -1}
-                                    onClick={(event) => handleRowSelection([task.id])}
+                                    onClick={() => handleRowSelection([task.id])}
                                 />
                             </TableCell>
                             <TableCell component="th" scope="row">
@@ -87,7 +90,9 @@ export const TasksTable: FC<TasksTableProps> = ({tasks, setSelectedTaskIds, sele
                                 <ImageRender value={task.imagePath}/>
                             </TableCell>
                             <TableCell>{task.answer}</TableCell>
-                            <TableCell>Редагувати</TableCell>
+                            <TableCell>
+                                <button onClick={() => openModal(task.id)}>Редагувати</button>
+                            </TableCell>
                         </TableRow>
                     ))}
                 </TableBody>

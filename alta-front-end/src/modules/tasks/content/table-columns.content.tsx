@@ -1,18 +1,5 @@
 import {GridColDef, } from "@mui/x-data-grid";
-import {FC} from "react";
 import ModalButton from "../modal/modal-button.tsx";
-
-
-interface TaskContent {
-    value: string;
-}
-
-// eslint-disable-next-line react-refresh/only-export-components
-// const ImageRender: FC<TaskContent> = ({value: link}) => {
-//     const imagePath = `${link}`;
-//     return <img src={imagePath} alt="Image"/>;
-// };
-
 
 export const columns: GridColDef[] = [
     {
@@ -35,7 +22,6 @@ export const columns: GridColDef[] = [
         width: 550,
         headerClassName: 'super-app-theme--header',
         align: 'center',
-        //renderCell: (params) => <ImageRender value={params.value as string}/>
     },
     {
         field: 'answer',

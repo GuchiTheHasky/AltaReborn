@@ -9,7 +9,7 @@ interface TaskDto {
     title: string;
     topicId: number;
     isDeleted: boolean;
-    students: StudentResponse[];
+    students: StudentResponse[]; // todo: delete this line ???
 }
 
 export interface TasksResponse {

@@ -40,7 +40,7 @@ public class Student {
             name = "student_task",
             joinColumns = @JoinColumn(name = "student_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "task_id", referencedColumnName = "id" , foreignKey = @ForeignKey(name = "none")))
-    private List<Task> tasks = new ArrayList<>();
+    private Set<Task> tasks = new HashSet<>();
 
 
     public void addTask(Task task) {

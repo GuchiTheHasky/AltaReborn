@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -112,12 +113,12 @@ public class DefaultMainFacade implements MainFacade {
                 .forEach(studentService::save);
     }
 
-    void assignTasks(int id, List<Integer> tasks) {
-        Student student = studentService.findById(id);
-        List<Task> taskList = student.getTasks();
-        List<Task> tasksToAdd = taskService.findAllById(tasks);
-        taskList.addAll(tasksToAdd);
-        studentService.save(student);
-    }
+//    void assignTasks(int id, List<Integer> tasks) {
+//        Student student = studentService.findById(id);
+//        Set<Task> taskList = student.getTasks();
+//        Set<Task> tasksToAdd = taskService.findAllById(tasks);
+//        taskList.addAll(tasksToAdd);
+//        studentService.save(student);
+//    }
 
 }

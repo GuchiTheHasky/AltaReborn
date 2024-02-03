@@ -20,7 +20,8 @@ public class WebConfiguration {
                                 "http://localhost:3001")
                         .allowedMethods("GET", "POST", "PUT", "DELETE")
                         .allowedHeaders("*")
-                        .allowCredentials(true);
+                        .allowCredentials(true)
+                        .exposedHeaders("Access-Control-Allow-Origin");
             }
         };
     }
