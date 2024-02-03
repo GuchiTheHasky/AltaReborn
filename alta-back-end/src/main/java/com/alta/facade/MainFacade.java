@@ -4,6 +4,7 @@ import com.alta.dto.StudentDto;
 import com.alta.dto.TaskDto;
 import com.alta.dto.TopicDto;
 import java.util.List;
+import java.util.Map;
 
 public interface MainFacade {
 //    /**
@@ -20,10 +21,11 @@ public interface MainFacade {
 
     /**
      * Updates the list of tasks of Student object and retrieve list of tasks that match ids specified.
+     *
      * @param studentsIds : List of the IDs of the Student objects which tasks should be updated.
-     * @param tasksIds : List of tasks ids that should be set.
+     * @param tasksIds    : List of tasks ids that should be set.
      */
-    List<TaskDto> updateStudentTasksAndRetrieveDto(List<Integer> studentsIds, List<Integer> tasksIds);
+    Map<String, List<TaskDto>> updateStudentTasksAndRetrieveDto(List<Integer> studentsIds, List<Integer> tasksIds);
 
     /**
      * Returns a list of all Student objects available.

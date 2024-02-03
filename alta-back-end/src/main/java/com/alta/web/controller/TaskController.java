@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.Map;
 
 @RequestMapping("/api/v1/tasks")
 @RequiredArgsConstructor
@@ -80,9 +81,9 @@ public class TaskController {
         List<Integer> tasks = request.getTasks();
         List<Integer> studentsIds = request.getStudent();
 
-        List<TaskDto> tasksWithAnswers = mainFacade.updateStudentTasksAndRetrieveDto(studentsIds, tasks);
+        Map<String, List<TaskDto>> mapOfStudentsAndTasks = mainFacade.updateStudentTasksAndRetrieveDto(studentsIds, tasks);
 
-        model.addAttribute("tasksWithAnswers", tasksWithAnswers);
+        model.addAttribute("mapOfStudentsAndTasks", mapOfStudentsAndTasks);
         return new ModelAndView("task_list_answers", model);
     }
 
@@ -92,7 +93,7 @@ public class TaskController {
                                 @RequestParam(name = "tasks") List<Integer> tasks,
                                 @RequestParam(name = "student") List<Integer> studentsIds)  {
 
-        List<TaskDto> taskList = mainFacade.updateStudentTasksAndRetrieveDto(studentsIds, tasks);
+        Map<String, List<TaskDto>> taskList = mainFacade.updateStudentTasksAndRetrieveDto(studentsIds, tasks);
         model.addAttribute("taskList", taskList);
         return new ModelAndView("task_list", model);
     }
