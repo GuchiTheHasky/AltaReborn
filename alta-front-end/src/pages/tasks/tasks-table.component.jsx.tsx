@@ -30,10 +30,24 @@ export const TasksTable: FC<TasksTableProps> = ({tasks, setSelectedTaskIds, sele
     //
     //     setSelectedTaskIds(newSelectedIds);
     // };
-    const handleRowSelection = (selectedRows: GridRowId[]) => {
+    const handleUnfinishedTasksSelection = (selectedRows: GridRowId[]) => {
         const selectedTasks = selectedRows.map((row) => {
             const taskId = Number(row);
             return tasks.unfinishedTasksForAllStudentsSelected.find(task => task.id === taskId);
+        }).filter(Boolean) as TaskDto[];
+
+        // Перевірка, чи елемент вже вибраний
+        const newSelectedTasks = selectedTaskIds.some(task => selectedTasks.some(selectedTask => selectedTask.id === task.id))
+            ? selectedTaskIds.filter((task) => !selectedTasks.some(selectedTask => selectedTask.id === task.id))  // Видалення, якщо вже вибраний
+            : [...selectedTaskIds, ...selectedTasks];  // Додавання, якщо ще не вибраний
+
+        setSelectedTaskIds(newSelectedTasks);
+    };
+
+    const handleCompletedTasksSelection = (selectedRows: GridRowId[]) => {
+        const selectedTasks = selectedRows.map((row) => {
+            const taskId = Number(row);
+            return tasks.tasksCompletedByAtLeastOneStudent.find(task => task.id === taskId);
         }).filter(Boolean) as TaskDto[];
 
         // Перевірка, чи елемент вже вибраний
@@ -71,7 +85,7 @@ export const TasksTable: FC<TasksTableProps> = ({tasks, setSelectedTaskIds, sele
                                     // checked={selectedTaskIds.indexOf(task.id) !== -1}
                                     // onClick={() => handleRowSelection([task.id])}
                                     checked={selectedTaskIds.some(selectedTask => selectedTask.id === task.id)}
-                                    onClick={() => handleRowSelection([task.id])}
+                                    onClick={() => handleUnfinishedTasksSelection([task.id])}
                                 />
                             </TableCell>
                             <TableCell component="th" scope="row">
@@ -102,7 +116,7 @@ export const TasksTable: FC<TasksTableProps> = ({tasks, setSelectedTaskIds, sele
                                     // checked={selectedTaskIds.indexOf(task.id) !== -1}
                                     // onClick={() => handleRowSelection([task.id])}
                                     checked={selectedTaskIds.some(selectedTask => selectedTask.id === task.id)}
-                                    onClick={() => handleRowSelection([task.id])}
+                                    onClick={() => handleCompletedTasksSelection([task.id])}
                                 />
                             </TableCell>
                             <TableCell component="th" scope="row">
