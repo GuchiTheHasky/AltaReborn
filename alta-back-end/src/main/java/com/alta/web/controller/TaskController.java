@@ -22,68 +22,28 @@ import java.util.stream.Collectors;
 public class TaskController {
     private final MainFacade mainFacade;
 
-
-//    @GetMapping("/unfinished")
-//    public List<TaskDto> findAllUnfinishedTasks(
-//            @RequestParam(name = "topics", required = false) List<Integer> topics,
-//            @RequestParam(name = "student", required = false) Integer studentId) {
-//
-//        return mainFacade.findUnfinishedTasks(topics, studentId);
-//
-//    }
-
-//    @PostMapping("/unfinished")
-//    public List<TaskDto> findAllUnfinishedTasks(@RequestBody TasksRequest request) {
-//        List<Integer> topics = request.getTopics();
-//        List<Integer> studentsIds = request.getStudents();
-//
-//        System.out.println("topics: " + topics);
-//        System.out.println("studentsIds: " + studentsIds);
-//
-//        return mainFacade.findUnfinishedTasks(topics, studentsIds);
-//    }
-
     @PostMapping("/unfinished")
     public TasksResponse findAllUnfinishedTasks(@RequestBody TasksRequest request) {
-        List<Integer> topics = request.getTopics().stream().map(TopicDto::getId).collect(Collectors.toList());
-        List<Integer> studentsIds = request.getStudents().stream().map(StudentDto::getId).collect(Collectors.toList());
+        List<Integer> topicsIds = request.getTopics().stream().map(TopicDto::getId).toList();
+        List<Integer> studentsIds = request.getStudents().stream().map(StudentDto::getId).toList();
 
         TasksResponse response = new TasksResponse();
-        response.setUnfinishedTasksForAllStudentsSelected(mainFacade.findUnfinishedTasks(topics, studentsIds));
-        response.setTasksCompletedByAtLeastOneStudent(mainFacade.findTasksCompletedByAtLeastOneStudent(topics, studentsIds));
+
+        response.setUnfinishedTasksForAllStudentsSelected(mainFacade.findUnfinishedTasks(topicsIds, studentsIds));
+        response.setTasksCompletedByAtLeastOneStudent(mainFacade.findTasksCompletedByAtLeastOneStudent(topicsIds, studentsIds));
 
         return response;
     }
-
-
-//    @GetMapping("/unfinished")
-//    public List<TaskDto> findAllUnfinishedTasks(
-//            @RequestParam(name = "topics", required = false) List<TopicDto> topics,
-//            @RequestParam(name = "student", required = false) List<StudentDto> students) {
-//
-//        return mainFacade.findUnfinishedTasks(topics, students);
-//    }
-
-
-//    @GetMapping("/test")
-//    public List<TaskDto> testTasks(
-//            @RequestParam(name = "topics", required = false) List<Integer> topics,
-//            @RequestParam(name = "student", required = false) Integer studentId) {
-//        System.out.println("topics: " + topics);
-//        System.out.println("stud id: " + studentId);
-//        return mainFacade.findUnfinishedTasks(topics, studentId);
-//
-//    }
 
     @PostMapping("/answers")
     public ModelAndView findAllWithAnswer(ModelMap model, @RequestBody ModelRequest request) {
         System.out.println("tasks: " + request.getTasks());
         System.out.println("stud id: " + request.getStudent());
 
-        List<Integer> tasks = request.getTasks().stream().map(TaskDto::getId).collect(Collectors.toList());
-        List<Integer> studentsIds = request.getStudent().stream().map(StudentDto::getId).collect(Collectors.toList());
+        List<Integer> tasksIds = request.getTasks().stream().map(TaskDto::getId).toList();
+        List<Integer> studentsIds = request.getStudent().stream().map(StudentDto::getId).toList();
 
-        Map<String, List<TaskDto>> mapOfStudentsAndTasks = mainFacade.updateStudentTasksAndRetrieveDto(studentsIds, tasks);
+        Map<String, List<TaskDto>> mapOfStudentsAndTasks = mainFacade.updateStudentTasksAndRetrieveDto(studentsIds, tasksIds);
 
         model.addAttribute("mapOfStudentsAndTasks", mapOfStudentsAndTasks);
         return new ModelAndView("task_list_answers", model);
@@ -91,13 +51,13 @@ public class TaskController {
 
 
     @GetMapping("/noAnswers")
-    public ModelAndView findAll(ModelMap model,
-                                @RequestParam(name = "tasks") List<Integer> tasks,
-                                @RequestParam(name = "student") List<Integer> studentsIds)  {
+    public ModelAndView findAll(ModelMap model, @RequestBody ModelRequest request)  {
+        List<Integer> tasksIds = request.getTasks().stream().map(TaskDto::getId).toList();
+        List<Integer> studentsIds = request.getStudent().stream().map(StudentDto::getId).toList();
 
-        Map<String, List<TaskDto>> taskList = mainFacade.updateStudentTasksAndRetrieveDto(studentsIds, tasks);
-        model.addAttribute("taskList", taskList);
-        return new ModelAndView("task_list", model);
+        Map<String, List<TaskDto>> mapOfStudentsAndTasks = mainFacade.updateStudentTasksAndRetrieveDto(studentsIds, tasksIds);
+        model.addAttribute("mapOfStudentsAndTasks", mapOfStudentsAndTasks);
+        return new ModelAndView("task_list", model); // not done yet
     }
 
 

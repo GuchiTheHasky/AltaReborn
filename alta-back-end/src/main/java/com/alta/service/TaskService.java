@@ -1,6 +1,7 @@
 package com.alta.service;
 
 import com.alta.dto.TaskDto;
+import com.alta.entity.Student;
 import com.alta.entity.Task;
 import com.alta.entity.Topic;
 
@@ -27,11 +28,11 @@ public interface TaskService {
      */
     List<TaskDto> findAllByIds(List<Integer> tasksIds);
 
-    List<TaskDto> getUnfinishedTasks(List<Integer> selectedTopicsIdList, List<Task> completedTasks);
-
-   // List<TaskDto> getUnfinishedTasks(List<Topic> selectedTopicsIdList, List<Task> completedTasks);
+    List<TaskDto> getUnfinishedTasks(List<Integer> selectedTopicsList, List<Task> completedTasks);
 
     List<Task> findAllById(List<Integer> tasks);
 
-    List<TaskDto> getTasksCompletedByAtLeastOneStudent(List<Integer> selectedTopicsIdList, List<Task> completedTasks);
+    List<TaskDto> getTasksCompletedByAtLeastOneStudent(List<Integer> topicsIds, List<Task> completedTasks);
+
+    List<Task> excludeCompletedTasks(List<Task> tasksToAdd, Student student);
 }

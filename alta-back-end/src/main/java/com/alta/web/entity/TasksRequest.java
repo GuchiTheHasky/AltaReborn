@@ -15,9 +15,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TasksRequest {
-//    private List<Integer> topics;
-//    private List<Integer> students;
     private List<TopicDto> topics;
     private List<StudentDto> students;
-
 }

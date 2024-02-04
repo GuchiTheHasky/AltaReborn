@@ -14,8 +14,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ModelRequest {
-//    List<Integer> tasks;
-//    List<Integer> student;
     List<TaskDto> tasks;
     List<StudentDto> student;
 }

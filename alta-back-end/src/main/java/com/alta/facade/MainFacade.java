@@ -13,10 +13,6 @@ public interface MainFacade {
 //     * @param topicsIds : List of Topic objects IDs on the basis of which tasks should be selected.
 //     * @return List of TaskDto objects representing the tasks that match the information provided.
 //     */
-    List<TaskDto> findUnfinishedTasks(List<Integer> topicsIds, List<Integer> studentsIds);
-
-
-    //List<TaskDto> findUnfinishedTasks(List<TopicDto> topics, List<StudentDto> students);
 
 
     /**
@@ -46,5 +42,7 @@ public interface MainFacade {
      */
     List<TopicDto> findAllTopics();
 
-    List<TaskDto> findTasksCompletedByAtLeastOneStudent(List<Integer> topics, List<Integer> studentsIds);
+    List<TaskDto> findTasksCompletedByAtLeastOneStudent(List<Integer> topicsIds, List<Integer> studentsIds);
+
+    List<TaskDto> findUnfinishedTasks(List<Integer> topicsIds, List<Integer> studentsIds);
 }
