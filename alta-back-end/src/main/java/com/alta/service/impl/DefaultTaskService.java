@@ -1,11 +1,14 @@
 package com.alta.service.impl;
 
 import com.alta.dto.TaskDto;
+import com.alta.dto.TopicDto;
+import com.alta.entity.Student;
 import com.alta.entity.Task;
 import com.alta.entity.Topic;
 import com.alta.exception.TaskException;
 import com.alta.exception.TopicException;
 import com.alta.mapper.TaskMapper;
+import com.alta.mapper.TopicMapper;
 import com.alta.repository.TaskRepository;
 import com.alta.repository.TopicRepository;
 import com.alta.service.TaskService;
@@ -13,10 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,6 +25,7 @@ public class DefaultTaskService implements TaskService {
     private final TaskRepository taskRepository;
     private final TaskMapper taskMapper;
     private final TopicRepository topicRepository;
+    private final TopicMapper topicMapper;
 
     @Override
     @Transactional
@@ -51,19 +52,9 @@ public class DefaultTaskService implements TaskService {
                 .filter(task -> !task.isDeleted()).map(taskMapper::toTaskDto).collect(Collectors.toList());
     }
 
-//    @Override
-//    public List<TaskDto> getUnfinishedTasks(List<Topic> selectedTopicsIdList, List<Task> completedTasks) {
-//        List<Task> tasks = taskRepository.findAllTaskIncludedInTopic(selectedTopicsIdList);
-//
-//        return tasks.stream()
-//                .distinct()
-//                .filter(task -> !completedTasks.contains(task))
-//                .map(taskMapper::toTaskDto).collect(Collectors.toList());
-//    }
-
     @Override
-    public List<TaskDto> getUnfinishedTasks(List<Integer> selectedTopicsIdList, List<Task> completedTasks) {
-        List<Task> tasks = taskRepository.findAllTaskIncludedInTopic(selectedTopicsIdList);
+    public List<TaskDto> getUnfinishedTasks(List<TopicDto> selectedTopics, List<Task> completedTasks) {
+        List<Task> tasks = taskRepository.findAllTasksIncludedInTopics(topicMapper.toTopicList(selectedTopics));
 
         return tasks.stream()
                 .distinct()
@@ -71,29 +62,27 @@ public class DefaultTaskService implements TaskService {
                 .map(taskMapper::toTaskDto).collect(Collectors.toList());
     }
 
-//    @Override
-//    public List<TaskDto> getUnfinishedTasks(List<Integer> selectedTopicsIdList, List<Task> completedTasks) {
-//        List<Task> tasks = taskRepository.findAllTaskIncludedInTopic(selectedTopicsIdList);
-//        Set<Task> uniqueTasksSet = new HashSet<>(tasks);
-//        uniqueTasksSet.removeAll(completedTasks);
-//        List<Task> uniqueTasks = new ArrayList<>(uniqueTasksSet);
-//
-//        return uniqueTasks.stream().map(taskMapper::toTaskDto).collect(Collectors.toList());
-//    }
-
     @Override
     public List<Task> findAllById(List<Integer> tasks) {
         return taskRepository.findAllById(tasks);
     }
 
     @Override
-    public List<TaskDto> getTasksCompletedByAtLeastOneStudent(List<Integer> selectedTopicsIdList, List<Task> completedTasks) {
-        List<Task> tasks = taskRepository.findAllTaskIncludedInTopic(selectedTopicsIdList);
+    public List<TaskDto> getTasksCompletedByAtLeastOneStudent(List<TopicDto> selectedTopics, List<Task> completedTasks) {
+        List<Task> tasks = taskRepository.findAllTasksIncludedInTopics(topicMapper.toTopicList(selectedTopics));
 
         return tasks.stream()
                 .distinct()
                 .filter(completedTasks::contains)
                 .map(taskMapper::toTaskDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Task> excludeCompletedTasks(List<Task> tasks, Student student) {
+        return tasks.stream()
+                .filter(task -> student.getTasks().stream()
+                        .noneMatch(t -> t.getId() == task.getId()))
+                .toList();
     }
 
 }

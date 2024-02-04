@@ -5,6 +5,7 @@ import com.alta.dto.TaskDto;
 import com.alta.dto.TopicDto;
 import com.alta.entity.Student;
 import com.alta.entity.Task;
+import com.alta.entity.Topic;
 import com.alta.facade.MainFacade;
 import com.alta.mapper.StudentMapper;
 import com.alta.mapper.TaskMapper;
@@ -25,30 +26,21 @@ public class DefaultMainFacade implements MainFacade {
     private final TopicService topicService;
     private final TaskService taskService;
     private final StudentService studentService;
-    private final TopicMapper topicMapper;
     private final StudentMapper studentMapper;
     private final TaskMapper taskMapper;
 
     @Override
-    public List<TaskDto> findUnfinishedTasks(List<Integer> topicIds, List<Integer> studentsIds) {
-        return filterOfUnfinishedTasks(topicIds, studentsIds);
+    public List<TaskDto> findUnfinishedTasks(List<TopicDto> topics, List<StudentDto> studentsDto) {
+        List<Student> students = studentMapper.toStudentList(studentsDto);
+        return filterOfUnfinishedTasks(topics, students);
     }
-
-//    @Override
-//    public List<TaskDto> findUnfinishedTasks(List<TopicDto> topicsDto, List<StudentDto> studentsDto) {
-//        List<Topic> topics = topicsDto.stream()
-//                .map(topicMapper::toTopic)
-//                .collect(Collectors.toList());
-//        List<Student> students = studentsDto.stream()
-//                .map(studentMapper::toStudent)
-//                .collect(Collectors.toList());
-//        return filterOfUnfinishedTasks(topics, students);
-//    }
 
     @Override
     @Transactional
-    public Map<String, List<TaskDto>> updateStudentTasksAndRetrieveDto(List<Integer> studentsIds, List<Integer> taskIds) { // todo rename method
-        return assignTasks(studentsIds, taskIds);
+    public Map<String, List<TaskDto>> updateStudentTasksAndRetrieveDto(List<StudentDto> studentsDto, List<TaskDto> tasksDto) { // todo rename method
+        List<Student> students = studentMapper.toStudentList(studentsDto);
+        List<Task> tasks = taskMapper.toTaskList(tasksDto);
+        return assignTasks(students, tasks);
     }
 
     @Override
@@ -57,22 +49,16 @@ public class DefaultMainFacade implements MainFacade {
     }
 
     @Override
-    public List<TaskDto> findTasksCompletedByAtLeastOneStudent(List<Integer> topicsIds, List<Integer> studentsIds) {
-        return filterOfTasksCompletedByAtLeastOneStudent(topicsIds, studentsIds);
+    public List<TaskDto> findTasksCompletedByAtLeastOneStudent(List<TopicDto> topics, List<StudentDto> studentsDto) {
+        List<Student> students = studentMapper.toStudentList(studentsDto);
+
+        return filterOfTasksCompletedByAtLeastOneStudent(topics, students);
     }
 
-    List<TaskDto> filterOfTasksCompletedByAtLeastOneStudent(List<Integer> selectedTopicsIdList, List<Integer> studentsIds) {
-        List<Student> students = studentService.findAllById(studentsIds);
-//        List<Task> completedTasks = new ArrayList<>();
-//        for (Student student : students) {
-//            List<Task> tasks = student.getTasks();
-//            completedTasks.addAll(tasks);
-//        }
+    List<TaskDto> filterOfTasksCompletedByAtLeastOneStudent(List<TopicDto> topics, List<Student> students) {
+        List<Task> completedTasks = studentService.getTasks(students);
 
-       List<Task> completedTasks = studentService.getTasks(students);
-
-        return taskService.getTasksCompletedByAtLeastOneStudent(selectedTopicsIdList, completedTasks);
-
+        return taskService.getTasksCompletedByAtLeastOneStudent(topics, completedTasks);
     }
 
     @Override
@@ -85,52 +71,29 @@ public class DefaultMainFacade implements MainFacade {
         return taskService.update(taskDto);
     }
 
-    //    @Override
-//    public List<TaskDto> filterOfUnfinishedTasks(List<Integer> selectedTopicsIdList, List<Integer> studentId) {
-//        Student student = studentService.findById(studentId);
-//        List<Task> completedTasks = student.getTasks();
-//
-//        return taskService.getUnfinishedTasks(selectedTopicsIdList, completedTasks);
-//    }
-
-    List<TaskDto> filterOfUnfinishedTasks(List<Integer> selectedTopicsIdList, List<Integer> studentsIds) {
-        List<Student> students = studentService.findAllById(studentsIds);
+    List<TaskDto> filterOfUnfinishedTasks(List<TopicDto> topics, List<Student> students) {
         List<Task> completedTasks = studentService.getTasks(students);
 
-        return taskService.getUnfinishedTasks(selectedTopicsIdList, completedTasks);
+        return taskService.getUnfinishedTasks(topics, completedTasks);
     }
 
+    Map<String, List<TaskDto>> assignTasks(List<Student> students, List<Task> tasksToAdd) {
+        return getMapOfStudentsAndTasksAssigned(students, tasksToAdd);
+    }
 
-    Map<String, List<TaskDto>> assignTasks(List<Integer> studentsIds, List<Integer> tasks) {
-        List<Student> students = studentService.findAllById(studentsIds);
-        List<Task> tasksToAdd = taskService.findAllById(tasks);
-        Map<String, List<TaskDto>> tasksAssignedToStudents = new HashMap<>();
+    private Map<String, List<TaskDto>> getMapOfStudentsAndTasksAssigned(List<Student> students, List<Task> tasksToAdd) {
+        Map<String, List<TaskDto>> mapOfStudentsAndTasksAssigned = new HashMap<>();
 
         students.forEach(student -> {
-            List<Task> newTasks = tasksToAdd.stream()
-                    .filter(task -> !student.getTasks().contains(task))
-                    .toList();
+            List<Task> newTasks = taskService.excludeCompletedTasks(tasksToAdd, student);
 
-            if (!newTasks.isEmpty()) {
-                student.getTasks().addAll(newTasks);
+            student.getTasks().addAll(tasksToAdd);
+            studentService.save(student);
 
-                List<TaskDto> newTasksDto = newTasks.stream().map(taskMapper::toTaskDto).collect(Collectors.toList());
-
-                tasksAssignedToStudents.put(student.getLastName() + ' ' + student.getFirstName(), newTasksDto);
-
-                studentService.save(student);
-            }
+            mapOfStudentsAndTasksAssigned.put(studentMapper.toStudentDto(student).getFullName(),
+                    taskMapper.toTaskDtoList(newTasks));
         });
 
-        return tasksAssignedToStudents;
+        return mapOfStudentsAndTasksAssigned;
     }
-
-//    void assignTasks(int id, List<Integer> tasks) {
-//        Student student = studentService.findById(id);
-//        Set<Task> taskList = student.getTasks();
-//        Set<Task> tasksToAdd = taskService.findAllById(tasks);
-//        taskList.addAll(tasksToAdd);
-//        studentService.save(student);
-//    }
-
 }
