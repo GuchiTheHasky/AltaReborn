@@ -21,27 +21,6 @@ import java.util.Map;
 public class TaskController {
     private final MainFacade mainFacade;
 
-
-//    @GetMapping("/unfinished")
-//    public List<TaskDto> findAllUnfinishedTasks(
-//            @RequestParam(name = "topics", required = false) List<Integer> topics,
-//            @RequestParam(name = "student", required = false) Integer studentId) {
-//
-//        return mainFacade.findUnfinishedTasks(topics, studentId);
-//
-//    }
-
-//    @PostMapping("/unfinished")
-//    public List<TaskDto> findAllUnfinishedTasks(@RequestBody TasksRequest request) {
-//        List<Integer> topics = request.getTopics();
-//        List<Integer> studentsIds = request.getStudents();
-//
-//        System.out.println("topics: " + topics);
-//        System.out.println("studentsIds: " + studentsIds);
-//
-//        return mainFacade.findUnfinishedTasks(topics, studentsIds);
-//    }
-
     @PostMapping("/unfinished")
     public TasksResponse findAllUnfinishedTasks(@RequestBody TasksRequest request) {
         List<Integer> topics = request.getTopics();
@@ -53,26 +32,6 @@ public class TaskController {
 
         return response;
     }
-
-
-//    @GetMapping("/unfinished")
-//    public List<TaskDto> findAllUnfinishedTasks(
-//            @RequestParam(name = "topics", required = false) List<TopicDto> topics,
-//            @RequestParam(name = "student", required = false) List<StudentDto> students) {
-//
-//        return mainFacade.findUnfinishedTasks(topics, students);
-//    }
-
-
-//    @GetMapping("/test")
-//    public List<TaskDto> testTasks(
-//            @RequestParam(name = "topics", required = false) List<Integer> topics,
-//            @RequestParam(name = "student", required = false) Integer studentId) {
-//        System.out.println("topics: " + topics);
-//        System.out.println("stud id: " + studentId);
-//        return mainFacade.findUnfinishedTasks(topics, studentId);
-//
-//    }
 
     @PostMapping("/answers")
     public ModelAndView findAllWithAnswer(ModelMap model, @RequestBody ModelRequest request) {
