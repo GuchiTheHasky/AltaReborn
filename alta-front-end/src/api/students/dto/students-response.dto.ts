@@ -1,4 +1,4 @@
-export interface StudentResponse {
+export interface StudentDto {
   id: number;
   fullName: string;
   grade: string,

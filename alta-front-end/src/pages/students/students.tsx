@@ -1,7 +1,7 @@
 import {Button} from '../../components/buttons/green-button.component.tsx';
 import {useEffect, useState} from "react";
 import {getStudents} from "../../api/students/useGetStudents.ts";
-import {StudentResponse} from "../../api/students/dto/students-response.dto.ts";
+import {StudentDto} from "../../api/students/dto/students-response.dto.ts";
 import {Link} from "react-router-dom";
 import {Typography} from '@mui/material';
 import {StudentsTable} from './students-table.component.tsx';
@@ -9,7 +9,7 @@ import {useStudents} from "../../context/data-provider.context.tsx";
 
 export const Students = () => {
 
-    const [students, setStudents] = useState<StudentResponse[]>([]);
+    const [students, setStudents] = useState<StudentDto[]>([]);
     const {selectedStudentIds, setSelectedStudentIds} = useStudents();
 
 

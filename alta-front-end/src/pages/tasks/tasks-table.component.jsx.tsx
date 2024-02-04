@@ -1,30 +1,49 @@
-import {TasksResponse} from "../../api/tasks/dto/tasks-response.dto.ts";
+import {TaskDto, TasksResponse} from "../../api/tasks/dto/tasks-response.dto.ts";
 import {GridRowId} from "@mui/x-data-grid";
-import {FC} from "react";
+import {FC, useState} from "react";
 import {Checkbox, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
 import {ImageRender} from "./image.tsx";
+import BasicModal from "./modal.tsx";
+import Button from "@mui/material/Button";
 
 interface TasksTableProps {
     tasks: TasksResponse;
-    selectedTaskIds: number[];
-    setSelectedTaskIds: (value: number[]) => void;
-    openModal: (taskId: number) => void;
+    selectedTaskIds: TaskDto[];
+    setSelectedTaskIds: (value: TaskDto[]) => void;
 }
 
+export const TasksTable: FC<TasksTableProps> = ({tasks, setSelectedTaskIds, selectedTaskIds}) => {
+    const [isOpen, setIsOpen] = useState(false);
 
-export const TasksTable: FC<TasksTableProps> = ({tasks, setSelectedTaskIds, selectedTaskIds, openModal}) => {
 
+    const handleToggleModal = (task: TaskDto) => {
 
+        setIsOpen(!isOpen);
+    };
+    // const handleRowSelection = (selectedRows: GridRowId[]) => {
+    //     const selectedIds = selectedRows.map((row) => Number(row));
+    //
+    //     // Перевірка, чи елемент вже вибраний
+    //     const newSelectedIds = selectedTaskIds.includes(selectedIds[0])
+    //         ? selectedTaskIds.filter((id) => id !== selectedIds[0])  // Видалення, якщо вже вибраний
+    //         : [...selectedTaskIds, ...selectedIds];  // Додавання, якщо ще не вибраний
+    //
+    //     setSelectedTaskIds(newSelectedIds);
+    // };
     const handleRowSelection = (selectedRows: GridRowId[]) => {
-        const selectedIds = selectedRows.map((row) => Number(row));
+        const selectedTasks = selectedRows.map((row) => {
+            const taskId = Number(row);
+            return tasks.unfinishedTasksForAllStudentsSelected.find(task => task.id === taskId);
+        }).filter(Boolean) as TaskDto[];
 
         // Перевірка, чи елемент вже вибраний
-        const newSelectedIds = selectedTaskIds.includes(selectedIds[0])
-            ? selectedTaskIds.filter((id) => id !== selectedIds[0])  // Видалення, якщо вже вибраний
-            : [...selectedTaskIds, ...selectedIds];  // Додавання, якщо ще не вибраний
+        const newSelectedTasks = selectedTaskIds.some(task => selectedTasks.some(selectedTask => selectedTask.id === task.id))
+            ? selectedTaskIds.filter((task) => !selectedTasks.some(selectedTask => selectedTask.id === task.id))  // Видалення, якщо вже вибраний
+            : [...selectedTaskIds, ...selectedTasks];  // Додавання, якщо ще не вибраний
 
-        setSelectedTaskIds(newSelectedIds);
+        setSelectedTaskIds(newSelectedTasks);
     };
+
 
     return (
         <TableContainer>
@@ -49,7 +68,9 @@ export const TasksTable: FC<TasksTableProps> = ({tasks, setSelectedTaskIds, sele
                             <TableCell padding="checkbox">
                                 <Checkbox
                                     // color="primary"
-                                    checked={selectedTaskIds.indexOf(task.id) !== -1}
+                                    // checked={selectedTaskIds.indexOf(task.id) !== -1}
+                                    // onClick={() => handleRowSelection([task.id])}
+                                    checked={selectedTaskIds.some(selectedTask => selectedTask.id === task.id)}
                                     onClick={() => handleRowSelection([task.id])}
                                 />
                             </TableCell>
@@ -62,7 +83,7 @@ export const TasksTable: FC<TasksTableProps> = ({tasks, setSelectedTaskIds, sele
                             </TableCell>
                             <TableCell>{task.answer}</TableCell>
                             <TableCell>
-                                <button onClick={() => openModal(task.id)}>Редагувати</button>
+                                <Button onClick={() => handleToggleModal(task)}>Edit</Button>
                             </TableCell>
                         </TableRow>
                     ))}
@@ -78,7 +99,9 @@ export const TasksTable: FC<TasksTableProps> = ({tasks, setSelectedTaskIds, sele
                             <TableCell padding="checkbox">
                                 <Checkbox
                                     // color="primary"
-                                    checked={selectedTaskIds.indexOf(task.id) !== -1}
+                                    // checked={selectedTaskIds.indexOf(task.id) !== -1}
+                                    // onClick={() => handleRowSelection([task.id])}
+                                    checked={selectedTaskIds.some(selectedTask => selectedTask.id === task.id)}
                                     onClick={() => handleRowSelection([task.id])}
                                 />
                             </TableCell>
@@ -91,12 +114,13 @@ export const TasksTable: FC<TasksTableProps> = ({tasks, setSelectedTaskIds, sele
                             </TableCell>
                             <TableCell>{task.answer}</TableCell>
                             <TableCell>
-                                <button onClick={() => openModal(task.id)}>Редагувати</button>
+                                <Button onClick={() => handleToggleModal(task)}>Edit</Button>
                             </TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
             </Table>
+            <BasicModal isOpen={isOpen} onClose={handleToggleModal} />
         </TableContainer>);
 
 }
