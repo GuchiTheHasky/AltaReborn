@@ -14,10 +14,11 @@ interface TasksTableProps {
 
 export const TasksTable: FC<TasksTableProps> = ({tasks, setSelectedTaskIds, selectedTaskIds}) => {
     const [isOpen, setIsOpen] = useState(false);
+    const [taskToEdit, setTaskToEdit] = useState<TaskDto | null>(null);
 
 
     const handleToggleModal = (task: TaskDto) => {
-
+        setTaskToEdit(task);
         setIsOpen(!isOpen);
     };
     // const handleRowSelection = (selectedRows: GridRowId[]) => {
@@ -120,7 +121,7 @@ export const TasksTable: FC<TasksTableProps> = ({tasks, setSelectedTaskIds, sele
                     ))}
                 </TableBody>
             </Table>
-            <BasicModal isOpen={isOpen} onClose={handleToggleModal} />
+            <BasicModal isOpen={isOpen} onClose={handleToggleModal} selectedTask={taskToEdit} />
         </TableContainer>);
 
 }

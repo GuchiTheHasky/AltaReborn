@@ -1,11 +1,12 @@
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
+import {Button} from "../../components/buttons/green-button.component.tsx";
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import {FC, useState} from "react";
+import {FC, useEffect, useState} from "react";
 import {MenuItem, Select, TextField} from "@mui/material";
 import {useTitles} from "../../context/data-provider.context.tsx";
 import {TaskDto} from "../../api/tasks/dto/tasks-response.dto.ts";
+import {api} from "../../core/api.ts";
 
 const style = {
     position: 'absolute' as const,
@@ -32,12 +33,37 @@ const BasicModal: FC<BasicModalProps> = (props) => {
     const [title, setTitle] = useState("");
     const [answer, setAnswer] = useState("");
 
+    useEffect(() => {
+        if(selectedTask) {
+            setLevel(selectedTask.level);
+            setTitle(selectedTask.title);
+            setAnswer(selectedTask.answer);
+        }
+    }, [selectedTask]);
+
     const { titles } = useTitles();
 
-    const handleSave = () => {
-        console.log("level", level);
-        console.log("title", title);
-        console.log("answer", answer);
+    const updateTask = async (task: TaskDto) => {
+        const responce = await api.put(`/tasks/${selectedTask?.id}`, task);
+        return responce.data;
+    }
+
+    const handleUpdate = async () => {
+        if (selectedTask) {
+            const updatedTask: TaskDto = {
+                ...selectedTask,
+                level,
+                title,
+                answer,
+            };
+
+            try {
+                await updateTask(updatedTask);
+                // Update UI here
+            } catch (error) {
+                // Handle error here
+            }
+        }
     }
     const handleOpen = () => onClose();
     const handleClose = () => onClose();
@@ -70,7 +96,7 @@ const BasicModal: FC<BasicModalProps> = (props) => {
                         variant="outlined"
                         fullWidth
                         value={title}
-                        onChange={(e) => setTitle(e.target.value as string)}
+                        onChange={(e) => setTitle(e.target.value)}
                     >
                         {titles.map((title) => (
                             <MenuItem value={title.title} key={title.title}>{title.title}</MenuItem>
@@ -84,6 +110,13 @@ const BasicModal: FC<BasicModalProps> = (props) => {
                         fullWidth
                         value={answer}
                         onChange={(e) => setAnswer(e.target.value)}
+                    />
+
+                    <Button
+                        className={'flex-1 '}
+                        color={"yellow"}
+                        label={"Зберегти"}
+                        onClick={handleUpdate}
                     />
                 </Box>
             </Modal>
