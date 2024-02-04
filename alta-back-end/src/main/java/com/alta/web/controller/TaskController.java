@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RequestMapping("/api/v1/tasks")
 @RequiredArgsConstructor
@@ -44,8 +45,8 @@ public class TaskController {
 
     @PostMapping("/unfinished")
     public TasksResponse findAllUnfinishedTasks(@RequestBody TasksRequest request) {
-        List<Integer> topics = request.getTopics();
-        List<Integer> studentsIds = request.getStudents();
+        List<Integer> topics = request.getTopics().stream().map(TopicDto::getId).collect(Collectors.toList());
+        List<Integer> studentsIds = request.getStudents().stream().map(StudentDto::getId).collect(Collectors.toList());
 
         TasksResponse response = new TasksResponse();
         response.setUnfinishedTasksForAllStudentsSelected(mainFacade.findUnfinishedTasks(topics, studentsIds));
@@ -78,8 +79,9 @@ public class TaskController {
     public ModelAndView findAllWithAnswer(ModelMap model, @RequestBody ModelRequest request) {
         System.out.println("tasks: " + request.getTasks());
         System.out.println("stud id: " + request.getStudent());
-        List<Integer> tasks = request.getTasks();
-        List<Integer> studentsIds = request.getStudent();
+
+        List<Integer> tasks = request.getTasks().stream().map(TaskDto::getId).collect(Collectors.toList());
+        List<Integer> studentsIds = request.getStudent().stream().map(StudentDto::getId).collect(Collectors.toList());
 
         Map<String, List<TaskDto>> mapOfStudentsAndTasks = mainFacade.updateStudentTasksAndRetrieveDto(studentsIds, tasks);
 

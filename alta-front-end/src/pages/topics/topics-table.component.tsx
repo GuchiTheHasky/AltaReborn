@@ -1,22 +1,22 @@
-import {TopicResponse} from "../../api/topics/dto/topics-response.dto.ts";
+import {TopicDto} from "../../api/topics/dto/topics-response.dto.ts";
 import {FC} from "react";
 import {Checkbox, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
 
 interface TopicsTableProps {
-    topics: TopicResponse[];
-    selectedTopicIds: number[];
-    setSelectedTopicIds: (value: number[]) => void;
+    topics: TopicDto[];
+    selectedTopicIds: TopicDto[];
+    setSelectedTopicIds: (value: TopicDto[]) => void;
 
 }
 
 export const TopicsTable: FC<TopicsTableProps> = ({topics, setSelectedTopicIds, selectedTopicIds}) => {
 
-    const handleClick = (_: any, id: number) => {
-        const selectedIndex = selectedTopicIds.indexOf(id);
-        let newSelected: number[] = [];
+    const handleClick = (_event: React.MouseEvent<HTMLTableRowElement>, clickedTopic: TopicDto) => {
+        const selectedIndex = selectedTopicIds.findIndex((s) => s.id === clickedTopic.id);
+        let newSelected: TopicDto[] = [];
 
         if (selectedIndex === -1) {
-            newSelected = newSelected.concat(selectedTopicIds, id);
+            newSelected = newSelected.concat(selectedTopicIds, clickedTopic);
         } else if (selectedIndex === 0) {
             newSelected = newSelected.concat(selectedTopicIds.slice(1));
         } else if (selectedIndex === selectedTopicIds.length - 1) {
@@ -30,13 +30,13 @@ export const TopicsTable: FC<TopicsTableProps> = ({topics, setSelectedTopicIds, 
         setSelectedTopicIds(newSelected);
     };
 
-    const isSelected = (id: number) => selectedTopicIds.indexOf(id) !== -1;
-    const TopicCell = ({topic}: { topic: TopicResponse }) => {
+    const isSelected = (id: TopicDto) => selectedTopicIds.indexOf(id) !== -1;
+    const TopicCell = ({topic}: { topic: TopicDto }) => {
         return (<><TableCell padding="checkbox">
             <Checkbox
                 color="primary"
-                checked={isSelected(topic.id)}
-                onClick={(event) => handleClick(event, topic.id)}
+                checked={isSelected(topic)}
+                onClick={(event) => handleClick(event, topic)}
             />
         </TableCell>
             <TableCell component="th" scope="row">

@@ -1,5 +1,7 @@
 package com.alta.web.entity;
 
+import com.alta.dto.StudentDto;
+import com.alta.dto.TaskDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,6 +14,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ModelRequest {
-    List<Integer> tasks;
-    List<Integer> student;
+//    List<Integer> tasks;
+//    List<Integer> student;
+    List<TaskDto> tasks;
+    List<StudentDto> student;
 }

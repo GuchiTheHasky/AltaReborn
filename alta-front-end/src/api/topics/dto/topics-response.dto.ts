@@ -1,5 +1,5 @@
 
-export interface TopicResponse {
+export interface TopicDto {
     id: number;
     title: string;
 }

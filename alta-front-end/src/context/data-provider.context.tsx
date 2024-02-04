@@ -1,17 +1,25 @@
 import {createContext, FC, PropsWithChildren, useContext, useState} from "react";
+import {TopicDto} from "../api/topics/dto/topics-response.dto.ts";
+import {StudentDto} from "../api/students/dto/students-response.dto.ts";
 
 export const DataProviderContext = createContext<DataProviderContextType>({} as DataProviderContextType);
 
 export interface DataProviderContextType {
-    selectedStudentIds: number[];
-    setSelectedStudentIds: (value: number[]) => void;
+    selectedStudentIds: StudentDto[];
+    setSelectedStudentIds: (value: StudentDto[]) => void;
+    titles: TopicDto[];
+    setTitles: (value: TopicDto[]) => void;
 }
 
 export const DataProviderContextProvider: FC<PropsWithChildren> = ({children}) => {
-    const [selectedStudentIds, setSelectedStudentIds] = useState<number[]>([]);
+    const [selectedStudentIds, setSelectedStudentIds] = useState<StudentDto[]>([]);
+    const [titles, setTitles] = useState<TopicDto[]>([]);
 
     return <DataProviderContext.Provider value={{
-        selectedStudentIds, setSelectedStudentIds
+        selectedStudentIds,
+        setSelectedStudentIds,
+        titles,
+        setTitles
     }}>
         {children}
     </DataProviderContext.Provider>
@@ -23,5 +31,13 @@ export const useStudents = () => {
     return {
         selectedStudentIds,
         setSelectedStudentIds
+    }
+}
+
+export const useTitles = () => {
+    const {titles, setTitles} = useContext(DataProviderContext);
+    return {
+        titles,
+        setTitles
     }
 }

@@ -1,37 +1,36 @@
 import {Button} from "../../components/buttons/green-button.component.tsx";
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
-import {useStudents} from "../../context/data-provider.context.tsx";
+import {useStudents, useTitles} from "../../context/data-provider.context.tsx";
 import {TopicsTable} from "./topics-table.component.tsx";
-import {TopicResponse} from "../../api/topics/dto/topics-response.dto.ts";
+import {TopicDto} from "../../api/topics/dto/topics-response.dto.ts";
 import {getTopics} from "../../api/topics/useGetTopics.ts";
 import { api } from "../../core/api.ts";
 import {Typography} from "@mui/material";
+import {StudentDto} from "../../api/students/dto/students-response.dto.ts";
 
 export const Topics = () => {
-    const [selectedRows, setSelectedRows] = useState<number[]>([]);
-    const [topics, setTopics] = useState<TopicResponse[]>([])
+    const [selectedRows, setSelectedRows] = useState<TopicDto[]>([]);
+    const [topics, setTopics] = useState<TopicDto[]>([])
     const {selectedStudentIds} = useStudents();
     const navigate = useNavigate();
+    const { setTitles } = useTitles();
 
+    // useEffect(() => {
+    //     getTopics().then(setTopics);
+    // }, []);
     useEffect(() => {
-        getTopics().then(setTopics);
+        getTopics().then((topics) => {
+            setTopics(topics);
+            setTitles(topics);
+        });
     }, []);
 
-    const sendToBackend = async (selectedRows: number[] | undefined, selectedStudentId: number[] | null) => {
-        const topicsIds = selectedRows?.join(',');
-        console.log('topicsIds: ', topicsIds);
-        console.log('selectedStudentId: ', selectedStudentId);
-        console.log('selectedRows: ', selectedRows);
-
+    const sendToBackend = async (selectedRows: TopicDto[] | undefined, selectedStudentId: StudentDto[] | null) => {
         try {
             const response = await api.post('/tasks/unfinished', {
                 topics: selectedRows,
                 students: selectedStudentId,
-            }, {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
             });
 
             const tasks = response.data;
@@ -43,8 +42,6 @@ export const Topics = () => {
     };
 
     const handleNextButtonClick = () => {
-        console.log("Вибрані id тем:", selectedRows);
-        console.log("Вибраний студент:", selectedStudentIds);
          sendToBackend(selectedRows, selectedStudentIds);
     };
 

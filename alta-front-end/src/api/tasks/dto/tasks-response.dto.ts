@@ -1,6 +1,6 @@
-import {StudentResponse} from "../../students/dto/students-response.dto.ts";
+import {StudentDto} from "../../students/dto/students-response.dto.ts";
 
-interface TaskDto {
+export interface TaskDto {
     id: number;
     imagePath: string;
     level: string;
@@ -9,7 +9,7 @@ interface TaskDto {
     title: string;
     topicId: number;
     isDeleted: boolean;
-    students: StudentResponse[]; // todo: delete this line ???
+    students: StudentDto[]; // todo: delete this line ???
 }
 
 export interface TasksResponse {
