@@ -80,7 +80,8 @@ public class DefaultTaskService implements TaskService {
     @Override
     public List<Task> excludeCompletedTasks(List<Task> tasks, Student student) {
         return tasks.stream()
-                .filter(task -> !student.getTasks().contains(task))
+                .filter(task -> student.getTasks().stream()
+                        .noneMatch(t -> t.getId() == task.getId()))
                 .toList();
     }
 
