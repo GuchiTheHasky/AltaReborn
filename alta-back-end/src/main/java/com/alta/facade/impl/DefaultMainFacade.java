@@ -78,23 +78,18 @@ public class DefaultMainFacade implements MainFacade {
         List<Student> students = studentService.findAllById(studentsIds);
         List<Task> tasksToAdd = taskService.findAllById(tasks);
 
-        return students.stream()
-                .map(student -> {
-                    List<Task> newTasks = tasksToAdd.stream()
-                            .filter(task -> !student.getTasks().contains(task))
-                            .toList();
-                    return Map.entry(student, newTasks);
-                })
-                .filter(entry -> !entry.getValue().isEmpty())
-                .peek(entry -> {
-                    Student student = entry.getKey();
-                    List<Task> newTasks = entry.getValue();
-                    student.getTasks().addAll(newTasks);
-                    studentService.save(student);
-                })
-                .collect(Collectors.toMap(
-                        entry -> studentMapper.toStudentDto(entry.getKey()).getFullName(),
-                        entry -> taskMapper.toTaskDtoList(entry.getValue())
-                ));
+        Map<String, List<TaskDto>> mapOfStudentsAndTasksAssigned = new HashMap<>();
+
+        students.forEach(student -> {
+            List<Task> newTasks = taskService.excludeCompletedTasks(tasksToAdd, student);
+
+            student.getTasks().addAll(tasksToAdd);
+            studentService.save(student);
+
+            mapOfStudentsAndTasksAssigned.put(studentMapper.toStudentDto(student).getFullName(),
+                                        taskMapper.toTaskDtoList(newTasks));
+        });
+
+        return mapOfStudentsAndTasksAssigned;
     }
 }

@@ -1,6 +1,7 @@
 package com.alta.service.impl;
 
 import com.alta.dto.TaskDto;
+import com.alta.entity.Student;
 import com.alta.entity.Task;
 import com.alta.entity.Topic;
 import com.alta.exception.TaskException;
@@ -94,6 +95,13 @@ public class DefaultTaskService implements TaskService {
                 .distinct()
                 .filter(completedTasks::contains)
                 .map(taskMapper::toTaskDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Task> excludeCompletedTasks(List<Task> tasks, Student student) {
+        return tasks.stream()
+                .filter(task -> !student.getTasks().contains(task))
+                .toList();
     }
 
 }

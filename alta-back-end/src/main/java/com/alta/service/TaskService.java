@@ -1,6 +1,7 @@
 package com.alta.service;
 
 import com.alta.dto.TaskDto;
+import com.alta.entity.Student;
 import com.alta.entity.Task;
 import com.alta.entity.Topic;
 
@@ -34,4 +35,6 @@ public interface TaskService {
     List<Task> findAllById(List<Integer> tasks);
 
     List<TaskDto> getTasksCompletedByAtLeastOneStudent(List<Integer> selectedTopicsIdList, List<Task> completedTasks);
+
+    List<Task> excludeCompletedTasks(List<Task> tasksToAdd, Student student);
 }
