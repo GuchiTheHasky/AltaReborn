@@ -26,19 +26,21 @@ public class DefaultMainFacade implements MainFacade {
     private final TopicService topicService;
     private final TaskService taskService;
     private final StudentService studentService;
-    private final TopicMapper topicMapper;
     private final StudentMapper studentMapper;
     private final TaskMapper taskMapper;
 
     @Override
-    public List<TaskDto> findUnfinishedTasks(List<Integer> topicsIds, List<Integer> studentsIds) {
-        return filterOfUnfinishedTasks(topicsIds, studentsIds);
+    public List<TaskDto> findUnfinishedTasks(List<TopicDto> topics, List<StudentDto> studentsDto) {
+        List<Student> students = studentMapper.toStudentList(studentsDto);
+        return filterOfUnfinishedTasks(topics, students);
     }
 
     @Override
     @Transactional
-    public Map<String, List<TaskDto>> updateStudentTasksAndRetrieveDto(List<Integer> studentsIds, List<Integer> tasksIds) { // todo rename method
-           return assignTasks(studentsIds, tasksIds);
+    public Map<String, List<TaskDto>> updateStudentTasksAndRetrieveDto(List<StudentDto> studentsDto, List<TaskDto> tasksDto) { // todo rename method
+        List<Student> students = studentMapper.toStudentList(studentsDto);
+        List<Task> tasks = taskMapper.toTaskList(tasksDto);
+        return assignTasks(students, tasks);
     }
 
     @Override
@@ -47,15 +49,16 @@ public class DefaultMainFacade implements MainFacade {
     }
 
     @Override
-    public List<TaskDto> findTasksCompletedByAtLeastOneStudent(List<Integer> topicsIds, List<Integer> studentsIds) {
-        return filterOfTasksCompletedByAtLeastOneStudent(topicsIds, studentsIds);
+    public List<TaskDto> findTasksCompletedByAtLeastOneStudent(List<TopicDto> topics, List<StudentDto> studentsDto) {
+        List<Student> students = studentMapper.toStudentList(studentsDto);
+
+        return filterOfTasksCompletedByAtLeastOneStudent(topics, students);
     }
 
-    List<TaskDto> filterOfTasksCompletedByAtLeastOneStudent(List<Integer> topicsIds, List<Integer> studentsIds) {
-        List<Student> students = studentService.findAllById(studentsIds);
+    List<TaskDto> filterOfTasksCompletedByAtLeastOneStudent(List<TopicDto> topics, List<Student> students) {
         List<Task> completedTasks = studentService.getTasks(students);
 
-        return taskService.getTasksCompletedByAtLeastOneStudent(topicsIds, completedTasks);
+        return taskService.getTasksCompletedByAtLeastOneStudent(topics, completedTasks);
     }
 
     @Override
@@ -68,17 +71,13 @@ public class DefaultMainFacade implements MainFacade {
         return taskService.update(taskDto);
     }
 
-    List<TaskDto> filterOfUnfinishedTasks(List<Integer> topicsIds, List<Integer> studentsIds) {
-        List<Student> students = studentService.findAllById(studentsIds);
+    List<TaskDto> filterOfUnfinishedTasks(List<TopicDto> topics, List<Student> students) {
         List<Task> completedTasks = studentService.getTasks(students);
 
-        return taskService.getUnfinishedTasks(topicsIds, completedTasks);
+        return taskService.getUnfinishedTasks(topics, completedTasks);
     }
 
-    Map<String, List<TaskDto>> assignTasks(List<Integer> studentsIds, List<Integer> tasks) {
-        List<Student> students = studentService.findAllById(studentsIds);
-        List<Task> tasksToAdd = taskService.findAllById(tasks);
-
+    Map<String, List<TaskDto>> assignTasks(List<Student> students, List<Task> tasksToAdd) {
         return getMapOfStudentsAndTasksAssigned(students, tasksToAdd);
     }
 

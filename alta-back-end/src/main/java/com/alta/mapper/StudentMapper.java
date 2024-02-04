@@ -5,13 +5,20 @@ import com.alta.entity.Student;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.util.List;
+
 
 @Mapper(componentModel = "spring")
 public interface StudentMapper {
 
     @Mapping(target = "fullName", expression = "java(student.getLastName() + ' ' + student.getFirstName())")
+    @Mapping(target = "tasks", source = "tasks")
     StudentDto toStudentDto(Student student);
 
+    @Mapping(target = "lastName", expression = "java(studentDto.getFullName().split(\" \")[0])")
+    @Mapping(target = "firstName", expression = "java(studentDto.getFullName().split(\" \")[1])")
+    @Mapping(target = "tasks", source = "tasks")
     Student toStudent(StudentDto studentDto);
 
+    List<Student> toStudentList(List<StudentDto> studentsDto);
 }

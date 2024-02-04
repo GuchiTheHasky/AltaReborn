@@ -9,7 +9,7 @@ import java.util.List;
 
 @Mapper(componentModel = "spring"/*, uses = {StudentMapper.class}*/)
 public interface TaskMapper {
-//    @Mapping(target = "answer", ignore = true)
+    //    @Mapping(target = "answer", ignore = true)
 //    @Mapping(target = "title", ignore = true)
     Task toTask(TaskDto taskDto);
 
@@ -17,4 +17,7 @@ public interface TaskMapper {
     TaskDto toTaskDto(Task task);
 
     List<TaskDto> toTaskDtoList(List<Task> tasks);
+
+    @Mapping(target = "students", ignore = true)
+    List<Task> toTaskList(List<TaskDto> tasks);
 }

@@ -1,12 +1,14 @@
 package com.alta.service.impl;
 
 import com.alta.dto.TaskDto;
+import com.alta.dto.TopicDto;
 import com.alta.entity.Student;
 import com.alta.entity.Task;
 import com.alta.entity.Topic;
 import com.alta.exception.TaskException;
 import com.alta.exception.TopicException;
 import com.alta.mapper.TaskMapper;
+import com.alta.mapper.TopicMapper;
 import com.alta.repository.TaskRepository;
 import com.alta.repository.TopicRepository;
 import com.alta.service.TaskService;
@@ -23,6 +25,7 @@ public class DefaultTaskService implements TaskService {
     private final TaskRepository taskRepository;
     private final TaskMapper taskMapper;
     private final TopicRepository topicRepository;
+    private final TopicMapper topicMapper;
 
     @Override
     @Transactional
@@ -50,8 +53,8 @@ public class DefaultTaskService implements TaskService {
     }
 
     @Override
-    public List<TaskDto> getUnfinishedTasks(List<Integer> selectedTopicsIds, List<Task> completedTasks) {
-        List<Task> tasks = taskRepository.findAllTasksIncludedInTopics(selectedTopicsIds);
+    public List<TaskDto> getUnfinishedTasks(List<TopicDto> selectedTopics, List<Task> completedTasks) {
+        List<Task> tasks = taskRepository.findAllTasksIncludedInTopics(topicMapper.toTopicList(selectedTopics));
 
         return tasks.stream()
                 .distinct()
@@ -65,8 +68,8 @@ public class DefaultTaskService implements TaskService {
     }
 
     @Override
-    public List<TaskDto> getTasksCompletedByAtLeastOneStudent(List<Integer> selectedTopics, List<Task> completedTasks) {
-        List<Task> tasks = taskRepository.findAllTasksIncludedInTopics(selectedTopics);
+    public List<TaskDto> getTasksCompletedByAtLeastOneStudent(List<TopicDto> selectedTopics, List<Task> completedTasks) {
+        List<Task> tasks = taskRepository.findAllTasksIncludedInTopics(topicMapper.toTopicList(selectedTopics));
 
         return tasks.stream()
                 .distinct()
