@@ -5,9 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
-import java.util.List;
-import java.util.Set;
-
 @Setter
 @Getter
 @NoArgsConstructor
@@ -19,8 +16,4 @@ public class TaskDto {
     private String text;
     private String answer;
     private String title;
-//    private int topicId;
-//    private boolean isDeleted; // todo: delete this field
-//    Set<StudentDto> students;
-
 }

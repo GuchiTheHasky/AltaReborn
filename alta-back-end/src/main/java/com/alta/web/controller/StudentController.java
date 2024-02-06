@@ -19,5 +19,4 @@ public class StudentController {
     public List<StudentDto> findAll() {
         return mainFacade.findAllStudents();
     }
-
 }

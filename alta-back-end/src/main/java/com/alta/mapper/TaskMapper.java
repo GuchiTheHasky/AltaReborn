@@ -7,17 +7,17 @@ import org.mapstruct.Mapping;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring"/*, uses = {StudentMapper.class}*/)
+@Mapper(componentModel = "spring")
 public interface TaskMapper {
-    //    @Mapping(target = "answer", ignore = true)
-//    @Mapping(target = "title", ignore = true)
+    @Mapping(target = "students", ignore = true)
+    @Mapping(target = "topic", ignore = true)
     Task toTask(TaskDto taskDto);
 
-    //@Mapping(target = "students", source = "students")
     TaskDto toTaskDto(Task task);
 
     List<TaskDto> toTaskDtoList(List<Task> tasks);
 
     @Mapping(target = "students", ignore = true)
+    @Mapping(target = "topic", ignore = true)
     List<Task> toTaskList(List<TaskDto> tasks);
 }

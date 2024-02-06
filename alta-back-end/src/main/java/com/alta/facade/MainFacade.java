@@ -7,46 +7,64 @@ import com.alta.dto.TopicDto;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * MainFacade serves as an interface for managing tasks, students, and topics.
+ * It provides methods to update student tasks, retrieve student and topic data, and find tasks based on various criteria.
+ */
+
 public interface MainFacade {
-//    /**
-//     * Fetches a list of unfinished tasks based on Students IDs and IDs of Topic objects.
-//     * @param studentsIds : The List of Student objects IDs on the basis of which tasks should be selected.
-//     * @param topicsIds : List of Topic objects IDs on the basis of which tasks should be selected.
-//     * @return List of TaskDto objects representing the tasks that match the information provided.
-//     */
-
 
     /**
-     * Updates the list of tasks of Student object and retrieve list of tasks that match ids specified.
-     *
-     * @param studentsDto : List of students which tasks should be updated.
-     * @param tasks       : List of tasks ids that should be set.
-     */
-    Map<String, List<TaskDto>> updateStudentTasksAndRetrieveDto(List<StudentDto> studentsDto, List<TaskDto> tasks);
-
-    /**
-     * Returns a list of all Student objects available.
+     * Retrieves a list of all available students.
      *
      * @return A list of StudentDto objects representing the available students.
      */
     List<StudentDto> findAllStudents();
 
-    /**
-     * Updates an existing Task object with the provided information.
-     *
-     * @param taskDto : An object containing the updated information for the task.
-     * @return An object representing the updated task.
-     */
-    TaskDto updateTask(TaskDto taskDto);
 
     /**
-     * Returns a list of all Topic objects available.
+     * Retrieves a list of all available topics.
      *
      * @return A list of TopicDto objects representing the available topics.
      */
     List<TopicDto> findAllTopics();
 
+
+    /**
+     * Finds tasks that are unfinished within given topics and student data.
+     *
+     * @param topics      List of topics to search for unfinished tasks.
+     * @param studentsDto List of student data to search for unfinished tasks.
+     * @return A list of unfinished tasks.
+     */
+    List<TaskDto> findTasksUnfinishedForAllStudents(List<TopicDto> topics, List<StudentDto> studentsDto);
+
+
+    /**
+     * Finds tasks completed by at least one student within given topics and student data.
+     *
+     * @param topics      List of topics to search for completed tasks.
+     * @param studentsDto List of student data to search for completed tasks.
+     * @return A list of completed tasks.
+     */
     List<TaskDto> findTasksCompletedByAtLeastOneStudent(List<TopicDto> topics, List<StudentDto> studentsDto);
 
-    List<TaskDto> findUnfinishedTasks(List<TopicDto> topics, List<StudentDto> studentsDto);
+
+    /**
+     * Updates the tasks of specified students and retrieves the assigned tasks matching given students' full names.
+     *
+     * @param studentsDto List of students which tasks should be updated.
+     * @param tasks       List of task data to set for the students.
+     * @return A map where keys are students' full names and values are lists of tasks assigned.
+     */
+    Map<String, List<TaskDto>> updateStudentTasksAndRetrieveDto(List<StudentDto> studentsDto, List<TaskDto> tasks);
+
+
+    /**
+     * Updates an existing task with the provided information.
+     *
+     * @param taskDto An object containing the updated task information.
+     * @return An object representing the updated task.
+     */
+    TaskDto updateTask(TaskDto taskDto);
 }

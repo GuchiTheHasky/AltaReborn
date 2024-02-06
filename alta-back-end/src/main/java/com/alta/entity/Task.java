@@ -1,41 +1,54 @@
 package com.alta.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.SQLRestriction;
 
-import java.util.*;
-
+import java.util.Objects;
+import java.util.Set;
+import java.util.HashSet;
 
 @Getter
 @Setter
 @RequiredArgsConstructor
 @Entity
 @Table(name = "task")
-@SQLRestriction("is_completed = false")
+@SQLRestriction("is_completed = false") // todo
 @ToString(exclude = {"students", "topic"})
 public class Task {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE) // todo
     private int id;
 
     @Column(name = "image_path")
     private String imagePath;
 
+    @Column(name = "level")
     private String level;
+
+    @Column(name = "text")
     private String text;
 
+    @Column(name = "answer")
     private String answer;
+
+    @Column(name = "title")
     private String title;
-    //    @Column(name = "topic_id_origin")
-    //    private int topicId;
-    @Column(name = "is_completed")
+
+    @Column(name = "is_completed") // todo
     private boolean isDeleted;
 
     @JsonIgnore
@@ -49,31 +62,16 @@ public class Task {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (!(o instanceof Task))
-            return false;
-        return id == ((Task) o).getId() && title.equals(((Task) o).getTitle())
-                && answer.equals(((Task) o).getAnswer()) && level.equals(((Task) o).getLevel());
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Task task = (Task) o;
+        return id == task.id && Objects.equals(imagePath, task.imagePath)
+                && Objects.equals(level, task.level) && Objects.equals(text, task.text)
+                && Objects.equals(answer, task.answer) && Objects.equals(title, task.title);
     }
 
-    public void addStudent(Student student) {
-        students.add(student);
-        student.getTasks().add(this);
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, imagePath, level, text, answer, title);
     }
-
-    public void removeStudent(Student student) {
-        students.remove(student);
-        student.getTasks().remove(this);
-    }
-
-//    public void setTopic(Topic topic) {
-//        this.topic = topic;
-//        topic.getTasks().add(this);
-//    }
-//
-//    public void removeTopic(Topic topic) {
-//        this.topic = null;
-//        topic.getTasks().remove(this);
-//    }
 }

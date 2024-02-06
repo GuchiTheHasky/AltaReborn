@@ -1,6 +1,5 @@
 package com.alta.dto;
 
-import com.alta.entity.Task;
 import lombok.Setter;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
