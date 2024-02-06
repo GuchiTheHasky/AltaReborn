@@ -1,11 +1,23 @@
 package com.alta.entity;
 
-import jakarta.persistence.*;
-import lombok.*;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.EqualsAndHashCode;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "students")
@@ -17,7 +29,7 @@ import java.util.*;
 @EqualsAndHashCode(exclude = "tasks")
 public class Student {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE) // todo
     private int id;
 
     @Column(name = "first_name")
@@ -26,27 +38,19 @@ public class Student {
     @Column(name = "last_name")
     private String lastName;
 
+    @Column(name = "email")
     private String email;
+
+    @Column(name = "grade")
     private String grade;
+
+    @Column(name = "comment")
     private String comment;
 
-//    @JdbcTypeCode(SqlTypes.JSON)
-//    @Column(name = "tasks_ids")
-//    private List<Integer> tasksIds = new ArrayList<>();
-
- //   @ManyToMany(mappedBy = "students")
     @ManyToMany
     @JoinTable(
             name = "student_task",
             joinColumns = @JoinColumn(name = "student_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "task_id", referencedColumnName = "id" , foreignKey = @ForeignKey(name = "none")))
+            inverseJoinColumns = @JoinColumn(name = "task_id", referencedColumnName = "id"))
     private Set<Task> tasks = new HashSet<>();
-
-
-    public void addTask(Task task) {
-        tasks.add(task);
-        task.getStudents().add(this);
-    }
-
-
 }

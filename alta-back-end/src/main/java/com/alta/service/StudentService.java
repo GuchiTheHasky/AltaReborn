@@ -7,27 +7,30 @@ import com.alta.entity.Task;
 import java.util.List;
 
 /**
- * Interface for managing the Student data.
- * Provides functionality to return and update Student objects.
+ * Interface for managing Student data.
+ * Provides functionality to retrieve and update Student objects.
  */
 
 public interface StudentService {
 
     /**
-     * Returns a list of all Student objects available.
+     * Retrieves a list of all available Student objects.
      * @return A list of StudentDto objects representing the available students.
      */
     List<StudentDto> findAll();
 
+
     /**
-     * Gets a Student object based on its unique identifier.
-     * @param studentId : The unique identifier of the Student object to be found.
+     * Retrieves tasks completed by specified list of students.
+     * @param students A list of Student objects.
+     * @return A list of Task objects completed by specified students.
      */
-    Student findById(int studentId);
-
-    List<Student> findAllById(List<Integer> studentsIds);
-
-    void save(Student student);
-
     List<Task> getTasks(List<Student> students);
+
+
+    /**
+     * Saves a new Student object or updates an existing one.
+     * @param student The Student object to save or update.
+     */
+    void save(Student student);
 }

@@ -19,5 +19,4 @@ public class TopicController {
     public List<TopicDto> findAll() {
         return mainFacade.findAllTopics();
     }
-
 }
