@@ -26,7 +26,7 @@ export const Tasks = () => {
     const answers = async (selectedRows: TaskDto[] | undefined, selectedStudentIds: StudentDto[] | null) => {
         const tasksIds = selectedRows?.map(task => task);
 
-        const response = await api.post('/tasks/answers', {
+        const response = await api.post('/tasks/noAnswers', {
             tasks: tasksIds,
             student: selectedStudentIds,
         });
@@ -40,14 +40,31 @@ export const Tasks = () => {
         answers(selectedRows, selectedStudentIds);
     };
 
+    const withoutAnswers = async (selectedRows: TaskDto[] | undefined, selectedStudentIds: StudentDto[] | null) => {
+        const tasksIds = selectedRows?.map(task => task);
+
+        const response = await api.post('/tasks/answers', {
+            tasks: tasksIds,
+            student: selectedStudentIds,
+        });
+        const blob = new Blob([response.data], {type: 'text/html'});
+        const url = URL.createObjectURL(blob);
+
+        window.open(url, '_blank');
+    };
+
+    const handleWithoutAnswers = () => {
+        withoutAnswers(selectedRows, selectedStudentIds);
+    };
+
     return (
         <div>
             <div className={'flex justify-around mt-2 gap-3'}>
                 <Button className={'flex-1 '} color={"yellow"} label={'НАЗАД'} onClick={() => window.history.back()}/>
 
-                <Button className={'flex-1 '} color={"green"} label={'З ВІДПОВІДЯМИ'} onClick={handleAnswers}/>
+                <Button className={'flex-1 '} color={"green"} label={'ЗАВДАННЯ З ВІДПОВІДЯМИ'} onClick={handleAnswers}/>
 
-                <Button className={'flex-1 '} color={"green"} label={'БЕЗ ВІДПОВІДЕЙ'}/>
+                <Button className={'flex-1 '} color={"green"} label={'ЗАВДАННЯ БЕЗ ВІДПОВІДЕЙ'} onClick={handleWithoutAnswers}/>
             </div>
 
             <div className="flex justify-around mt-2 gap-3">
