@@ -105,7 +105,7 @@ const BasicModal: FC<BasicModalProps> = ({ isOpen, onClose, selectedTask , reloa
                     />
 
                     <Button
-                        className={'w-[300px] '}
+                        className={ ' w-[300px] ' }
                         onClick={handleSave}
                         color={"green"}
                         label="Зберегти"

@@ -5,7 +5,7 @@ import {useSelectedTopics, useStudents, useTitles} from "../../context/data-prov
 import {TopicsTable} from "./topics-table.component.tsx";
 import {TopicDto} from "../../api/topics/dto/topics-response.dto.ts";
 import {getTopics} from "../../api/topics/useGetTopics.ts";
-import { api } from "../../core/api.ts";
+import {api} from "../../core/api.ts";
 import {Typography} from "@mui/material";
 import {StudentDto} from "../../api/students/dto/students-response.dto.ts";
 
@@ -14,9 +14,9 @@ export const Topics = () => {
     const [topics, setTopics] = useState<TopicDto[]>([])
     const {selectedStudentIds} = useStudents();
     const navigate = useNavigate();
-    const { setTitles } = useTitles();
+    const {setTitles} = useTitles();
 
-    const {selectedTopics, setSelectedTopics} = useSelectedTopics();
+    const {setSelectedTopics} = useSelectedTopics();
 
     useEffect(() => {
         getTopics().then((topics) => {
@@ -29,9 +29,6 @@ export const Topics = () => {
         setSelectedTopics(selectedRows);
     }, [selectedRows, setSelectedTopics]);
 
-
-
-
     const sendToBackend = async (selectedRows: TopicDto[] | undefined, selectedStudentId: StudentDto[] | null) => {
         try {
             const response = await api.post('/tasks/unfinished', {
@@ -40,14 +37,14 @@ export const Topics = () => {
             });
 
             const tasks = response.data;
-            navigate('/tasks', { state: { tasks } });
+            navigate('/tasks', {state: {tasks}});
         } catch (error) {
             console.error('Error sending data to backend:', error);
         }
     };
 
     const handleNextButtonClick = () => {
-         sendToBackend(selectedRows, selectedStudentIds);
+        sendToBackend(selectedRows, selectedStudentIds);
     };
 
     return (
