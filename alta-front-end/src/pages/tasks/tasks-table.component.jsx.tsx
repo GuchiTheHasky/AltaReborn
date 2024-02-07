@@ -21,16 +21,16 @@ export const TasksTable: FC<TasksTableProps> = ({tasks, setSelectedTaskIds, sele
 
     const navigate = useNavigate();
     const {selectedStudentIds} = useStudents();
-    const {selectedTopics, setSelectedTopics} = useSelectedTopics();
+    const {selectedTopics} = useSelectedTopics();
 
     const handleToggleModal = (task: TaskDto) => {
-        setSelectedTask(task); // Set the selected task
-        setIsOpen(true); // Open the modal
+        setSelectedTask(task);
+        setIsOpen(true);
     };
 
     const closeModal = () => {
-        setIsOpen(false); // Закриваємо модальне вікно
-        setSelectedTask(null); // Очищуємо обране завдання
+        setIsOpen(false);
+        setSelectedTask(null);
     };
 
     const handleUnfinishedTasksSelection = (selectedRows: GridRowId[]) => {
@@ -53,10 +53,9 @@ export const TasksTable: FC<TasksTableProps> = ({tasks, setSelectedTaskIds, sele
             return tasks.tasksCompletedByAtLeastOneStudent.find(task => task.id === taskId);
         }).filter(Boolean) as TaskDto[];
 
-        // Перевірка, чи елемент вже вибраний
         const newSelectedTasks = selectedTaskIds.some(task => selectedTasks.some(selectedTask => selectedTask.id === task.id))
-            ? selectedTaskIds.filter((task) => !selectedTasks.some(selectedTask => selectedTask.id === task.id))  // Видалення, якщо вже вибраний
-            : [...selectedTaskIds, ...selectedTasks];  // Додавання, якщо ще не вибраний
+            ? selectedTaskIds.filter((task) => !selectedTasks.some(selectedTask => selectedTask.id === task.id))
+            : [...selectedTaskIds, ...selectedTasks];
 
         setSelectedTaskIds(newSelectedTasks);
     };
@@ -121,7 +120,7 @@ export const TasksTable: FC<TasksTableProps> = ({tasks, setSelectedTaskIds, sele
                                 '&:last-child td, &:last-child th': {border: 0},
                                 cursor: 'pointer',
                                 backgroundColor: 'lightgrey'
-                        }}
+                            }}
                         >
                             <TableCell padding="checkbox">
                                 <Checkbox
@@ -138,13 +137,13 @@ export const TasksTable: FC<TasksTableProps> = ({tasks, setSelectedTaskIds, sele
                             </TableCell>
                             <TableCell>{task.answer}</TableCell>
                             <TableCell>
-                                <Button onClick={() => handleToggleModal(task)} color={"yellow"} label={"Редагувати"} />
+                                <Button onClick={() => handleToggleModal(task)} color={"yellow"} label={"Редагувати"}/>
                             </TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
             </Table>
-            <BasicModal isOpen={isOpen} onClose={closeModal} selectedTask={selectedTask} reloadData={reloadTableData} />
+            <BasicModal isOpen={isOpen} onClose={closeModal} selectedTask={selectedTask} reloadData={reloadTableData}/>
         </TableContainer>);
 }
 

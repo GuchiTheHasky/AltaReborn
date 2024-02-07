@@ -11,7 +11,7 @@ interface TopicsTableProps {
 
 export const TopicsTable: FC<TopicsTableProps> = ({topics, setSelectedTopicIds, selectedTopicIds}) => {
 
-    const handleClick = (_event: React.MouseEvent<HTMLTableRowElement>, clickedTopic: TopicDto) => {
+    const handleClick = (_event: React.MouseEvent<HTMLButtonElement>, clickedTopic: TopicDto) => {
         const selectedIndex = selectedTopicIds.findIndex((s) => s.id === clickedTopic.id);
         let newSelected: TopicDto[] = [];
 
