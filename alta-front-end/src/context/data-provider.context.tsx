@@ -9,15 +9,20 @@ export interface DataProviderContextType {
     setSelectedStudentIds: (value: StudentDto[]) => void;
     titles: TopicDto[];
     setTitles: (value: TopicDto[]) => void;
+    selectedTopics: TopicDto[];
+    setSelectedTopics: (value: TopicDto[]) => void;
 }
 
 export const DataProviderContextProvider: FC<PropsWithChildren> = ({children}) => {
     const [selectedStudentIds, setSelectedStudentIds] = useState<StudentDto[]>([]);
     const [titles, setTitles] = useState<TopicDto[]>([]);
+    const [selectedTopics, setSelectedTopics] = useState<TopicDto[]>([]);
 
     return <DataProviderContext.Provider value={{
         selectedStudentIds,
         setSelectedStudentIds,
+        selectedTopics,
+        setSelectedTopics,
         titles,
         setTitles
     }}>
@@ -39,5 +44,13 @@ export const useTitles = () => {
     return {
         titles,
         setTitles
+    }
+}
+
+export const useSelectedTopics = () => {
+    const {selectedTopics, setSelectedTopics} = useContext(DataProviderContext);
+    return {
+        selectedTopics,
+        setSelectedTopics
     }
 }

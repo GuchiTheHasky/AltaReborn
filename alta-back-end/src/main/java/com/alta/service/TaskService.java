@@ -42,8 +42,10 @@ public interface TaskService {
 
     /**
      * Updates an existing Task object with the provided information.
+     *
+     * @param id The ID of the task to update.
      * @param taskDto An object containing the updated information for the task.
      * @return An object representing the updated task.
      */
-    TaskDto update(TaskDto taskDto);
+    TaskDto update(int id, TaskDto taskDto);
 }

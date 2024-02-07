@@ -1,14 +1,16 @@
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import {FC, useState} from "react";
-import {MenuItem, Select, TextField} from "@mui/material";
-import {useTitles} from "../../context/data-provider.context.tsx";
-import {TaskDto} from "../../api/tasks/dto/tasks-response.dto.ts";
+import { FC, useEffect, useState } from "react";
+import { FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import { useTitles } from "../../context/data-provider.context.tsx";
+import { TaskDto } from "../../api/tasks/dto/tasks-response.dto.ts";
+import {Button} from '../../components/buttons/green-button.component.tsx';
+import {api} from "../../core/api.ts";
+
 
 const style = {
-    position: 'absolute' as const,
+    position: 'absolute',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
@@ -23,31 +25,45 @@ interface BasicModalProps {
     isOpen: boolean;
     onClose: () => void;
     selectedTask: TaskDto | null;
+    reloadData: () => void;
 }
 
-const BasicModal: FC<BasicModalProps> = (props) => {
-    const { isOpen, onClose, selectedTask } = props;
-
+const BasicModal: FC<BasicModalProps> = ({ isOpen, onClose, selectedTask , reloadData}) => {
     const [level, setLevel] = useState("");
     const [title, setTitle] = useState("");
     const [answer, setAnswer] = useState("");
 
     const { titles } = useTitles();
 
-    const handleSave = () => {
-        console.log("level", level);
-        console.log("title", title);
-        console.log("answer", answer);
-    }
-    const handleOpen = () => onClose();
-    const handleClose = () => onClose();
+    useEffect(() => {
+        if (selectedTask) {
+            setLevel(selectedTask.level || "");
+            setTitle(selectedTask.title || "");
+            setAnswer(selectedTask.answer || "");
+        }
+    }, [selectedTask]);
+
+    const handleSave = async () => {
+        const id : number | undefined = selectedTask?.id;
+        const updatedTask = {
+            level,
+            title,
+            answer,
+        };
+        try {
+            await api.put(`/tasks/${id}`, updatedTask);
+            onClose();
+            reloadData();
+        } catch (error) {
+            console.error('Error updating task:', error);
+        }
+    };
 
     return (
         <div>
-            <Button onClick={handleOpen}>Open modal</Button>
             <Modal
                 open={isOpen}
-                onClose={handleClose}
+                onClose={onClose}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
@@ -65,17 +81,19 @@ const BasicModal: FC<BasicModalProps> = (props) => {
                         onChange={(e) => setLevel(e.target.value)}
                     />
 
-                    <Select
-                        label="Тема"
-                        variant="outlined"
-                        fullWidth
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value as string)}
-                    >
-                        {titles.map((title) => (
-                            <MenuItem value={title.title} key={title.title}>{title.title}</MenuItem>
-                        ))}
-                    </Select>
+                    <FormControl fullWidth margin="normal">
+                        <InputLabel id="task-title-label">Тема</InputLabel>
+                        <Select
+                            labelId="task-title-label"
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
+                            label="Тема"
+                        >
+                            {titles.map((item) => (
+                                <MenuItem value={item.title} key={item.title}>{item.title}</MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
 
                     <TextField
                         label="Відповідь"
@@ -84,6 +102,13 @@ const BasicModal: FC<BasicModalProps> = (props) => {
                         fullWidth
                         value={answer}
                         onChange={(e) => setAnswer(e.target.value)}
+                    />
+
+                    <Button
+                        className={'w-[300px] '}
+                        onClick={handleSave}
+                        color={"green"}
+                        label="Зберегти"
                     />
                 </Box>
             </Modal>

@@ -63,8 +63,9 @@ public interface MainFacade {
     /**
      * Updates an existing task with the provided information.
      *
+     * @param id      The ID of the task to update.
      * @param taskDto An object containing the updated task information.
      * @return An object representing the updated task.
      */
-    TaskDto updateTask(TaskDto taskDto);
+    TaskDto updateTask(int id, TaskDto taskDto);
 }
