@@ -55,7 +55,7 @@ public class TaskController {
 
         Map<String, List<TaskDto>> mapOfStudentsAndTasks = mainFacade.updateStudentTasksAndRetrieveDto(studentsDto, tasks);
         model.addAttribute("mapOfStudentsAndTasks", mapOfStudentsAndTasks);
-        return new ModelAndView("task_list", model); // todo
+        return new ModelAndView("task_list", model);
     }
 
     @PutMapping("/{id}")
