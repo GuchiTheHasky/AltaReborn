@@ -4,7 +4,10 @@ import {FC, useState} from "react";
 import {Checkbox, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
 import {ImageRender} from "./image.tsx";
 import BasicModal from "./modal.tsx";
-import Button from "@mui/material/Button";
+import {Button} from '../../components/buttons/green-button.component.tsx';
+import {api} from "../../core/api.ts";
+import {useSelectedTopics, useStudents} from "../../context/data-provider.context.tsx";
+import {useNavigate} from "react-router-dom";
 
 interface TasksTableProps {
     tasks: TasksResponse;
@@ -14,22 +17,22 @@ interface TasksTableProps {
 
 export const TasksTable: FC<TasksTableProps> = ({tasks, setSelectedTaskIds, selectedTaskIds}) => {
     const [isOpen, setIsOpen] = useState(false);
+    const [selectedTask, setSelectedTask] = useState<TaskDto | null>(null);
 
+    const navigate = useNavigate();
+    const {selectedStudentIds} = useStudents();
+    const {selectedTopics, setSelectedTopics} = useSelectedTopics();
 
     const handleToggleModal = (task: TaskDto) => {
-
-        setIsOpen(!isOpen);
+        setSelectedTask(task); // Set the selected task
+        setIsOpen(true); // Open the modal
     };
-    // const handleRowSelection = (selectedRows: GridRowId[]) => {
-    //     const selectedIds = selectedRows.map((row) => Number(row));
-    //
-    //     // Перевірка, чи елемент вже вибраний
-    //     const newSelectedIds = selectedTaskIds.includes(selectedIds[0])
-    //         ? selectedTaskIds.filter((id) => id !== selectedIds[0])  // Видалення, якщо вже вибраний
-    //         : [...selectedTaskIds, ...selectedIds];  // Додавання, якщо ще не вибраний
-    //
-    //     setSelectedTaskIds(newSelectedIds);
-    // };
+
+    const closeModal = () => {
+        setIsOpen(false); // Закриваємо модальне вікно
+        setSelectedTask(null); // Очищуємо обране завдання
+    };
+
     const handleUnfinishedTasksSelection = (selectedRows: GridRowId[]) => {
         const selectedTasks = selectedRows.map((row) => {
             const taskId = Number(row);
@@ -58,6 +61,19 @@ export const TasksTable: FC<TasksTableProps> = ({tasks, setSelectedTaskIds, sele
         setSelectedTaskIds(newSelectedTasks);
     };
 
+    const reloadTableData = async () => {
+        console.log('selected topics:', selectedTopics);
+        try {
+            const response = await api.post('/tasks/unfinished', {
+                topics: selectedTopics,
+                students: selectedStudentIds,
+            });
+            const updatedTasks = response.data;
+            navigate('/tasks', {state: {tasks: updatedTasks}});
+        } catch (error) {
+            console.error('Error reloading tasks data:', error);
+        }
+    };
 
     return (
         <TableContainer>
@@ -81,9 +97,6 @@ export const TasksTable: FC<TasksTableProps> = ({tasks, setSelectedTaskIds, sele
                         >
                             <TableCell padding="checkbox">
                                 <Checkbox
-                                    // color="primary"
-                                    // checked={selectedTaskIds.indexOf(task.id) !== -1}
-                                    // onClick={() => handleRowSelection([task.id])}
                                     checked={selectedTaskIds.some(selectedTask => selectedTask.id === task.id)}
                                     onClick={() => handleUnfinishedTasksSelection([task.id])}
                                 />
@@ -97,7 +110,7 @@ export const TasksTable: FC<TasksTableProps> = ({tasks, setSelectedTaskIds, sele
                             </TableCell>
                             <TableCell>{task.answer}</TableCell>
                             <TableCell>
-                                <Button onClick={() => handleToggleModal(task)}>Edit</Button>
+                                <Button onClick={() => handleToggleModal(task)} color={"green"} label={"Редагувати"}/>
                             </TableCell>
                         </TableRow>
                     ))}
@@ -112,9 +125,6 @@ export const TasksTable: FC<TasksTableProps> = ({tasks, setSelectedTaskIds, sele
                         >
                             <TableCell padding="checkbox">
                                 <Checkbox
-                                    // color="primary"
-                                    // checked={selectedTaskIds.indexOf(task.id) !== -1}
-                                    // onClick={() => handleRowSelection([task.id])}
                                     checked={selectedTaskIds.some(selectedTask => selectedTask.id === task.id)}
                                     onClick={() => handleCompletedTasksSelection([task.id])}
                                 />
@@ -128,14 +138,13 @@ export const TasksTable: FC<TasksTableProps> = ({tasks, setSelectedTaskIds, sele
                             </TableCell>
                             <TableCell>{task.answer}</TableCell>
                             <TableCell>
-                                <Button onClick={() => handleToggleModal(task)}>Edit</Button>
+                                <Button onClick={() => handleToggleModal(task)} color={"yellow"} label={"Редагувати"} />
                             </TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
             </Table>
-            <BasicModal isOpen={isOpen} onClose={handleToggleModal} />
+            <BasicModal isOpen={isOpen} onClose={closeModal} selectedTask={selectedTask} reloadData={reloadTableData} />
         </TableContainer>);
-
 }
 

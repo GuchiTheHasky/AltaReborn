@@ -60,8 +60,8 @@ public class BasicMainFacade implements MainFacade {
     }
 
     @Override
-    public TaskDto updateTask(TaskDto taskDto) {
-        return taskService.update(taskDto);
+    public TaskDto updateTask(int id, TaskDto taskDto) {
+        return taskService.update(id, taskDto);
     }
 
     private List<TaskDto> filterOfUnfinishedTasks(List<TopicDto> topicsDto, List<Student> students) {

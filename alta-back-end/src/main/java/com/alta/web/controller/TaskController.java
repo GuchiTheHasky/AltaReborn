@@ -58,11 +58,11 @@ public class TaskController {
         return new ModelAndView("task_list", model); // todo
     }
 
-    @PutMapping("/{taskId}")
-    public TaskDto testUpdate(@PathVariable int taskId, @RequestBody TaskDto taskDto) {
+    @PutMapping("/{id}")
+    public TaskDto testUpdate(@PathVariable int id, @RequestBody TaskDto taskDto) {
 
-        System.out.println("id: " + taskId);
+        System.out.println("id: " + id);
         System.out.println("taskDto: " + taskDto);
-        return mainFacade.updateTask(taskDto);
+        return mainFacade.updateTask(id, taskDto);
     }
 }

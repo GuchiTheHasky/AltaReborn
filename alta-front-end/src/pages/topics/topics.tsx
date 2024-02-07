@@ -1,7 +1,7 @@
 import {Button} from "../../components/buttons/green-button.component.tsx";
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
-import {useStudents, useTitles} from "../../context/data-provider.context.tsx";
+import {useSelectedTopics, useStudents, useTitles} from "../../context/data-provider.context.tsx";
 import {TopicsTable} from "./topics-table.component.tsx";
 import {TopicDto} from "../../api/topics/dto/topics-response.dto.ts";
 import {getTopics} from "../../api/topics/useGetTopics.ts";
@@ -16,15 +16,21 @@ export const Topics = () => {
     const navigate = useNavigate();
     const { setTitles } = useTitles();
 
-    // useEffect(() => {
-    //     getTopics().then(setTopics);
-    // }, []);
+    const {selectedTopics, setSelectedTopics} = useSelectedTopics();
+
     useEffect(() => {
         getTopics().then((topics) => {
             setTopics(topics);
             setTitles(topics);
         });
     }, []);
+
+    useEffect(() => {
+        setSelectedTopics(selectedRows);
+    }, [selectedRows, setSelectedTopics]);
+
+
+
 
     const sendToBackend = async (selectedRows: TopicDto[] | undefined, selectedStudentId: StudentDto[] | null) => {
         try {
@@ -35,7 +41,6 @@ export const Topics = () => {
 
             const tasks = response.data;
             navigate('/tasks', { state: { tasks } });
-            console.log('response tasks: ', tasks);
         } catch (error) {
             console.error('Error sending data to backend:', error);
         }

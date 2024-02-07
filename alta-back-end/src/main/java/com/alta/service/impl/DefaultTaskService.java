@@ -55,11 +55,11 @@ public class DefaultTaskService implements TaskService {
 
     @Override
     @Transactional
-    public TaskDto update(TaskDto taskDto) { // todo: fix it
-        Task existingTask = taskRepository.findById(taskDto.getId())
-                .orElseThrow(() -> new TaskException(taskDto.getId()));
+    public TaskDto update(int id, TaskDto taskDto) { // todo: fix it
+        Task existingTask = taskRepository.findById(id)
+                .orElseThrow(() -> new TaskException(id));
 
-        Topic newTopic = topicRepository.findById(Integer.valueOf(taskDto.getTitle()))
+        Topic newTopic = topicRepository.findByTitle(taskDto.getTitle())
                 .orElseThrow(() -> new TopicException(taskDto.getTitle()));
 
         existingTask.setLevel(taskDto.getLevel());
