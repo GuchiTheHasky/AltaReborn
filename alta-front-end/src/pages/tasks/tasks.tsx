@@ -26,7 +26,7 @@ export const Tasks = () => {
     const answers = async (selectedRows: TaskDto[] | undefined, selectedStudentIds: StudentDto[] | null) => {
         const tasksIds = selectedRows?.map(task => task);
 
-        const response = await api.post('/tasks/noAnswers', {
+        const response = await api.post('/tasks/answers', {
             tasks: tasksIds,
             student: selectedStudentIds,
         });
@@ -43,7 +43,7 @@ export const Tasks = () => {
     const withoutAnswers = async (selectedRows: TaskDto[] | undefined, selectedStudentIds: StudentDto[] | null) => {
         const tasksIds = selectedRows?.map(task => task);
 
-        const response = await api.post('/tasks/answers', {
+        const response = await api.post('/tasks/noAnswers', {
             tasks: tasksIds,
             student: selectedStudentIds,
         });

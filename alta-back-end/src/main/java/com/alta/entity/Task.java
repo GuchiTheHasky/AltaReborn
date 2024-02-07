@@ -67,11 +67,11 @@ public class Task {
         Task task = (Task) o;
         return id == task.id && Objects.equals(imagePath, task.imagePath)
                 && Objects.equals(level, task.level) && Objects.equals(text, task.text)
-                && Objects.equals(answer, task.answer) && Objects.equals(title, task.title);
+                && Objects.equals(answer, task.answer);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, imagePath, level, text, answer, title);
+        return Objects.hash(id, imagePath, level, text, answer);
     }
 }
