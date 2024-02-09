@@ -12,12 +12,6 @@ interface StudentsTableProps {
 export const StudentsTable: FC<StudentsTableProps> = ({students, setSelectedStudentIds, selectedStudentIds}) => {
 
     const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
-        // if (event.target.checked) {
-        //     const newSelectedIds = students.map((student) => student.id);
-        //     setSelectedStudentIds(newSelectedIds);
-        //     return;
-        // }
-        // setSelectedStudentIds([]);
         if (event.target.checked) {
             setSelectedStudentIds(students);
             return;
@@ -25,26 +19,6 @@ export const StudentsTable: FC<StudentsTableProps> = ({students, setSelectedStud
         setSelectedStudentIds([]);
     };
 
-    // const handleClick = (_: any, id: number) => {
-    //     const selectedIndex = selectedStudentIds.indexOf(id);
-    //     let newSelected: number[] = [];
-    //
-    //     if (selectedIndex === -1) {
-    //         newSelected = newSelected.concat(selectedStudentIds, id);
-    //     } else if (selectedIndex === 0) {
-    //         newSelected = newSelected.concat(selectedStudentIds.slice(1));
-    //     } else if (selectedIndex === selectedStudentIds.length - 1) {
-    //         newSelected = newSelected.concat(selectedStudentIds.slice(0, -1));
-    //     } else if (selectedIndex > 0) {
-    //         newSelected = newSelected.concat(
-    //             selectedStudentIds.slice(0, selectedIndex),
-    //             selectedStudentIds.slice(selectedIndex + 1),
-    //         );
-    //     }
-    //     localStorage.setItem("selectedStudentIds", JSON.stringify(newSelected));
-    //
-    //     setSelectedStudentIds(newSelected);
-    // };
     const handleClick = (_event: React.MouseEvent<HTMLTableRowElement>, clickedStudent: StudentDto) => {
         const selectedIndex = selectedStudentIds.findIndex((s) => s.id === clickedStudent.id);
         let newSelected: StudentDto[] = [];
@@ -66,7 +40,6 @@ export const StudentsTable: FC<StudentsTableProps> = ({students, setSelectedStud
         setSelectedStudentIds(newSelected);
     };
 
-    // const isSelected = (id: number) => selectedStudentIds.indexOf(id) !== -1;
     const isSelected = (student: StudentDto) => selectedStudentIds.some((s) => s.id === student.id);
 
     const rowCount = students.length;
@@ -98,7 +71,6 @@ export const StudentsTable: FC<StudentsTableProps> = ({students, setSelectedStud
                         key={'student-key' + student.id}
                         sx={{'&:last-child td, &:last-child th': {border: 0}, cursor: 'pointer'}}
                         hover
-                        // onClick={(event) => handleClick(event, student.id)}
                         onClick={(event) => handleClick(event, student)}
                         role="checkbox"
                         selected={isSelected(student)}
