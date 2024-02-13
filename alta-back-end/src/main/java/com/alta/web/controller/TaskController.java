@@ -8,10 +8,13 @@ import com.alta.web.entity.ModelRequest;
 import com.alta.web.entity.TasksRequest;
 import com.alta.web.entity.TasksResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.awt.print.Pageable;
 import java.util.List;
 import java.util.Map;
 
@@ -21,17 +24,32 @@ import java.util.Map;
 public class TaskController {
     private final MainFacade mainFacade;
 
+//    @PostMapping("/unfinished")
+//    public TasksResponse findAllUnfinishedTasks(@RequestBody TasksRequest request) {
+//        List<TopicDto> topicsDto = request.getTopics();
+//        List<StudentDto> studentsDto = request.getStudents();
+//
+//        List<TaskDto> unfinishedTasksForAllStudentsSelected = mainFacade.findTasksUnfinishedForAllStudents(topicsDto, studentsDto);
+//        List<TaskDto> tasksCompletedByAtLeastOneStudent = mainFacade.findTasksCompletedByAtLeastOneStudent(topicsDto, studentsDto);
+//
+//        return new TasksResponse(unfinishedTasksForAllStudentsSelected, tasksCompletedByAtLeastOneStudent);
+//    }
+
     @PostMapping("/unfinished")
-    public TasksResponse findAllUnfinishedTasks(@RequestBody TasksRequest request) {
+    public TasksResponse findAllUnfinishedTasks(@RequestBody TasksRequest request,
+                                                @RequestParam(defaultValue = "0") int page,
+                                                @RequestParam(defaultValue = "10") int size) {
         List<TopicDto> topicsDto = request.getTopics();
         List<StudentDto> studentsDto = request.getStudents();
 
-        TasksResponse response = new TasksResponse();
+        PageRequest pageRequest = PageRequest.of(page, size);
 
-        response.setUnfinishedTasksForAllStudentsSelected(mainFacade.findTasksUnfinishedForAllStudents(topicsDto, studentsDto));
-        response.setTasksCompletedByAtLeastOneStudent(mainFacade.findTasksCompletedByAtLeastOneStudent(topicsDto, studentsDto));
+        Page<TaskDto> unfinishedTasksPage = mainFacade.findTasksUnfinishedForAllStudents(topicsDto, studentsDto, pageRequest);
+        List<TaskDto> unfinishedTasks = unfinishedTasksPage.getContent();
 
-        return response;
+        List<TaskDto> tasksCompletedByAtLeastOneStudent = mainFacade.findTasksCompletedByAtLeastOneStudent(topicsDto, studentsDto);
+
+        return new TasksResponse(unfinishedTasks, tasksCompletedByAtLeastOneStudent);
     }
 
     @PostMapping("/answers")

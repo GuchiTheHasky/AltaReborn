@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -27,7 +28,7 @@ public class DefaultTaskService implements TaskService {
     private final TopicMapper topicMapper;
 
     @Override
-    public List<TaskDto> getUnfinishedTasks(List<TopicDto> selectedTopics, List<Task> completedTasks) {
+    public List<TaskDto> getUnfinishedTasks(List<TopicDto> selectedTopics, Set<Task> completedTasks) {
         List<Task> tasks = taskRepository.findAllTasksIncludedInTopics(topicMapper.toTopicList(selectedTopics));
 
         return tasks.stream()
@@ -37,7 +38,7 @@ public class DefaultTaskService implements TaskService {
     }
 
     @Override
-    public List<TaskDto> getTasksCompletedByAtLeastOneStudent(List<TopicDto> selectedTopics, List<Task> completedTasks) {
+    public List<TaskDto> getTasksCompletedByAtLeastOneStudent(List<TopicDto> selectedTopics, Set<Task> completedTasks) {
         List<Task> tasks = taskRepository.findAllTasksIncludedInTopics(topicMapper.toTopicList(selectedTopics));
 
         return tasks.stream()
@@ -55,7 +56,7 @@ public class DefaultTaskService implements TaskService {
 
     @Override
     @Transactional
-    public TaskDto update(int id, TaskDto taskDto) { // todo: fix it
+    public TaskDto update(int id, TaskDto taskDto) {
         Task existingTask = taskRepository.findById(id)
                 .orElseThrow(() -> new TaskException(id));
 

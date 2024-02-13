@@ -3,7 +3,10 @@ package com.alta.facade;
 import com.alta.dto.StudentDto;
 import com.alta.dto.TaskDto;
 import com.alta.dto.TopicDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
+import java.awt.print.Pageable;
 import java.util.List;
 import java.util.Map;
 
@@ -33,14 +36,16 @@ public interface MainFacade {
     /**
      * Finds tasks that are unfinished within given topics and student data.
      *
-     * @param topics      List of topics to search for unfinished tasks.
+//     * @param topics      List of topics to search for unfinished tasks.
      * @param studentsDto List of student data to search for unfinished tasks.
      * @return A list of unfinished tasks.
      */
-    List<TaskDto> findTasksUnfinishedForAllStudents(List<TopicDto> topics, List<StudentDto> studentsDto);
+   // List<TaskDto> findTasksUnfinishedForAllStudents(List<TopicDto> topics, List<StudentDto> studentsDto);
+
+    Page<TaskDto> findTasksUnfinishedForAllStudents(List<TopicDto> topicsDto, List<StudentDto> studentsDto, PageRequest pageRequest);
 
 
-    /**
+                                                    /**
      * Finds tasks completed by at least one student within given topics and student data.
      *
      * @param topics      List of topics to search for completed tasks.

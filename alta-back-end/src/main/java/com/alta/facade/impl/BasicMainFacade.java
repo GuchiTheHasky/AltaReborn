@@ -13,11 +13,13 @@ import com.alta.service.TaskService;
 import com.alta.service.TopicService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
+import java.awt.print.Pageable;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -29,18 +31,29 @@ public class BasicMainFacade implements MainFacade {
     private final StudentMapper studentMapper;
     private final TaskMapper taskMapper;
 
+//    @Override
+//    public List<TaskDto> findTasksUnfinishedForAllStudents(List<TopicDto> topicsDto, List<StudentDto> studentsDto) {
+//        List<Student> students = studentMapper.toStudentList(studentsDto);
+//        return filterOfUnfinishedTasks(topicsDto, students);
+//    }
+
     @Override
-    public List<TaskDto> findTasksUnfinishedForAllStudents(List<TopicDto> topicsDto, List<StudentDto> studentsDto) {
+    public Page<TaskDto> findTasksUnfinishedForAllStudents(List<TopicDto> topicsDto, List<StudentDto> studentsDto, PageRequest pageRequest) {
         List<Student> students = studentMapper.toStudentList(studentsDto);
-        return filterOfUnfinishedTasks(topicsDto, students);
+        return filterOfUnfinishedTasks(topicsDto, students, pageRequest);
     }
 
     @Override
     @Transactional
     public Map<String, List<TaskDto>> updateStudentTasksAndRetrieveDto(List<StudentDto> studentsDto, List<TaskDto> tasksDto) { // todo rename method
         List<Student> students = studentMapper.toStudentList(studentsDto);
-        List<Task> tasks = taskMapper.toTaskList(tasksDto);
-        return assignTasks(students, tasks);
+        List<Task> tasksToAdd = taskMapper.toTaskList(tasksDto);
+
+        Map<String, List<TaskDto>> mapOfStudentsAndTasksAssigned = new HashMap<>();
+
+        assignTasksAndFillInMapOfStudentsAndTasksAssigned(students, tasksToAdd, mapOfStudentsAndTasksAssigned);
+
+        return mapOfStudentsAndTasksAssigned;
     }
 
     @Override
@@ -64,22 +77,24 @@ public class BasicMainFacade implements MainFacade {
         return taskService.update(id, taskDto);
     }
 
-    private List<TaskDto> filterOfUnfinishedTasks(List<TopicDto> topicsDto, List<Student> students) {
-        List<Task> completedTasks = studentService.getTasks(students);
-        return taskService.getUnfinishedTasks(topicsDto, completedTasks);
+//    private List<TaskDto> filterOfUnfinishedTasks(List<TopicDto> topicsDto, List<Student> students) {
+//        Set<Task> completedTasks = studentService.getTasks(students);
+//        return taskService.getUnfinishedTasks(topicsDto, completedTasks);
+//    }
+
+    private Page<TaskDto> filterOfUnfinishedTasks(List<TopicDto> topicsDto, List<Student> students, PageRequest pageRequest) {
+        Set<Task> completedTasks = studentService.getTasks(students);
+        List<TaskDto> allUnfinishedTasks = taskService.getUnfinishedTasks(topicsDto, completedTasks);
+
+        int start = (int) pageRequest.getOffset();
+        int end = Math.min((start + pageRequest.getPageSize()), allUnfinishedTasks.size());
+
+        return new PageImpl<>(allUnfinishedTasks.subList(start, end), pageRequest, allUnfinishedTasks.size());
     }
 
     private List<TaskDto> filterOfTasksCompletedByAtLeastOneStudent(List<TopicDto> topicsDto, List<Student> students) {
-        List<Task> completedTasks = studentService.getTasks(students);
+        Set<Task> completedTasks = studentService.getTasks(students);
         return taskService.getTasksCompletedByAtLeastOneStudent(topicsDto, completedTasks);
-    }
-
-    private Map<String, List<TaskDto>> assignTasks(List<Student> students, List<Task> tasksToAdd) {
-        Map<String, List<TaskDto>> mapOfStudentsAndTasksAssigned = new HashMap<>();
-
-        assignTasksAndFillInMapOfStudentsAndTasksAssigned(students, tasksToAdd, mapOfStudentsAndTasksAssigned);
-
-        return mapOfStudentsAndTasksAssigned;
     }
 
     private void assignTasksAndFillInMapOfStudentsAndTasksAssigned(List<Student> students, List<Task> tasksToAdd, Map<String, List<TaskDto>> mapOfStudentsAndTasksAssigned) {

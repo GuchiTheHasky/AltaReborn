@@ -66,12 +66,11 @@ public class Task {
         if (o == null || getClass() != o.getClass()) return false;
         Task task = (Task) o;
         return id == task.id && Objects.equals(imagePath, task.imagePath)
-                && Objects.equals(level, task.level) && Objects.equals(text, task.text)
-                && Objects.equals(answer, task.answer);
+                && Objects.equals(text, task.text);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, imagePath, level, text, answer);
+        return Objects.hash(id, imagePath, text);
     }
 }

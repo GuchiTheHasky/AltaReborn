@@ -5,6 +5,7 @@ import com.alta.entity.Student;
 import com.alta.entity.Task;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Interface for managing Student data.
@@ -25,7 +26,7 @@ public interface StudentService {
      * @param students A list of Student objects.
      * @return A list of Task objects completed by specified students.
      */
-    List<Task> getTasks(List<Student> students);
+    Set<Task> getTasks(List<Student> students);
 
 
     /**

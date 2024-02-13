@@ -6,6 +6,7 @@ import com.alta.entity.Student;
 import com.alta.entity.Task;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Interface for managing Task data.
@@ -17,19 +18,19 @@ public interface TaskService {
     /**
      * Retrieves unfinished tasks based on selected topics and completed tasks.
      * @param selectedTopicsList A list of TopicDto objects representing selected topics.
-     * @param completedTasks A list of completed Task objects.
+     * @param completedTasks A set of completed Task objects.
      * @return A list of TaskDto objects representing unfinished tasks.
      */
-    List<TaskDto> getUnfinishedTasks(List<TopicDto> selectedTopicsList, List<Task> completedTasks);
+    List<TaskDto> getUnfinishedTasks(List<TopicDto> selectedTopicsList, Set<Task> completedTasks);
 
 
     /**
      * Retrieves tasks completed by at least one student within specified topics.
      * @param topics A list of TopicDto objects representing specified topics.
-     * @param completedTasks A list of completed Task objects.
+     * @param completedTasks A set of completed Task objects.
      * @return A list of TaskDto objects representing tasks completed by at least one student within specified topics.
      */
-    List<TaskDto> getTasksCompletedByAtLeastOneStudent(List<TopicDto> topics, List<Task> completedTasks);
+    List<TaskDto> getTasksCompletedByAtLeastOneStudent(List<TopicDto> topics, Set<Task> completedTasks);
 
 
     /**
