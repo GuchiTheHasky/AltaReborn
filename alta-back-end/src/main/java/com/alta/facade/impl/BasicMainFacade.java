@@ -89,6 +89,10 @@ public class BasicMainFacade implements MainFacade {
         int start = (int) pageRequest.getOffset();
         int end = Math.min((start + pageRequest.getPageSize()), allUnfinishedTasks.size());
 
+        if (start >= end) {
+            return Page.empty(pageRequest);
+        }
+
         return new PageImpl<>(allUnfinishedTasks.subList(start, end), pageRequest, allUnfinishedTasks.size());
     }
 
