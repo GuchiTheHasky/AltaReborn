@@ -49,7 +49,7 @@ public class Task {
     private String title;
 
     @Column(name = "is_completed") // todo
-    private boolean isDeleted;
+    private boolean deleted;
 
     @JsonIgnore
     @JoinColumn(name = "topic_id", referencedColumnName = "id")
