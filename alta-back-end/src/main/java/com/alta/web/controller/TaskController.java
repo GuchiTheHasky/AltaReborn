@@ -61,8 +61,13 @@ public class TaskController {
     @PutMapping("/{id}")
     public TaskDto testUpdate(@PathVariable int id, @RequestBody TaskDto taskDto) {
 
-        System.out.println("id: " + id);
-        System.out.println("taskDto: " + taskDto);
+//        System.out.println("id: " + id);
+        System.out.println("taskDto id: " + taskDto.getId());
+        System.out.println("taskDto answer: " + taskDto.getAnswer());
+        System.out.println("taskDto level: " + taskDto.getLevel());
+        System.out.println("taskDto text: " + taskDto.getText());
+        System.out.println("taskDto title: " + taskDto.getTitle());
+        System.out.println("taskDto image: " + taskDto.getImagePath());
         return mainFacade.updateTask(id, taskDto);
     }
 }
