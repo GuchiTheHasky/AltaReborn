@@ -87,13 +87,17 @@ public class BasicMainFacade implements MainFacade {
         List<TaskDto> allUnfinishedTasks = taskService.getUnfinishedTasks(topicsDto, completedTasks);
 
         int start = (int) pageRequest.getOffset();
-        int end = Math.min((start + pageRequest.getPageSize()), allUnfinishedTasks.size());
+        int end = Math.min(start + pageRequest.getPageSize(), allUnfinishedTasks.size());
+
+        List<TaskDto> pageContent;
 
         if (start >= end) {
-            return Page.empty(pageRequest);
+            pageContent = Collections.emptyList();
+        } else {
+            pageContent = allUnfinishedTasks.subList(start, end);
         }
 
-        return new PageImpl<>(allUnfinishedTasks.subList(start, end), pageRequest, allUnfinishedTasks.size());
+        return new PageImpl<>(pageContent, pageRequest, allUnfinishedTasks.size());
     }
 
     private List<TaskDto> filterOfTasksCompletedByAtLeastOneStudent(List<TopicDto> topicsDto, List<Student> students) {
