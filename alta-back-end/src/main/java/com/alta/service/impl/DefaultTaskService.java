@@ -4,6 +4,7 @@ import com.alta.dto.TaskDto;
 import com.alta.dto.TopicDto;
 import com.alta.entity.Student;
 import com.alta.entity.Task;
+import com.alta.entity.TaskStatus;
 import com.alta.entity.Topic;
 import com.alta.exception.TaskException;
 import com.alta.exception.TopicException;
@@ -26,25 +27,25 @@ public class DefaultTaskService implements TaskService {
     private final TopicRepository topicRepository;
     private final TopicMapper topicMapper;
 
-    @Override
-    public List<TaskDto> getUnfinishedTasks(List<TopicDto> selectedTopics, List<Task> completedTasks) {
-        List<Task> tasks = taskRepository.findAllTasksIncludedInTopics(topicMapper.toTopicList(selectedTopics));
-
-        return tasks.stream()
-                .distinct()
-                .filter(task -> !completedTasks.contains(task))
-                .map(taskMapper::toTaskDto).toList();
-    }
-
-    @Override
-    public List<TaskDto> getTasksCompletedByAtLeastOneStudent(List<TopicDto> selectedTopics, List<Task> completedTasks) {
-        List<Task> tasks = taskRepository.findAllTasksIncludedInTopics(topicMapper.toTopicList(selectedTopics));
-
-        return tasks.stream()
-                .distinct()
-                .filter(completedTasks::contains)
-                .map(taskMapper::toTaskDto).toList();
-    }
+//    @Override
+//    public List<TaskDto> getUnfinishedTasks(List<TopicDto> selectedTopics, List<Task> completedTasks) {
+//        List<Task> tasks = taskRepository.findAllTasksIncludedInTopics(topicMapper.toTopicList(selectedTopics));
+//
+//        return tasks.stream()
+//                .distinct()
+//                .filter(task -> !completedTasks.contains(task))
+//                .map(taskMapper::toTaskDto).toList();
+//    }
+//
+//    @Override
+//    public List<TaskDto> getTasksCompletedByAtLeastOneStudent(List<TopicDto> selectedTopics, List<Task> completedTasks) {
+//        List<Task> tasks = taskRepository.findAllTasksIncludedInTopics(topicMapper.toTopicList(selectedTopics));
+//
+//        return tasks.stream()
+//                .distinct()
+//                .filter(completedTasks::contains)
+//                .map(taskMapper::toTaskDto).toList();
+//    }
 
     @Override
     public List<Task> excludeCompletedTasks(List<Task> tasks, Student student) {
@@ -61,6 +62,22 @@ public class DefaultTaskService implements TaskService {
         Topic newTopic = findTopic(taskDto);
 
         return taskMapper.toTaskDto(taskRepository.save(taskMapper.update(existingTask, taskDto, newTopic)));
+    }
+
+    @Override
+    @Transactional
+    public List<TaskDto> findAllTasks(List<Integer> topicsIds, List<Integer> studentsIds) {
+
+        List<Task> tasks = taskRepository.findAllTasks(topicsIds);
+
+        List<TaskDto> tasksDto = tasks.stream().map(taskMapper::toTaskDto).toList();
+
+        tasksDto.forEach(taskDto -> {
+            if (!taskDto.getStudents().isEmpty()) {
+                taskDto.setStatus(TaskStatus.valueOf("ASSIGNED"));
+            }
+        });
+        return tasksDto;
     }
 
     private Topic findTopic(TaskDto taskDto) {

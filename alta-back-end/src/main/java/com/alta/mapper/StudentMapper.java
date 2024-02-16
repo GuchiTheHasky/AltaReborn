@@ -10,6 +10,7 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface StudentMapper {
     @Mapping(target = "fullName", expression = "java(student.getLastName() + ' ' + student.getFirstName())")
+    @Mapping(target = "tasks", ignore = true)
     StudentDto toStudentDto(Student student);
 
     @Mapping(target = "lastName", expression = "java(studentDto.getFullName().split(\" \")[0])")

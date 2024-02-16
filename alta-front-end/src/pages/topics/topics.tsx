@@ -29,9 +29,9 @@ export const Topics = () => {
         setSelectedTopics(selectedRows);
     }, [selectedRows, setSelectedTopics]);
 
-    const sendToBackend = async (selectedRows: TopicDto[] | undefined, selectedStudentId: StudentDto[] | null) => {
+    const fetchTasks = async (selectedRows: TopicDto[] | undefined, selectedStudentId: StudentDto[] | null) => {
         try {
-            const response = await api.post('/tasks/unfinished', {
+            const response = await api.post('/tasks/all', {
                 topics: selectedRows,
                 students: selectedStudentId,
             });
@@ -44,7 +44,7 @@ export const Topics = () => {
     };
 
     const handleNextButtonClick = () => {
-        sendToBackend(selectedRows, selectedStudentIds);
+        fetchTasks(selectedRows, selectedStudentIds);
     };
 
     return (

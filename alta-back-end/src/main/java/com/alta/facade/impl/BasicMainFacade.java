@@ -5,6 +5,7 @@ import com.alta.dto.TaskDto;
 import com.alta.dto.TopicDto;
 import com.alta.entity.Student;
 import com.alta.entity.Task;
+import com.alta.entity.TaskStatus;
 import com.alta.facade.MainFacade;
 import com.alta.mapper.StudentMapper;
 import com.alta.mapper.TaskMapper;
@@ -30,10 +31,26 @@ public class BasicMainFacade implements MainFacade {
     private final TaskMapper taskMapper;
 
     @Override
-    public List<TaskDto> findTasksUnfinishedForAllStudents(List<TopicDto> topicsDto, List<StudentDto> studentsDto) {
-        List<Student> students = studentMapper.toStudentList(studentsDto);
-        return filterOfUnfinishedTasks(topicsDto, students);
+    public List<TopicDto> findAllTopics() {
+        return topicService.findAll();
     }
+    @Override
+    public List<StudentDto> findAllStudents() {
+        return studentService.findAll();
+    }
+    @Override
+    public List<TaskDto> findAllTasks(List<Integer> topicsIds, List<Integer> studentsIds) {
+        System.out.println("facade: " + topicsIds);
+        System.out.println(studentsIds);
+        return taskService.findAllTasks(topicsIds, studentsIds);
+    }
+
+
+//    @Override
+//    public List<TaskDto> findTasksUnfinishedForAllStudents(List<TopicDto> topicsDto, List<StudentDto> studentsDto) {
+//        List<Student> students = studentMapper.toStudentList(studentsDto);
+//        return filterOfUnfinishedTasks(topicsDto, students);
+//    }
 
     @Override
     @Transactional
@@ -43,36 +60,30 @@ public class BasicMainFacade implements MainFacade {
         return assignTasks(students, tasks);
     }
 
-    @Override
-    public List<TopicDto> findAllTopics() {
-        return topicService.findAll();
-    }
 
-    @Override
-    public List<TaskDto> findTasksCompletedByAtLeastOneStudent(List<TopicDto> topics, List<StudentDto> studentsDto) {
-        List<Student> students = studentMapper.toStudentList(studentsDto);
-        return filterOfTasksCompletedByAtLeastOneStudent(topics, students);
-    }
 
-    @Override
-    public List<StudentDto> findAllStudents() {
-        return studentService.findAll();
-    }
+//    @Override
+//    public List<TaskDto> findTasksCompletedByAtLeastOneStudent(List<TopicDto> topics, List<StudentDto> studentsDto) {
+//        List<Student> students = studentMapper.toStudentList(studentsDto);
+//        return filterOfTasksCompletedByAtLeastOneStudent(topics, students);
+//    }
+
+
 
     @Override
     public TaskDto updateTask(int id, TaskDto taskDto) {
         return taskService.update(id, taskDto);
     }
 
-    private List<TaskDto> filterOfUnfinishedTasks(List<TopicDto> topicsDto, List<Student> students) {
-        List<Task> completedTasks = studentService.getTasks(students);
-        return taskService.getUnfinishedTasks(topicsDto, completedTasks);
-    }
-
-    private List<TaskDto> filterOfTasksCompletedByAtLeastOneStudent(List<TopicDto> topicsDto, List<Student> students) {
-        List<Task> completedTasks = studentService.getTasks(students);
-        return taskService.getTasksCompletedByAtLeastOneStudent(topicsDto, completedTasks);
-    }
+//    private List<TaskDto> filterOfUnfinishedTasks(List<TopicDto> topicsDto, List<Student> students) {
+//        List<Task> completedTasks = studentService.getTasks(students);
+//        return taskService.getUnfinishedTasks(topicsDto, completedTasks);
+//    }
+//
+//    private List<TaskDto> filterOfTasksCompletedByAtLeastOneStudent(List<TopicDto> topicsDto, List<Student> students) {
+//        List<Task> completedTasks = studentService.getTasks(students);
+//        return taskService.getTasksCompletedByAtLeastOneStudent(topicsDto, completedTasks);
+//    }
 
     private Map<String, List<TaskDto>> assignTasks(List<Student> students, List<Task> tasksToAdd) {
         Map<String, List<TaskDto>> mapOfStudentsAndTasksAssigned = new HashMap<>();

@@ -8,11 +8,11 @@ import lombok.Setter;
 
 import java.util.List;
 
-@Setter
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
-public class TasksResponse {
-    List<TaskDto> unfinishedTasksForAllStudentsSelected;
-    List<TaskDto> tasksCompletedByAtLeastOneStudent;
-}
+//@Setter
+//@Getter
+//@NoArgsConstructor
+//@AllArgsConstructor
+//public class TasksResponse {
+//    List<TaskDto> unfinishedTasksForAllStudentsSelected;
+//    List<TaskDto> tasksCompletedByAtLeastOneStudent;
+//}

@@ -14,22 +14,22 @@ import java.util.List;
 
 public interface TaskService {
 
-    /**
-     * Retrieves unfinished tasks based on selected topics and completed tasks.
-     * @param selectedTopicsList A list of TopicDto objects representing selected topics.
-     * @param completedTasks A list of completed Task objects.
-     * @return A list of TaskDto objects representing unfinished tasks.
-     */
-    List<TaskDto> getUnfinishedTasks(List<TopicDto> selectedTopicsList, List<Task> completedTasks);
-
-
-    /**
-     * Retrieves tasks completed by at least one student within specified topics.
-     * @param topics A list of TopicDto objects representing specified topics.
-     * @param completedTasks A list of completed Task objects.
-     * @return A list of TaskDto objects representing tasks completed by at least one student within specified topics.
-     */
-    List<TaskDto> getTasksCompletedByAtLeastOneStudent(List<TopicDto> topics, List<Task> completedTasks);
+//    /**
+//     * Retrieves unfinished tasks based on selected topics and completed tasks.
+//     * @param selectedTopicsList A list of TopicDto objects representing selected topics.
+//     * @param completedTasks A list of completed Task objects.
+//     * @return A list of TaskDto objects representing unfinished tasks.
+//     */
+//    List<TaskDto> getUnfinishedTasks(List<TopicDto> selectedTopicsList, List<Task> completedTasks);
+//
+//
+//    /**
+//     * Retrieves tasks completed by at least one student within specified topics.
+//     * @param topics A list of TopicDto objects representing specified topics.
+//     * @param completedTasks A list of completed Task objects.
+//     * @return A list of TaskDto objects representing tasks completed by at least one student within specified topics.
+//     */
+//    List<TaskDto> getTasksCompletedByAtLeastOneStudent(List<TopicDto> topics, List<Task> completedTasks);
 
 
     /**
@@ -48,4 +48,6 @@ public interface TaskService {
      * @return An object representing the updated task.
      */
     TaskDto update(int id, TaskDto taskDto);
+
+    List<TaskDto> findAllTasks(List<Integer> topicsIds, List<Integer> studentsIds);
 }

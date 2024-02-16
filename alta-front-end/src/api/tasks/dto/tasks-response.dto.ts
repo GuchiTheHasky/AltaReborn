@@ -7,12 +7,8 @@ export interface TaskDto {
     text: string;
     answer: string;
     title: string;
-    topicId: number;
-    isDeleted: boolean;
+    status: string;
+    topicId: number; // todo: delete this line ???
+    isDeleted: boolean; // todo: delete this line ???
     students: StudentDto[]; // todo: delete this line ???
-}
-
-export interface TasksResponse {
-    unfinishedTasksForAllStudentsSelected: TaskDto[];
-    tasksCompletedByAtLeastOneStudent: TaskDto[];
 }
