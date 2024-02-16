@@ -1,8 +1,7 @@
-import {TaskDto, TasksResponse} from "../../api/tasks/dto/tasks-response.dto.ts";
+import {TaskDto} from "../../api/tasks/dto/tasks-response.dto.ts";
 import {GridRowId} from "@mui/x-data-grid";
 import {FC, useState} from "react";
 import {Checkbox, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
-import {ImageRender} from "./image.tsx";
 import BasicModal from "./modal.tsx";
 import {Button} from '../../components/buttons/green-button.component.tsx';
 import {api} from "../../core/api.ts";
@@ -10,7 +9,7 @@ import {useSelectedTopics, useStudents} from "../../context/data-provider.contex
 import {useNavigate} from "react-router-dom";
 
 interface TasksTableProps {
-    tasks: TasksResponse;
+    tasks: TaskDto[];
     selectedTaskIds: TaskDto[];
     setSelectedTaskIds: (value: TaskDto[]) => void;
 }
@@ -18,10 +17,11 @@ interface TasksTableProps {
 export const TasksTable: FC<TasksTableProps> = ({tasks, setSelectedTaskIds, selectedTaskIds}) => {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedTask, setSelectedTask] = useState<TaskDto | null>(null);
-
     const navigate = useNavigate();
     const {selectedStudentIds} = useStudents();
     const {selectedTopics} = useSelectedTopics();
+
+    console.log("tasks: ", tasks);
 
     const handleToggleModal = (task: TaskDto) => {
         setSelectedTask(task);
@@ -36,7 +36,7 @@ export const TasksTable: FC<TasksTableProps> = ({tasks, setSelectedTaskIds, sele
     const handleUnfinishedTasksSelection = (selectedRows: GridRowId[]) => {
         const selectedTasks = selectedRows.map((row) => {
             const taskId = Number(row);
-            return tasks.unfinishedTasksForAllStudentsSelected.find(task => task.id === taskId);
+            return tasks.find(task => task.id === taskId);
         }).filter(Boolean) as TaskDto[];
 
         // Перевірка, чи елемент вже вибраний
@@ -47,23 +47,9 @@ export const TasksTable: FC<TasksTableProps> = ({tasks, setSelectedTaskIds, sele
         setSelectedTaskIds(newSelectedTasks);
     };
 
-    const handleCompletedTasksSelection = (selectedRows: GridRowId[]) => {
-        const selectedTasks = selectedRows.map((row) => {
-            const taskId = Number(row);
-            return tasks.tasksCompletedByAtLeastOneStudent.find(task => task.id === taskId);
-        }).filter(Boolean) as TaskDto[];
-
-        const newSelectedTasks = selectedTaskIds.some(task => selectedTasks.some(selectedTask => selectedTask.id === task.id))
-            ? selectedTaskIds.filter((task) => !selectedTasks.some(selectedTask => selectedTask.id === task.id))
-            : [...selectedTaskIds, ...selectedTasks];
-
-        setSelectedTaskIds(newSelectedTasks);
-    };
-
     const reloadTableData = async () => {
-        console.log('selected topics:', selectedTopics);
         try {
-            const response = await api.post('/tasks/unfinished', {
+            const response = await api.post('/tasks/all', {
                 topics: selectedTopics,
                 students: selectedStudentIds,
             });
@@ -89,10 +75,15 @@ export const TasksTable: FC<TasksTableProps> = ({tasks, setSelectedTaskIds, sele
                 </TableHead>
                 <TableBody>
 
-                    {tasks.unfinishedTasksForAllStudentsSelected.map((task) => (
+                    {tasks.map((task) => (
                         <TableRow
                             key={`unfinished-task-key-${task.id}`}
-                            sx={{'&:last-child td, &:last-child th': {border: 0}, cursor: 'pointer'}}
+                            sx={{
+                                '&:last-child td, &:last-child th':
+                                    {border: 0},
+                                cursor: 'pointer',
+                                background: task.status == 'ASSIGNED' ? '#C0C0C0' : 'inherit'
+                            }}
                         >
                             <TableCell padding="checkbox">
                                 <Checkbox
@@ -105,39 +96,11 @@ export const TasksTable: FC<TasksTableProps> = ({tasks, setSelectedTaskIds, sele
                             </TableCell>
                             <TableCell>{task.level}</TableCell>
                             <TableCell>
-                                <ImageRender value={task.imagePath}/>
+                                <img src={task.imagePath} alt="Image"/>
                             </TableCell>
                             <TableCell>{task.answer}</TableCell>
                             <TableCell>
                                 <Button onClick={() => handleToggleModal(task)} color={"green"} label={"Редагувати"}/>
-                            </TableCell>
-                        </TableRow>
-                    ))}
-                    {tasks.tasksCompletedByAtLeastOneStudent.map((task) => (
-                        <TableRow
-                            key={`completed-task-key-${task.id}`}
-                            sx={{
-                                '&:last-child td, &:last-child th': {border: 0},
-                                cursor: 'pointer',
-                                backgroundColor: 'lightgrey'
-                            }}
-                        >
-                            <TableCell padding="checkbox">
-                                <Checkbox
-                                    checked={selectedTaskIds.some(selectedTask => selectedTask.id === task.id)}
-                                    onClick={() => handleCompletedTasksSelection([task.id])}
-                                />
-                            </TableCell>
-                            <TableCell component="th" scope="row">
-                                {task.title}
-                            </TableCell>
-                            <TableCell>{task.level}</TableCell>
-                            <TableCell>
-                                <ImageRender value={task.imagePath}/>
-                            </TableCell>
-                            <TableCell>{task.answer}</TableCell>
-                            <TableCell>
-                                <Button onClick={() => handleToggleModal(task)} color={"yellow"} label={"Редагувати"}/>
                             </TableCell>
                         </TableRow>
                     ))}
@@ -146,4 +109,3 @@ export const TasksTable: FC<TasksTableProps> = ({tasks, setSelectedTaskIds, sele
             <BasicModal isOpen={isOpen} onClose={closeModal} selectedTask={selectedTask} reloadData={reloadTableData}/>
         </TableContainer>);
 }
-

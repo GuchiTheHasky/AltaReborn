@@ -2,15 +2,7 @@ package com.alta.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -26,7 +18,7 @@ import java.util.HashSet;
 @RequiredArgsConstructor
 @Entity
 @Table(name = "task")
-@SQLRestriction("is_completed = false") // todo
+//@SQLRestriction("status = DELETED")
 @ToString(exclude = {"students", "topic"})
 public class Task {
     @Id
@@ -48,8 +40,9 @@ public class Task {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "is_completed") // todo
-    private boolean deleted;
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private TaskStatus status;
 
     @JsonIgnore
     @JoinColumn(name = "topic_id", referencedColumnName = "id")

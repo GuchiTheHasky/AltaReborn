@@ -3,10 +3,12 @@ package com.alta.web.controller;
 import com.alta.dto.StudentDto;
 import com.alta.dto.TaskDto;
 import com.alta.dto.TopicDto;
+import com.alta.entity.Task;
 import com.alta.facade.MainFacade;
+import com.alta.mapper.TaskMapper;
+import com.alta.repository.TaskRepository;
 import com.alta.web.entity.ModelRequest;
 import com.alta.web.entity.TasksRequest;
-import com.alta.web.entity.TasksResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -21,18 +23,31 @@ import java.util.Map;
 public class TaskController {
     private final MainFacade mainFacade;
 
-    @PostMapping("/unfinished")
-    public TasksResponse findAllUnfinishedTasks(@RequestBody TasksRequest request) {
-        List<TopicDto> topicsDto = request.getTopics();
-        List<StudentDto> studentsDto = request.getStudents();
+//    private final TaskRepository taskRepository;
+//    private final TaskMapper taskMapper;
 
-        TasksResponse response = new TasksResponse();
+    @PostMapping("/all")
+    public List<TaskDto> findAllTasksIncludedInTopic(@RequestBody TasksRequest request) {
+        List<Integer> studentsIds = request.getStudents().stream().map(StudentDto::getId).toList();
+        List<Integer> topicsIds = request.getTopics().stream().map(TopicDto::getId).toList();
+        System.out.println("controller: " + studentsIds);
+        System.out.println(topicsIds);
 
-        response.setUnfinishedTasksForAllStudentsSelected(mainFacade.findTasksUnfinishedForAllStudents(topicsDto, studentsDto));
-        response.setTasksCompletedByAtLeastOneStudent(mainFacade.findTasksCompletedByAtLeastOneStudent(topicsDto, studentsDto));
-
-        return response;
+        return mainFacade.findAllTasks(topicsIds, studentsIds);
     }
+
+//    @PostMapping("/unfinished")
+//    public TasksResponse findAllUnfinishedTasks(@RequestBody TasksRequest request) {
+//        List<TopicDto> topicsDto = request.getTopics();
+//        List<StudentDto> studentsDto = request.getStudents();
+//
+//        TasksResponse response = new TasksResponse();
+//
+//        response.setUnfinishedTasksForAllStudentsSelected(mainFacade.findTasksUnfinishedForAllStudents(topicsDto, studentsDto));
+//        response.setTasksCompletedByAtLeastOneStudent(mainFacade.findTasksCompletedByAtLeastOneStudent(topicsDto, studentsDto));
+//
+//        return response;
+//    }
 
     @PostMapping("/answers")
     public ModelAndView findAssignedTasksByStudentNameWithAnswers(ModelMap model, @RequestBody ModelRequest request) {
@@ -60,14 +75,6 @@ public class TaskController {
 
     @PutMapping("/{id}")
     public TaskDto testUpdate(@PathVariable int id, @RequestBody TaskDto taskDto) {
-
-//        System.out.println("id: " + id);
-        System.out.println("taskDto id: " + taskDto.getId());
-        System.out.println("taskDto answer: " + taskDto.getAnswer());
-        System.out.println("taskDto level: " + taskDto.getLevel());
-        System.out.println("taskDto text: " + taskDto.getText());
-        System.out.println("taskDto title: " + taskDto.getTitle());
-        System.out.println("taskDto image: " + taskDto.getImagePath());
         return mainFacade.updateTask(id, taskDto);
     }
 }

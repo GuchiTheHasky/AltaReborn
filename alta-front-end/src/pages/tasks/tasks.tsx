@@ -1,7 +1,7 @@
 import {useLocation} from 'react-router-dom';
 import {Button} from "../../components/buttons/green-button.component.tsx";
-import {TaskDto, TasksResponse} from "../../api/tasks/dto/tasks-response.dto.ts";
-import {useEffect, useState} from "react";
+import {TaskDto} from "../../api/tasks/dto/tasks-response.dto.ts";
+import {useState} from "react";
 import {api} from "../../core/api.ts";
 import {TasksTable} from "./tasks-table.component.jsx.tsx";
 import {StudentDto} from "../../api/students/dto/students-response.dto.ts";
@@ -9,19 +9,9 @@ import {useStudents} from "../../context/data-provider.context.tsx";
 
 export const Tasks = () => {
     const location = useLocation();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     const tasks = location.state?.tasks || [];
-
-    //const selectedStudentIds: number[] = JSON.parse(localStorage.getItem("selectedStudentIds") || "[]");
     const {selectedStudentIds} = useStudents();
-
-    const [loadedTasks, setLoadedTasks] = useState<TasksResponse[]>([]);
     const [selectedRows, setSelectedRows] = useState<TaskDto[]>([]);
-
-    useEffect(() => {
-        setLoadedTasks([tasks])
-    }, [tasks]);
-
 
     const answers = async (selectedRows: TaskDto[] | undefined, selectedStudentIds: StudentDto[] | null) => {
         const tasksIds = selectedRows?.map(task => task);
@@ -71,7 +61,6 @@ export const Tasks = () => {
                 <TasksTable tasks={tasks}
                             selectedTaskIds={selectedRows}
                             setSelectedTaskIds={setSelectedRows}/>
-
             </div>
         </div>
     );

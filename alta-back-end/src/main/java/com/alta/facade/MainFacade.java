@@ -30,24 +30,26 @@ public interface MainFacade {
     List<TopicDto> findAllTopics();
 
 
-    /**
-     * Finds tasks that are unfinished within given topics and student data.
-     *
-     * @param topics      List of topics to search for unfinished tasks.
-     * @param studentsDto List of student data to search for unfinished tasks.
-     * @return A list of unfinished tasks.
-     */
-    List<TaskDto> findTasksUnfinishedForAllStudents(List<TopicDto> topics, List<StudentDto> studentsDto);
+    List<TaskDto> findAllTasks(List<Integer> topicsIds, List<Integer> studentsIds);
+
+//    /**
+//     * Finds tasks that are unfinished within given topics and student data.
+//     *
+//     * @param topics      List of topics to search for unfinished tasks.
+//     * @param studentsDto List of student data to search for unfinished tasks.
+//     * @return A list of unfinished tasks.
+//     */
+//    List<TaskDto> findTasksUnfinishedForAllStudents(List<TopicDto> topics, List<StudentDto> studentsDto);
 
 
-    /**
-     * Finds tasks completed by at least one student within given topics and student data.
-     *
-     * @param topics      List of topics to search for completed tasks.
-     * @param studentsDto List of student data to search for completed tasks.
-     * @return A list of completed tasks.
-     */
-    List<TaskDto> findTasksCompletedByAtLeastOneStudent(List<TopicDto> topics, List<StudentDto> studentsDto);
+//    /**
+//     * Finds tasks completed by at least one student within given topics and student data.
+//     *
+//     * @param topics      List of topics to search for completed tasks.
+//     * @param studentsDto List of student data to search for completed tasks.
+//     * @return A list of completed tasks.
+//     */
+//    List<TaskDto> findTasksCompletedByAtLeastOneStudent(List<TopicDto> topics, List<StudentDto> studentsDto);
 
 
     /**

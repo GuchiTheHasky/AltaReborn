@@ -1,9 +1,13 @@
 package com.alta.dto;
 
+import com.alta.entity.Student;
+import com.alta.entity.TaskStatus;
 import lombok.Setter;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
+
+import java.util.Set;
 
 @Setter
 @Getter
@@ -16,4 +20,7 @@ public class TaskDto {
     private String text; // delete it
     private String answer;
     private String title;
+    private TaskStatus status;
+    private Set<StudentDto> students;
+
 }
