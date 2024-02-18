@@ -1,5 +1,5 @@
-if not exists public.tasks_group
+create table if not exists public.tasks_group
 (
-    id SERIAL PRIMARY KEY,
+    id int PRIMARY KEY,
     creation_date TIMESTAMP
 );
