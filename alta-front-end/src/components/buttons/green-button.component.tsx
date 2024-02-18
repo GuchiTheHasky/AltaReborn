@@ -10,7 +10,7 @@ export const Button: FC<ButtonProps> = ({label, onClick, className, color}) => {
     return (
         <MaterialButton
             variant="contained"
-            className={`"w-full" ${className} ${bgColor(color)}`}
+            className={`w-full ${className} ${bgColor(color)}`}
             onClick={onClick}
         >
             {label}
@@ -21,8 +21,8 @@ export const Button: FC<ButtonProps> = ({label, onClick, className, color}) => {
 
 function bgColor(color: 'yellow' | 'green') {
     if (color === 'yellow') {
-        return 'bg-[#fcc44d]';
+        return 'bg-[#fcc44d] hover:bg-[#C87124]';
     } else {
-        return 'bg-[#79aa2d]';
+        return 'bg-[#79aa2d] hover:bg-[#4B8B44]';
     }
 }
