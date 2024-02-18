@@ -19,10 +19,10 @@ import java.util.HashSet;
 @Entity
 @Table(name = "task")
 //@SQLRestriction("status = DELETED")
-@ToString(exclude = {"students", "topic"})
+@ToString(exclude = {"tasks_groups", "topic"})
 public class Task {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE) // todo
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int id;
 
     @Column(name = "image_path")
@@ -49,9 +49,13 @@ public class Task {
     @ManyToOne
     private Topic topic;
 
+//    @ManyToMany(mappedBy = "tasks")
+//    @JsonIgnoreProperties("tasks")
+//    private Set<Student> students = new HashSet<>();
+
     @ManyToMany(mappedBy = "tasks")
     @JsonIgnoreProperties("tasks")
-    private Set<Student> students = new HashSet<>();
+    private Set<TasksGroup> tasks_groups = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {
