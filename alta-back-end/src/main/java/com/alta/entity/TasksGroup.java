@@ -3,10 +3,7 @@ package com.alta.entity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.util.Date;
@@ -19,6 +16,8 @@ import java.util.Set;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = {"tasks", "students"})
+@EqualsAndHashCode(exclude = {"tasks", "students"})
 public class TasksGroup {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
