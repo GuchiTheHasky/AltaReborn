@@ -1,6 +1,7 @@
 package com.alta.service;
 
 import com.alta.dto.TopicDto;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
 
@@ -14,4 +15,6 @@ public interface TopicService {
      * @return A list of TopicDto objects representing the available topics.
      */
     List<TopicDto> findAll();
+
+    List<TopicDto> findAllTopicsPageByPage(PageRequest pageRequest);
 }

@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -57,7 +58,7 @@ public class DefaultTaskGroupService implements TaskGroupService {
         Set<Integer> assignedTaskIds = groupsForStudent.stream()
                 .flatMap(group -> group.getTasks().stream())
                 .map(Task::getId)
-                .collect(Collectors.toSet());
+                .collect(Collectors.toCollection(HashSet::new));
 
         return tasks.stream()
                 .filter(task -> !assignedTaskIds.contains(task.getId()))

@@ -5,11 +5,9 @@ import com.alta.dto.TaskDto;
 import com.alta.dto.TopicDto;
 import com.alta.entity.TasksGroup;
 import com.alta.web.entity.TaskResponse;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 /**
  * MainFacade serves as an interface for managing tasks, students, and topics.
@@ -50,4 +48,6 @@ public interface MainFacade {
      * @return An object representing the updated task.
      */
     TaskDto updateTask(int id, TaskDto taskDto);
+
+    List<TopicDto> findAllTopicsPageByPage(PageRequest pageRequest);
 }
