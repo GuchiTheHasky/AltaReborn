@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ua">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Task list with answers</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
+</head>
+<body>
+<div>
+    <p>Ім'я студента: <span th:text="${studentName}">Ім'я студента</span></p>
+    <p>Клас: <span th:text="${studentClass}">Клас студента</span></p>
+</div>
+<div class="container-fluid">
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped text-center table-hover">
+            <thead class="thead-dark">
+            <tr>
+                <th>Тема завдання</th>
+                <th>Рівень складності</th>
+                <th>Опис завдання</th>
+                <th>Відповідь</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="task : ${group.tasks}">
+                <td th:text="${task.title}">Тема завдання</td>
+                <td th:text="${task.level}">Рівень складності</td>
+                <td th:text="${task.text}">Опис завдання</td>
+                <td th:text="${task.answer}">Відповідь</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+</body>
+</html>

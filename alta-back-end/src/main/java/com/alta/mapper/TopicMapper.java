@@ -10,5 +10,4 @@ import java.util.List;
 public interface TopicMapper {
     Topic toTopic(TopicDto topicDto);
     TopicDto toTopicDto(Topic topic);
-    List<Topic> toTopicList(List<TopicDto> selectedTopics);
 }

@@ -1,53 +1,37 @@
 package com.alta.service;
 
 import com.alta.dto.TaskDto;
-import com.alta.dto.TopicDto;
-import com.alta.entity.Student;
 import com.alta.entity.Task;
 
 import java.util.List;
 
 /**
- * Interface for managing Task data.
- * Provides functionality to update, filter, and retrieve Task objects.
+ * Service interface for managing {@link Task} entities.
  */
-
 public interface TaskService {
 
-//    /**
-//     * Retrieves unfinished tasks based on selected topics and completed tasks.
-//     * @param selectedTopicsList A list of TopicDto objects representing selected topics.
-//     * @param completedTasks A list of completed Task objects.
-//     * @return A list of TaskDto objects representing unfinished tasks.
-//     */
-//    List<TaskDto> getUnfinishedTasks(List<TopicDto> selectedTopicsList, List<Task> completedTasks);
-//
-//
-//    /**
-//     * Retrieves tasks completed by at least one student within specified topics.
-//     * @param topics A list of TopicDto objects representing specified topics.
-//     * @param completedTasks A list of completed Task objects.
-//     * @return A list of TaskDto objects representing tasks completed by at least one student within specified topics.
-//     */
-//    List<TaskDto> getTasksCompletedByAtLeastOneStudent(List<TopicDto> topics, List<Task> completedTasks);
-
-
     /**
-     * Excludes completed tasks based on a student's completed tasks.
-     * @param tasksToAdd A list of Task objects to add.
-     * @param student A Student object representing a student.
-     * @return A list of Task objects excluding tasks completed by the student.
+     * Finds tasks by their IDs.
+     *
+     * @param tasksIds A list of task IDs to find matching tasks.
+     * @return A list of {@link Task} representing the tasks with the specified IDs.
      */
-    List<Task> excludeCompletedTasks(List<Task> tasksToAdd, Student student);
+    List<Task> findAllByIds(List<Integer> tasksIds);
 
     /**
      * Updates an existing Task object with the provided information.
      *
-     * @param id The ID of the task to update.
+     * @param id      The ID of the task to update.
      * @param taskDto An object containing the updated information for the task.
      * @return An object representing the updated task.
      */
     TaskDto update(int id, TaskDto taskDto);
 
-    List<TaskDto> findAllTasks(List<Integer> topicsIds, List<Integer> studentsIds);
+    /**
+     * Finds tasks associated with a list of topic IDs.
+     *
+     * @param topicsIds A list of topic IDs to find tasks related to those topics.
+     * @return A list of {@link TaskDto} representing tasks associated with the specified topic IDs.
+     */
+    List<TaskDto> findByTopicIds(List<Integer> topicsIds);
 }
