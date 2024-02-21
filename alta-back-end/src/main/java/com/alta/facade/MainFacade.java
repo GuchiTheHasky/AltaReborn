@@ -5,6 +5,7 @@ import com.alta.dto.TaskDto;
 import com.alta.dto.TopicDto;
 import com.alta.entity.TasksGroup;
 import com.alta.web.entity.TaskResponse;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
@@ -52,4 +53,6 @@ public interface MainFacade {
     List<StudentDto> findAllStudentsPageByPage(PageRequest pageRequest);
 
     List<TopicDto> findAllTopicsPageByPage(PageRequest pageRequest);
+
+    Page<TaskDto> findAllTasksPageByPage(List<Integer> studentIds, List<Integer> topicIds, PageRequest pageRequest);
 }

@@ -12,9 +12,12 @@ import com.alta.service.TaskService;
 import com.alta.service.TopicService;
 import com.alta.web.entity.TaskResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -75,6 +78,24 @@ public class DefaultMainFacade implements MainFacade {
     @Override
     public List<TopicDto> findAllTopicsPageByPage(PageRequest pageRequest) {
         return topicService.findAllTopicsPageByPage(pageRequest);
+    }
+
+    @Override
+    public Page<TaskDto> findAllTasksPageByPage(List<Integer> studentIds, List<Integer> topicIds, PageRequest pageRequest) {
+        List<TaskDto> tasks = taskService.findByTopicIds(topicIds);
+
+        int start = (int) pageRequest.getOffset();
+        int end = Math.min(start + pageRequest.getPageSize(), tasks.size());
+
+        List<TaskDto> pageContent;
+
+        if (start >= end) {
+            pageContent = Collections.emptyList();
+        } else {
+            pageContent = tasks.subList(start, end);
+        }
+
+        return new PageImpl<>(pageContent, pageRequest, tasks.size());
     }
 
 }
