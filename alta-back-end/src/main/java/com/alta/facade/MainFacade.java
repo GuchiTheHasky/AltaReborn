@@ -3,9 +3,13 @@ package com.alta.facade;
 import com.alta.dto.StudentDto;
 import com.alta.dto.TaskDto;
 import com.alta.dto.TopicDto;
+import com.alta.entity.TasksGroup;
+import com.alta.web.entity.TaskResponse;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * MainFacade serves as an interface for managing tasks, students, and topics.
@@ -29,38 +33,14 @@ public interface MainFacade {
      */
     List<TopicDto> findAllTopics();
 
+    TasksGroup findTaskGroupById(int id);
 
-    List<TaskDto> findAllTasks(List<Integer> topicsIds, List<Integer> studentsIds);
-
-//    /**
-//     * Finds tasks that are unfinished within given topics and student data.
-//     *
-//     * @param topics      List of topics to search for unfinished tasks.
-//     * @param studentsDto List of student data to search for unfinished tasks.
-//     * @return A list of unfinished tasks.
-//     */
-//    List<TaskDto> findTasksUnfinishedForAllStudents(List<TopicDto> topics, List<StudentDto> studentsDto);
+    List<TasksGroup> findTasksGroupByStudentIds(List<Integer> studentsIds);
 
 
-//    /**
-//     * Finds tasks completed by at least one student within given topics and student data.
-//     *
-//     * @param topics      List of topics to search for completed tasks.
-//     * @param studentsDto List of student data to search for completed tasks.
-//     * @return A list of completed tasks.
-//     */
-//    List<TaskDto> findTasksCompletedByAtLeastOneStudent(List<TopicDto> topics, List<StudentDto> studentsDto);
+    List<TaskDto> findAllTasks(List<Integer> studentIds, List<Integer> topicIds);
 
-
-    /**
-     * Updates the tasks of specified students and retrieves the assigned tasks matching given students' full names.
-     *
-     * @param studentsDto List of students which tasks should be updated.
-     * @param tasks       List of task data to set for the students.
-     * @return A map where keys are students' full names and values are lists of tasks assigned.
-     */
-    Map<String, List<TaskDto>> updateStudentTasksAndRetrieveDto(List<StudentDto> studentsDto, List<TaskDto> tasks);
-
+    List<TaskResponse> receiveAssignmentTasks(List<Integer> studentsIds, List<Integer> tasksIds);
 
     /**
      * Updates an existing task with the provided information.

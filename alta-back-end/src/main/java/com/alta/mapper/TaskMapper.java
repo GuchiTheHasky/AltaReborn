@@ -13,23 +13,13 @@ import java.util.List;
 
 @Mapper(componentModel = "spring", uses = {StudentMapper.class})
 public interface TaskMapper {
-    @Mapping(target = "students", ignore = true)
-    @Mapping(target = "topic", ignore = true)
-    Task toTask(TaskDto taskDto);
 
     TaskDto toTaskDto(Task task);
-
-    List<TaskDto> toTaskDtoList(List<Task> tasks);
-
-    @Mapping(target = "students", ignore = true)
-    @Mapping(target = "topic", ignore = true)
-    List<Task> toTaskList(List<TaskDto> tasks);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "imagePath", ignore = true)
     @Mapping(target = "text", ignore = true)
     @Mapping(target = "status", ignore = true)
-    @Mapping(target = "students", ignore = true)
     Task update(@MappingTarget Task task, TaskDto taskDto, @Context Topic topic);
 
     @AfterMapping

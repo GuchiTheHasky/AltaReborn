@@ -1,17 +1,20 @@
 package com.alta.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Column;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.annotations.SQLRestriction;
-
-import java.util.Objects;
-import java.util.Set;
-import java.util.HashSet;
 
 @Getter
 @Setter
@@ -19,7 +22,7 @@ import java.util.HashSet;
 @Entity
 @Table(name = "task")
 //@SQLRestriction("status = DELETED")
-@ToString(exclude = {"students", "topic"})
+@ToString(exclude = {"topic"})
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE) // todo
@@ -45,26 +48,7 @@ public class Task {
     private TaskStatus status;
 
     @JsonIgnore
-    @JoinColumn(name = "topic_id", referencedColumnName = "id")
     @ManyToOne
+    @JoinColumn(name = "topic_id", referencedColumnName = "id")
     private Topic topic;
-
-    @ManyToMany(mappedBy = "tasks")
-    @JsonIgnoreProperties("tasks")
-    private Set<Student> students = new HashSet<>();
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Task task = (Task) o;
-        return id == task.id && Objects.equals(imagePath, task.imagePath)
-                && Objects.equals(level, task.level) && Objects.equals(text, task.text)
-                && Objects.equals(answer, task.answer);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, imagePath, level, text, answer);
-    }
 }

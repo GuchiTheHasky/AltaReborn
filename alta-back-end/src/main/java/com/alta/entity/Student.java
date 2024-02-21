@@ -1,23 +1,15 @@
 package com.alta.entity;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.Table;
+import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
-import lombok.EqualsAndHashCode;
-
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "students")
@@ -25,11 +17,11 @@ import java.util.Set;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = {"tasks"})
-@EqualsAndHashCode(exclude = "tasks")
+//@ToString(exclude = {"tasks"})
+//@EqualsAndHashCode(exclude = "tasks")
 public class Student {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE) // todo
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int id;
 
     @Column(name = "first_name")
@@ -46,11 +38,4 @@ public class Student {
 
     @Column(name = "comment")
     private String comment;
-
-    @ManyToMany
-    @JoinTable(
-            name = "student_task",
-            joinColumns = @JoinColumn(name = "student_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "task_id", referencedColumnName = "id"))
-    private Set<Task> tasks = new HashSet<>();
 }
