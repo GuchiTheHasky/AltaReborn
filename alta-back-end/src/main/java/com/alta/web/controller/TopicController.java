@@ -8,9 +8,11 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -34,5 +36,17 @@ public class TopicController {
                     array = @ArraySchema(schema = @Schema(implementation = TopicDto.class))))
     public List<TopicDto> findAll() {
         return mainFacade.findAllTopics();
+    }
+
+    @GetMapping("/paging")
+    public List<TopicDto> findAllTopicsPageByPage(@RequestParam(defaultValue = "0") int page,
+                                                  @RequestParam(defaultValue = "15") int size) {
+
+        if (page < 0 || size <= 0) {
+            throw new IllegalArgumentException("Page number and size must be non-negative");
+        }
+
+        PageRequest pageRequest = PageRequest.of(page, size);
+        return mainFacade.findAllTopicsPageByPage(pageRequest);
     }
 }

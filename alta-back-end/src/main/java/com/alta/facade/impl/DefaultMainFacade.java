@@ -12,6 +12,7 @@ import com.alta.service.TaskService;
 import com.alta.service.TopicService;
 import com.alta.web.entity.TaskResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -64,6 +65,11 @@ public class DefaultMainFacade implements MainFacade {
     @Override
     public TaskDto updateTask(int id, TaskDto taskDto) {
         return taskService.update(id, taskDto);
+    }
+
+    @Override
+    public List<TopicDto> findAllTopicsPageByPage(PageRequest pageRequest) {
+        return topicService.findAllTopicsPageByPage(pageRequest);
     }
 
 }
