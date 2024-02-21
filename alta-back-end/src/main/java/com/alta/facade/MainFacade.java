@@ -49,5 +49,7 @@ public interface MainFacade {
      */
     TaskDto updateTask(int id, TaskDto taskDto);
 
+    List<StudentDto> findAllStudentsPageByPage(PageRequest pageRequest);
+
     List<TopicDto> findAllTopicsPageByPage(PageRequest pageRequest);
 }

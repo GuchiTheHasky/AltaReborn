@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
@@ -39,12 +40,8 @@ public class TopicController {
     }
 
     @GetMapping("/paging")
-    public List<TopicDto> findAllTopicsPageByPage(@RequestParam(defaultValue = "0") int page,
-                                                  @RequestParam(defaultValue = "15") int size) {
-
-        if (page < 0 || size <= 0) {
-            throw new IllegalArgumentException("Page number and size must be non-negative");
-        }
+    public List<TopicDto> findAllTopicsPageByPage(@RequestParam(defaultValue = "0") @Min(0) int page,
+                                                  @RequestParam(defaultValue = "15") @Min(1) int size) {
 
         PageRequest pageRequest = PageRequest.of(page, size);
         return mainFacade.findAllTopicsPageByPage(pageRequest);

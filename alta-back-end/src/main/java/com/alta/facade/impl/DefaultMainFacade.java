@@ -68,6 +68,11 @@ public class DefaultMainFacade implements MainFacade {
     }
 
     @Override
+    public List<StudentDto> findAllStudentsPageByPage(PageRequest pageRequest) {
+        return studentService.findAllStudentsPageByPage(pageRequest);
+    }
+
+    @Override
     public List<TopicDto> findAllTopicsPageByPage(PageRequest pageRequest) {
         return topicService.findAllTopicsPageByPage(pageRequest);
     }
