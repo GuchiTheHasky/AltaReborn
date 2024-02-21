@@ -43,10 +43,6 @@ public class StudentController {
     public List<StudentDto> findAllStudentsPageByPage(@RequestParam(defaultValue = "0") @Min(0) int page,
                                                   @RequestParam(defaultValue = "10") @Min(1) int size) {
 
-        if (page < 0 || size <= 0) {
-            throw new IllegalArgumentException("Page number and size must be non-negative");
-        }
-
         PageRequest pageRequest = PageRequest.of(page, size);
         return mainFacade.findAllStudentsPageByPage(pageRequest);
     }
