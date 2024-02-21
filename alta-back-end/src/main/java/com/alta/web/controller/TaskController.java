@@ -5,11 +5,14 @@ import com.alta.facade.MainFacade;
 import com.alta.web.entity.TaskResponse;
 import com.alta.web.entity.TaskRequest;
 import io.swagger.v3.oas.annotations.Operation;
+import org.springframework.data.domain.Page;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,6 +41,20 @@ public class TaskController {
             @RequestParam(value = "studentIds") List<Integer> studentIds,
             @RequestParam(value = "topicIds") List<Integer> topicIds) {
         return mainFacade.findAllTasks(studentIds, topicIds);
+    }
+
+    @GetMapping("/paging")
+    public List<TaskDto> findAllTasksPageByPage(
+            @RequestParam(value = "studentIds") List<Integer> studentIds,
+            @RequestParam(value = "topicIds") List<Integer> topicIds,
+            @RequestParam(defaultValue = "0") @Min(0) int page,
+            @RequestParam(defaultValue = "10") @Min(1) int size) {
+
+        PageRequest pageRequest = PageRequest.of(page, size);
+
+        Page<TaskDto> tasksPage = mainFacade.findAllTasksPageByPage(studentIds, topicIds, pageRequest);
+
+        return tasksPage.getContent();
     }
 
     @PostMapping("/assign")
