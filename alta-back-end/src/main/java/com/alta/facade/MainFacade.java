@@ -2,7 +2,6 @@ package com.alta.facade;
 
 import com.alta.dto.StudentDto;
 import com.alta.dto.TaskDto;
-import com.alta.dto.TasksGroupDto;
 import com.alta.dto.TopicDto;
 import com.alta.entity.TasksGroup;
 import com.alta.web.entity.TaskResponse;
@@ -51,6 +50,4 @@ public interface MainFacade {
      * @return An object representing the updated task.
      */
     TaskDto updateTask(int id, TaskDto taskDto);
-
-    Map<StudentDto, TasksGroupDto> assignTasksToStudents(List<StudentDto> students, List<TaskDto> tasks);
 }
