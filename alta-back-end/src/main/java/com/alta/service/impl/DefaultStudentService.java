@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -34,6 +35,7 @@ public class DefaultStudentService implements StudentService {
 
         return studentsPage.getContent().stream()
                 .map(studentMapper::toStudentDto)
+                .sorted(Comparator.comparing(StudentDto::getFullName))
                 .toList();
     }
 }

@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -31,6 +32,7 @@ public class DefaultTopicService implements TopicService {
 
         return topicsPage.getContent().stream()
                 .map(topicMapper::toTopicDto)
+                .sorted(Comparator.comparing(TopicDto::getTitle))
                 .toList();
     }
 }
