@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -20,12 +21,17 @@ public class DefaultStudentService implements StudentService {
 
     @Override
     public List<StudentDto> findAll() {
-        return studentRepository.findAll().stream().map(studentMapper::toStudentDto).toList();
+        return studentRepository.findAll().stream()
+                .map(studentMapper::toStudentDto)
+                .sorted(Comparator.comparing(StudentDto::getFullName))
+                .toList();
     }
 
     @Override
     public List<StudentDto> findAllByIds(List<Integer> studentIds) {
-        return studentRepository.findAllById(studentIds).stream().map(studentMapper::toStudentDto).toList();
+        return studentRepository.findAllById(studentIds).stream()
+                .map(studentMapper::toStudentDto)
+                .toList();
     }
 
     @Override
@@ -34,6 +40,7 @@ public class DefaultStudentService implements StudentService {
 
         return studentsPage.getContent().stream()
                 .map(studentMapper::toStudentDto)
+                .sorted(Comparator.comparing(StudentDto::getFullName))
                 .toList();
     }
 }
