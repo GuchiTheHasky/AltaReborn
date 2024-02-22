@@ -31,7 +31,6 @@ public class DefaultStudentService implements StudentService {
     public List<StudentDto> findAllByIds(List<Integer> studentIds) {
         return studentRepository.findAllById(studentIds).stream()
                 .map(studentMapper::toStudentDto)
-                .sorted(Comparator.comparing(StudentDto::getFullName))
                 .toList();
     }
 
