@@ -23,6 +23,7 @@ public class DefaultTopicService implements TopicService {
     public List<TopicDto> findAll() {
         return topicRepository.findAll().stream()
                 .map(topicMapper::toTopicDto)
+                .sorted(Comparator.comparing(TopicDto::getTitle))
                 .toList();
     }
 
