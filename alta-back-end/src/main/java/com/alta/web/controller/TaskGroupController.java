@@ -37,6 +37,7 @@ public class TaskGroupController {
         return mainFacade.findTaskGroupById(id);
     }
 
+
     @GetMapping("/studentsIds")
     @Operation(
             summary = "Find task groups by student IDs.",
@@ -53,6 +54,7 @@ public class TaskGroupController {
     public List<TasksGroup> findByStudentsIds(@RequestParam("id") List<Integer> studentsIds) {
         return mainFacade.findTasksGroupByStudentIds(studentsIds);
     }
+
 
     @GetMapping("/{id}/document")
     @Operation(

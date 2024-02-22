@@ -18,6 +18,6 @@ public interface TaskRepository extends JpaRepository<Task, Integer> {
      * @param topics A list of topic IDs to filter tasks by.
      * @return A list of {@link Task} entities associated with the specified topic IDs.
      */
-    @Query("SELECT t FROM Task t WHERE t.topic.id IN :topics")
+    @Query("SELECT t FROM Task t WHERE t.topic.id IN :topics AND t.status = 'AVAILABLE'")
     List<Task> findByTopicIds(List<Integer> topics);
 }

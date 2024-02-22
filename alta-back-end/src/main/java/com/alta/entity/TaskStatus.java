@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public enum TaskStatus {
     DELETED,
+    AVAILABLE,
     ASSIGNED;
 
     private String status;

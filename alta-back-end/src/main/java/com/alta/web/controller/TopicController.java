@@ -40,6 +40,7 @@ public class TopicController {
         return mainFacade.findAllTopics();
     }
 
+
     @GetMapping("/paging")
     @Operation(
             summary = "Get page of topics.",

@@ -5,6 +5,7 @@ import com.alta.facade.MainFacade;
 import com.alta.web.entity.TaskResponse;
 import com.alta.web.entity.TaskRequest;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.data.domain.Page;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -43,7 +44,26 @@ public class TaskController {
         return mainFacade.findAllTasks(studentIds, topicIds);
     }
 
+
     @GetMapping("/paging")
+    @Operation(
+            summary = "Get page of tasks.",
+            description = "Retrieves a page of tasks included in topics.",
+            tags = "Task")
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Successfully retrieves a paginated list of tasks.",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            array = @ArraySchema(schema = @Schema(implementation = TaskDto.class))
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Invalid pagination parameters."
+            )
+    })
     public List<TaskDto> findAllTasksPageByPage(
             @RequestParam(value = "studentIds") List<Integer> studentIds,
             @RequestParam(value = "topicIds") List<Integer> topicIds,
@@ -56,6 +76,7 @@ public class TaskController {
 
         return tasksPage.getContent();
     }
+
 
     @PostMapping("/assign")
     @Operation(
@@ -76,6 +97,7 @@ public class TaskController {
 
         return mainFacade.receiveAssignmentTasks(studentIds, tasksIds);
     }
+
 
     @PutMapping("/{id}")
     @Operation(

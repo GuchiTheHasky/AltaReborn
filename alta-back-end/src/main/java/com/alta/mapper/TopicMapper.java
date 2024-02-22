@@ -8,6 +8,5 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface TopicMapper {
-    Topic toTopic(TopicDto topicDto);
     TopicDto toTopicDto(Topic topic);
 }
