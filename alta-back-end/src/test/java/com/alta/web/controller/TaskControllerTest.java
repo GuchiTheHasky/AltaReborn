@@ -3,177 +3,129 @@ package com.alta.web.controller;
 import com.alta.dto.StudentDto;
 import com.alta.dto.TaskDto;
 import com.alta.dto.TasksGroupDto;
-import com.alta.dto.TopicDto;
-
-import com.alta.entity.TasksGroup;
 import com.alta.facade.MainFacade;
-import com.alta.web.entity.ModelRequest;
-import com.alta.web.entity.TasksAssignmentResponse;
-import com.alta.web.entity.TasksRequest;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import org.json.JSONObject;
+import com.alta.web.entity.TaskRequest;
+import com.alta.web.entity.TaskResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest
 class TaskControllerTest {
+
     @Mock
     private MainFacade mainFacade;
 
     @InjectMocks
     private TaskController taskController;
 
-    @Autowired
-    private TestRestTemplate testRestTemplate;
-
     @Test
-    @DisplayName("Integration test findAllTasksIncludedInTopic for TaskDto, check status code and content type")
-    void findAllTasksIncludedInTopic_ReturnsStatusOkAndContentTypeApplicationJson() {
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-
-        List<StudentDto> students = Arrays.asList(
-                new StudentDto(1, "Ткаченко Ігор", "igor.tkachenko@example.com", "A", "Good student", new HashSet<>()),
-                new StudentDto(2, "Мельник Карина", "karina.melnik@example.com", "B", "Excellent student", new HashSet<>())
-        );
-
-        List<TopicDto> topics = Arrays.asList(new TopicDto(1, "Topic 1"), new TopicDto(2, "Topic 2"));
-
-        TasksRequest request = new TasksRequest(topics, students);
-
-        HttpEntity<TasksRequest> entity = new HttpEntity<>(request, headers);
-
-        ResponseEntity<List<TaskDto>> responseEntity = testRestTemplate.exchange(
-                "/api/v1/tasks/all",
-                HttpMethod.POST,
-                entity,
-                new ParameterizedTypeReference<>() {
-                });
-
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-
-        assertTrue(Objects.requireNonNull(responseEntity.getHeaders().getContentType())
-                .isCompatibleWith(MediaType.APPLICATION_JSON));
-    }
-
-    @Test
-    @DisplayName("Unit test findAllTasksIncludedInTopic, check size and values")
-    void findAllTasksIncludedInTopic_ReturnsListOfTasks() {
-
-        List<StudentDto> students = Arrays.asList(
-                new StudentDto(1, "Ткаченко Ігор", "igor.tkachenko@example.com", "A", "Good student", new HashSet<>()),
-                new StudentDto(2, "Мельник Карина", "karina.melnik@example.com", "B", "Excellent student", new HashSet<>())
-        );
-
-        List<TopicDto> topics = Arrays.asList(new TopicDto(1, "Topic 1"), new TopicDto(2, "Topic 2"));
-
-        TasksRequest request = new TasksRequest(topics, students);
-
-        List<Integer> studentIds = students.stream().map(StudentDto::getId).toList();
-        List<Integer> topicIds = topics.stream().map(TopicDto::getId).toList();
+    @DisplayName("Unit test findAll() for TaskDto, check size and values")
+    void findAll_ReturnsListOfTasks() {
+        List<Integer> studentIds = Arrays.asList(1, 2, 3);
+        List<Integer> topicIds = Arrays.asList(4, 5, 6);
 
         List<TaskDto> tasks = Arrays.asList(
-                new TaskDto(1, "imagePath1", "level1", "text1", "answer1", "Topic 1", null, new HashSet<>()),
-                new TaskDto(2, "imagePath2", "level2", "text2", "answer2", "Topic 2", null, new HashSet<>())
+                new TaskDto(1, "image1.jpg", "Level_1", "text_1", "Answer 1", "Title 1"),
+                new TaskDto(2, "image2.jpg", "Level_2", "text_1", "Answer 2", "Title 2")
         );
 
-        when(mainFacade.findAllTasks(topicIds, studentIds)).thenReturn(tasks);
+        when(mainFacade.findAllTasks(studentIds, topicIds)).thenReturn(tasks);
 
-        List<TaskDto> result = taskController.findAllTasksIncludedInTopic(request);
+        List<TaskDto> result = taskController.findAll(studentIds, topicIds);
 
-        verify(mainFacade).findAllTasks(topicIds, studentIds);
+        verify(mainFacade).findAllTasks(studentIds, topicIds);
 
         assertEquals(2, result.size());
-        assertEquals(tasks, result);
+        assertEquals(tasks.get(0), result.get(0));
+        assertEquals(tasks.get(1), result.get(1));
     }
 
     @Test
-    @DisplayName("Integration test assignTasksToStudents, check status code and content type")
-    void assignTasksToStudents_ReturnsStatusOkAndContentTypeApplicationJson() {
-
-        List<StudentDto> students = Arrays.asList(
-                new StudentDto(1, "Ткаченко Ігор", "igor.tkachenko@example.com", "A", "Good student", new HashSet<>()),
-                new StudentDto(2, "Мельник Карина", "karina.melnik@example.com", "B", "Excellent student", new HashSet<>())
-        );
+    @DisplayName("Unit test findAllTasksPageByPage() for TaskDto, check size and values")
+    void findAllTasksPageByPage_ReturnsPageOfTasks() {
+        List<Integer> studentIds = Arrays.asList(1, 2, 3);
+        List<Integer> topicIds = Arrays.asList(4, 5, 6);
+        PageRequest pageRequest = PageRequest.of(0, 10);
 
         List<TaskDto> tasks = Arrays.asList(
-                new TaskDto(1, "imagePath1", "level1", "text1", "answer1", "Topic 1", null, new HashSet<>()),
-                new TaskDto(2, "imagePath2", "level2", "text2", "answer2", "Topic 2", null, new HashSet<>())
+                new TaskDto(1, "image1.jpg", "Level_1", "text_1", "Answer 1", "Title 1"),
+                new TaskDto(2, "image2.jpg", "Level_2", "text_1", "Answer 2", "Title 2")
         );
+        Page<TaskDto> taskPage = new PageImpl<>(tasks);
 
-        ModelRequest requestBody = new ModelRequest(tasks, students);
+        when(mainFacade.findAllTasksPageByPage(studentIds, topicIds, pageRequest)).thenReturn(taskPage);
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<ModelRequest> requestEntity = new HttpEntity<>(requestBody, headers);
+        List<TaskDto> result = taskController.findAllTasksPageByPage(studentIds, topicIds, 0, 10);
 
-        ResponseEntity<List<TasksAssignmentResponse>> responseEntity = testRestTemplate.exchange(
-                "/api/v1/tasks/assign",
-                HttpMethod.POST,
-                requestEntity,
-                new ParameterizedTypeReference<>() {
-                }
-        );
+        verify(mainFacade).findAllTasksPageByPage(studentIds, topicIds, pageRequest);
 
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-
-        assertTrue(Objects.requireNonNull(responseEntity.getHeaders().getContentType())
-                .isCompatibleWith(MediaType.APPLICATION_JSON));
+        assertEquals(2, result.size());
+        assertEquals(tasks.get(0), result.get(0));
+        assertEquals(tasks.get(1), result.get(1));
     }
 
     @Test
-    @DisplayName("Unit test assignTasksToStudents, check size and values")
-    void assignTasksToStudents_ReturnsApplicationJson() {
+    @DisplayName("Unit test receiveAssignmentTasks() for TaskResponse, check size and values")
+    void receiveAssignmentTasks_ReturnsListOfTaskResponses() {
+        List<Integer> studentIds = Arrays.asList(1, 2);
+        List<Integer> tasksIds = Arrays.asList(1, 2);
+        TaskRequest request = new TaskRequest(studentIds, tasksIds);
 
-        List<StudentDto> students = Arrays.asList(
-                new StudentDto(1, "Ткаченко Ігор", "igor.tkachenko@example.com", "A", "Good student", new HashSet<>()),
-                new StudentDto(2, "Мельник Карина", "karina.melnik@example.com", "B", "Excellent student", new HashSet<>())
+        List<TasksGroupDto> tasksGroups = Arrays.asList(
+                new TasksGroupDto(1, LocalDateTime.now(), 1, Arrays.asList(
+                        new TaskDto(1, "image1.jpg", "Level_1", "text_1", "Answer 1", "Title 1"),
+                        new TaskDto(2, "image2.jpg", "Level_2", "text_2", "Answer 2", "Title 2")
+                )),
+                new TasksGroupDto(2, LocalDateTime.now(), 2, Arrays.asList(
+                        new TaskDto(3, "image3.jpg", "Level_3", "text_3", "Answer 3", "Title 3"),
+                        new TaskDto(4, "image4.jpg", "Level_4", "text_4", "Answer 4", "Title 4")
+                ))
         );
 
-        List<TaskDto> tasks = Arrays.asList(
-                new TaskDto(1, "imagePath1", "level1", "text1", "answer1", "Topic 1", null, new HashSet<>()),
-                new TaskDto(2, "imagePath2", "level2", "text2", "answer2", "Topic 2", null, new HashSet<>())
-        );
+        List<TaskResponse> taskResponses = tasksGroups.stream()
+                .map(group -> new TaskResponse(
+                        new StudentDto(group.getStudentId(), "Гурченко Катерина", "katerina.gurchenko@example.com", "Grade A", "No comments"),
+                        group))
+                .collect(Collectors.toList());
 
-        LocalDate creationDate = LocalDate.now();
+        when(mainFacade.receiveAssignmentTasks(request.studentsIds(), request.tasksIds())).thenReturn(taskResponses);
 
-        TasksGroupDto tasksGroup = new TasksGroupDto(1, creationDate, tasks);
+        List<TaskResponse> result = taskController.receiveAssignmentTasks(request);
 
-        Map<StudentDto, TasksGroupDto> expectedResponseMap = students.stream()
-                .collect(Collectors.toMap(student -> student, student -> tasksGroup));
+        verify(mainFacade).receiveAssignmentTasks(request.studentsIds(), request.tasksIds());
 
-        List<TasksAssignmentResponse> expectedResponse = expectedResponseMap.entrySet().stream()
-                .map(entry -> new TasksAssignmentResponse(entry.getKey(), entry.getValue()))
-                .toList();
-
-        when(mainFacade.assignTasksToStudents(students, tasks)).thenReturn(expectedResponseMap);
-
-        ModelRequest requestBody = new ModelRequest(tasks, students);
-
-        List<TasksAssignmentResponse> actualResponse = taskController.assignTasksToStudents(requestBody);
-
-        verify(mainFacade).assignTasksToStudents(students, tasks);
-
-        assertNotNull(actualResponse);
-        assertEquals(expectedResponse.size(), actualResponse.size());
-
-        assertEquals(expectedResponse, actualResponse);
+        assertEquals(2, result.size());
+        assertEquals(taskResponses.get(0), result.get(0));
+        assertEquals(taskResponses.get(1), result.get(1));
     }
+
+    @Test
+    @DisplayName("Unit test update() for TaskDto, check returned task")
+    void update_ReturnsUpdatedTask() {
+
+        int taskId = 1;
+        TaskDto updatedTask = new TaskDto(taskId, "updated_image.jpg", "Updated_Level", "updated_text", "Updated_Answer", "Updated_Title");
+
+        when(mainFacade.updateTask(taskId, updatedTask)).thenReturn(updatedTask);
+
+        TaskDto result = taskController.update(taskId, updatedTask);
+
+        verify(mainFacade).updateTask(taskId, updatedTask);
+        assertEquals(updatedTask, result);
+    }
+
 }

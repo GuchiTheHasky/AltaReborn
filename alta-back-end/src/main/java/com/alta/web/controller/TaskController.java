@@ -17,6 +17,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 
 @RequestMapping("/api/v1/tasks")
@@ -73,6 +74,10 @@ public class TaskController {
         PageRequest pageRequest = PageRequest.of(page, size);
 
         Page<TaskDto> tasksPage = mainFacade.findAllTasksPageByPage(studentIds, topicIds, pageRequest);
+
+        if (tasksPage == null || tasksPage.isEmpty()) {
+            return Collections.emptyList();
+        }
 
         return tasksPage.getContent();
     }

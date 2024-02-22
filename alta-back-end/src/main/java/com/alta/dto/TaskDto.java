@@ -2,10 +2,7 @@ package com.alta.dto;
 
 import com.alta.entity.Student;
 import com.alta.entity.TaskStatus;
-import lombok.Setter;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
+import lombok.*;
 
 import java.util.Set;
 
@@ -13,6 +10,7 @@ import java.util.Set;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
 public class TaskDto {
     private int id;
     private String imagePath;
@@ -20,6 +18,5 @@ public class TaskDto {
     private String text; // delete it
     private String answer;
     private String title;
-    private Set<StudentDto> students;
 
 }
