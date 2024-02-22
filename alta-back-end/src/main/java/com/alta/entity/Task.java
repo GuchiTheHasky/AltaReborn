@@ -21,7 +21,6 @@ import lombok.ToString;
 @RequiredArgsConstructor
 @Entity
 @Table(name = "task")
-//@SQLRestriction("status = DELETED")
 @ToString(exclude = {"topic"})
 public class Task {
     @Id

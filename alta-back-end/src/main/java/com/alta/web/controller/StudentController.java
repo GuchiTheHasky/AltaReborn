@@ -42,6 +42,7 @@ public class StudentController {
         return mainFacade.findAllStudents();
     }
 
+
     @GetMapping("/paging")
     @Operation(
             summary = "Get page of students.",
