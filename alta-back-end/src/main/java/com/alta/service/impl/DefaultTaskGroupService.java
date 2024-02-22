@@ -1,8 +1,10 @@
 package com.alta.service.impl;
 
+import com.alta.dto.TasksGroupDto;
 import com.alta.entity.Task;
 import com.alta.entity.TasksGroup;
 import com.alta.exception.TaskGroupException;
+import com.alta.mapper.TasksGroupMapper;
 import com.alta.repository.TaskGroupRepository;
 import com.alta.service.TaskGroupService;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +21,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class DefaultTaskGroupService implements TaskGroupService {
     private final TaskGroupRepository taskGroupRepository;
+    private final TasksGroupMapper tasksGroupMapper;
 
     @Override
     public TasksGroup findById(int taskGroupId) {
@@ -36,8 +39,8 @@ public class DefaultTaskGroupService implements TaskGroupService {
     }
 
     @Override
-    public TasksGroup save(TasksGroup group) {
-        return taskGroupRepository.save(group);
+    public TasksGroupDto save(TasksGroup group) {
+         return tasksGroupMapper.toTasksGroupDto(taskGroupRepository.save(group));
     }
 
     @Override

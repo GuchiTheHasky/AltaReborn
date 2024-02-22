@@ -1,5 +1,6 @@
 package com.alta.service;
 
+import com.alta.dto.TasksGroupDto;
 import com.alta.entity.Task;
 import com.alta.entity.TasksGroup;
 
@@ -32,7 +33,7 @@ public interface TaskGroupService {
      * @param group The {@link TasksGroup} to save.
      * @return The saved {@link TasksGroup}.
      */
-    TasksGroup save(TasksGroup group);
+    TasksGroupDto save(TasksGroup group);
 
     /**
      * Creates a new task group for a student with a set of tasks.
