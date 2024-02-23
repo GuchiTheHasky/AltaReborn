@@ -2,6 +2,7 @@ package com.alta.facade;
 
 import com.alta.dto.StudentDto;
 import com.alta.dto.TaskDto;
+import com.alta.dto.TasksGroupDto;
 import com.alta.dto.TopicDto;
 import com.alta.entity.TasksGroup;
 import com.alta.web.entity.TaskResponse;
@@ -18,6 +19,12 @@ import java.util.List;
 public interface MainFacade {
 
     // Student
+
+    /**
+     * Retrieves a student by unique Id.
+     * @param id The Id of student to receive.
+     */
+    StudentDto findStudentById(int id);
 
     /**
      * Retrieves a list of all available students.
@@ -57,7 +64,7 @@ public interface MainFacade {
      * @param id The unique identifier of the task group.
      * @return A TasksGroup object representing the task group found by the specified ID.
      */
-    TasksGroup findTaskGroupById(int id);
+    TasksGroupDto findTaskGroupById(int id);
 
     /**
      * Retrieves a list of task groups associated with the specified student IDs.
@@ -65,7 +72,7 @@ public interface MainFacade {
      * @param studentsIds A list of student IDs for which to find associated task groups.
      * @return A list of TasksGroup objects representing the task groups associated with the specified student IDs.
      */
-    List<TasksGroup> findTasksGroupByStudentIds(List<Integer> studentsIds);
+    List<TasksGroupDto> findTasksGroupByStudentIds(List<Integer> studentsIds);
 
     // Task
     /**

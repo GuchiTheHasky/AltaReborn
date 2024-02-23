@@ -1,5 +1,6 @@
 package com.alta.service;
 
+import com.alta.dto.TasksGroupDto;
 import com.alta.entity.Task;
 import com.alta.entity.TasksGroup;
 
@@ -14,17 +15,17 @@ public interface TaskGroupService {
      * Finds a task group by its ID.
      *
      * @param taskGroupId The ID of the task group to find.
-     * @return The found {@link TasksGroup}, or null if not found.
+     * @return The found {@link TasksGroupDto}, or null if not found.
      */
-    TasksGroup findById(int taskGroupId);
+    TasksGroupDto findById(int taskGroupId);
 
     /**
      * Finds task groups associated with a list of student IDs.
      *
      * @param studentsIds A list of student IDs to find task groups for.
-     * @return A list of {@link TasksGroup} associated with the given student IDs.
+     * @return A list of {@link TasksGroupDto} associated with the given student IDs.
      */
-    List<TasksGroup> findByStudentIds(List<Integer> studentsIds);
+    List<TasksGroupDto> findByStudentIds(List<Integer> studentsIds);
 
     /**
      * Saves a task group.
@@ -32,7 +33,7 @@ public interface TaskGroupService {
      * @param group The {@link TasksGroup} to save.
      * @return The saved {@link TasksGroup}.
      */
-    TasksGroup save(TasksGroup group);
+    TasksGroupDto save(TasksGroup group);
 
     /**
      * Creates a new task group for a student with a set of tasks.

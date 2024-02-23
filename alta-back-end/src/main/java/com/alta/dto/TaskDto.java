@@ -20,6 +20,6 @@ public class TaskDto {
     private String text; // delete it
     private String answer;
     private String title;
-    private Set<StudentDto> students;
+    private String status;
 
 }

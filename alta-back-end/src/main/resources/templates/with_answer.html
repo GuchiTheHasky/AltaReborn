@@ -11,6 +11,7 @@
 </head>
 <body>
 <div class="container-fluid">
+    <h2 th:text="'Студент: ' + ${student.fullName}"></h2>
         <div class="table-responsive">
             <table class="table table-bordered table-striped text-center table-hover">
                 <thead>
@@ -22,6 +23,12 @@
                 </tr>
                 </thead>
                 <tbody>
+                <tr th:each="task : ${group.getTasks()}">
+                    <td th:text="${task.title}"></td>
+                    <td th:text="${task.level}"></td>
+                    <img alt="img" th:src="@{${task.imagePath}}"/>
+                    <td th:text="${task.answer}"></td>
+                </tr>
 
                 </tbody>
             </table>

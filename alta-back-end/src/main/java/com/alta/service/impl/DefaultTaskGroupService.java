@@ -1,8 +1,10 @@
 package com.alta.service.impl;
 
+import com.alta.dto.TasksGroupDto;
 import com.alta.entity.Task;
 import com.alta.entity.TasksGroup;
 import com.alta.exception.TaskGroupException;
+import com.alta.mapper.TaskGroupMapper;
 import com.alta.repository.TaskGroupRepository;
 import com.alta.service.TaskGroupService;
 import lombok.RequiredArgsConstructor;
@@ -19,25 +21,26 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class DefaultTaskGroupService implements TaskGroupService {
     private final TaskGroupRepository taskGroupRepository;
+    private final TaskGroupMapper taskGroupMapper;
 
     @Override
-    public TasksGroup findById(int taskGroupId) {
+    public TasksGroupDto findById(int taskGroupId) {
         Optional<TasksGroup> optionalTasksGroup = taskGroupRepository.findById(taskGroupId);
         if (optionalTasksGroup.isEmpty()) {
             throw new TaskGroupException(taskGroupId);
         }
-        return optionalTasksGroup.get();
+        return taskGroupMapper.toDto(optionalTasksGroup.get());
     }
 
     @Override
-    public List<TasksGroup> findByStudentIds(List<Integer> studentsIds) {
-        return taskGroupRepository.findByStudentIds(studentsIds);
+    public List<TasksGroupDto> findByStudentIds(List<Integer> studentsIds) {
+        return taskGroupRepository.findByStudentIds(studentsIds).stream().map(taskGroupMapper::toDto).toList();
 
     }
 
     @Override
-    public TasksGroup save(TasksGroup group) {
-        return taskGroupRepository.save(group);
+    public TasksGroupDto save(TasksGroup group) {
+        return taskGroupMapper.toDto(taskGroupRepository.save(group));
     }
 
     @Override

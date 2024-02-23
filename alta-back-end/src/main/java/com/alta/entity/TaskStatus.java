@@ -1,14 +1,16 @@
 package com.alta.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 public enum TaskStatus {
-    DELETED,
-    AVAILABLE,
-    ASSIGNED;
+    DELETED("DELETED"),
+    AVAILABLE("AVAILABLE"),
+    ASSIGNED("ASSIGNED");
 
     private String status;
 

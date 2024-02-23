@@ -2,6 +2,7 @@ package com.alta.service.impl;
 
 import com.alta.dto.StudentDto;
 import com.alta.entity.Student;
+import com.alta.exception.StudentException;
 import com.alta.mapper.StudentMapper;
 import com.alta.repository.StudentRepository;
 import com.alta.service.StudentService;
@@ -12,12 +13,22 @@ import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class DefaultStudentService implements StudentService {
     private final StudentRepository studentRepository;
     private final StudentMapper studentMapper;
+
+    @Override
+    public StudentDto findById(int id) {
+        Optional<Student> student = studentRepository.findById(id);
+        if (student.isEmpty()) {
+            throw new StudentException(id);
+        }
+        return studentMapper.toStudentDto(student.get());
+    }
 
     @Override
     public List<StudentDto> findAll() {

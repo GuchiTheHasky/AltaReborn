@@ -10,32 +10,27 @@
           crossorigin="anonymous">
 </head>
 <body>
-<div>
-    <p>Ім'я студента: <span th:text="${studentName}">Ім'я студента</span></p>
-    <p>Клас: <span th:text="${studentClass}">Клас студента</span></p>
-</div>
 <div class="container-fluid">
+    <h2 th:text="'Студент: ' + ${student.fullName}"></h2>
     <div class="table-responsive">
         <table class="table table-bordered table-striped text-center table-hover">
-            <thead class="thead-dark">
-            <tr>
+            <thead>
+            <tr class="table-success">
                 <th>Тема завдання</th>
                 <th>Рівень складності</th>
                 <th>Опис завдання</th>
-                <th>Відповідь</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="task : ${group.tasks}">
-                <td th:text="${task.title}">Тема завдання</td>
-                <td th:text="${task.level}">Рівень складності</td>
-                <td th:text="${task.text}">Опис завдання</td>
-                <td th:text="${task.answer}">Відповідь</td>
+            <tr th:each="task : ${group.getTasks()}">
+                <td th:text="${task.title}"></td>
+                <td th:text="${task.level}"></td>
+                <img alt="img" th:src="@{${task.imagePath}}"/>
             </tr>
+
             </tbody>
         </table>
     </div>
-
 </div>
 </body>
 </html>

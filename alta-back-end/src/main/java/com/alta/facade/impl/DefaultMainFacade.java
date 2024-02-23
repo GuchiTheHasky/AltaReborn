@@ -2,8 +2,10 @@ package com.alta.facade.impl;
 
 import com.alta.dto.StudentDto;
 import com.alta.dto.TaskDto;
+import com.alta.dto.TasksGroupDto;
 import com.alta.dto.TopicDto;
 import com.alta.entity.Task;
+import com.alta.entity.TaskStatus;
 import com.alta.entity.TasksGroup;
 import com.alta.facade.MainFacade;
 import com.alta.service.StudentService;
@@ -17,8 +19,8 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -34,23 +36,32 @@ public class DefaultMainFacade implements MainFacade {
     }
 
     @Override
+    public StudentDto findStudentById(int id) {
+        return studentService.findById(id);
+    }
+
+    @Override
     public List<StudentDto> findAllStudents() {
         return studentService.findAll();
     }
 
     @Override
-    public TasksGroup findTaskGroupById(int id) {
+    public TasksGroupDto findTaskGroupById(int id) {
         return taskGroupService.findById(id);
     }
 
     @Override
-    public List<TasksGroup> findTasksGroupByStudentIds(List<Integer> studentsIds) {
+    public List<TasksGroupDto> findTasksGroupByStudentIds(List<Integer> studentsIds) {
         return taskGroupService.findByStudentIds(studentsIds);
     }
 
     @Override
     public List<TaskDto> findAllTasks(List<Integer> studentIds, List<Integer> topicIds) {
-        return taskService.findByTopicIds(topicIds);
+        List<TaskDto> tasks = taskService.findByTopicIds(topicIds);
+        List<TasksGroupDto> tasksGroup = taskGroupService.findByStudentIds(studentIds);
+
+        assignTaskStatus(tasksGroup, tasks);
+        return sortTasksByStatus(tasks);
     }
 
     @Override
@@ -59,10 +70,11 @@ public class DefaultMainFacade implements MainFacade {
         List<Task> tasks = taskService.findAllByIds(tasksIds);
 
         return students.stream()
-                        .map(studentDto -> {
-                            TasksGroup group = taskGroupService.createTasksGroup(studentDto.getId(), tasks);
-                            return new TaskResponse(studentDto, taskGroupService.save(group));
-                        }).toList();
+                .map(studentDto -> {
+                    TasksGroup group = taskGroupService.createTasksGroup(studentDto.getId(), tasks);
+
+                    return new TaskResponse(studentDto, taskGroupService.save(group));
+                }).toList();
     }
 
     @Override
@@ -83,6 +95,7 @@ public class DefaultMainFacade implements MainFacade {
     @Override
     public Page<TaskDto> findAllTasksPageByPage(List<Integer> studentIds, List<Integer> topicIds, PageRequest pageRequest) {
         List<TaskDto> tasks = taskService.findByTopicIds(topicIds);
+        List<TasksGroupDto> tasksGroup = taskGroupService.findByStudentIds(studentIds);
 
         int start = (int) pageRequest.getOffset();
         int end = Math.min(start + pageRequest.getPageSize(), tasks.size());
@@ -95,7 +108,28 @@ public class DefaultMainFacade implements MainFacade {
             pageContent = tasks.subList(start, end);
         }
 
-        return new PageImpl<>(pageContent, pageRequest, tasks.size());
+        assignTaskStatus(tasksGroup, pageContent);
+
+        return new PageImpl<>(sortTasksByStatus(pageContent), pageRequest, tasks.size());
+    }
+
+    private void assignTaskStatus(List<TasksGroupDto> tasksGroup, List<TaskDto> tasks) {
+        Set<Integer> assignedTasks = tasksGroup.stream()
+                .flatMap(tasksGroupDto -> tasksGroupDto.getTasks().stream())
+                .map(TaskDto::getId)
+                .collect(Collectors.toSet());
+
+        tasks.forEach(task -> {
+            if (assignedTasks.contains(task.getId())) {
+                task.setStatus(TaskStatus.ASSIGNED.getStatus());
+            }
+        });
+    }
+
+    private List<TaskDto> sortTasksByStatus(List<TaskDto> tasks) {
+        return tasks.stream()
+                .sorted(Comparator.comparing(task -> TaskStatus.ASSIGNED.getStatus().equals(task.getStatus())))
+                .collect(Collectors.toList());
     }
 
 }
