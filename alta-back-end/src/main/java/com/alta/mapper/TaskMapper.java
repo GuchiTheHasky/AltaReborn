@@ -10,7 +10,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
 
-@Mapper(componentModel = "spring", uses = {StudentMapper.class})
+@Mapper(componentModel = "spring")
 public interface TaskMapper {
 
     TaskDto toTaskDto(Task task);

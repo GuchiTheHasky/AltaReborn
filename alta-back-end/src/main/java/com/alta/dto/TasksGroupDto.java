@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 public class TasksGroupDto {
     private int id;
-    private LocalDate creationDate;
+    private LocalDateTime creatingAt;
+    private int studentId;
     private List<TaskDto> tasks = new ArrayList<>();
 }

@@ -28,7 +28,7 @@ public class TaskController {
     @GetMapping
     @Operation(
             summary = "Get all tasks.",
-            description = "Retrieves a list of all tasks available in selected topics.",
+            description = "Retrieves a list of all tasks available in selected topics with statuses: \"ASSIGNED\" (if any selected student has finished any task from list) or \"AVAILABLE\" (if not).",
             tags = "Task")
     @ApiResponse(
             responseCode = "200",

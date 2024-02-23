@@ -1,5 +1,7 @@
 package com.alta.web.controller;
 
+import com.alta.dto.StudentDto;
+import com.alta.dto.TasksGroupDto;
 import com.alta.entity.TasksGroup;
 import com.alta.facade.MainFacade;
 import io.swagger.v3.oas.annotations.Operation;
@@ -33,7 +35,7 @@ public class TaskGroupController {
                     mediaType = MediaType.APPLICATION_JSON_VALUE,
                     schema = @Schema(implementation = TasksGroup.class))
     )
-    public TasksGroup findById(@PathVariable("id") int id) {
+    public TasksGroupDto findById(@PathVariable("id") int id) {
         return mainFacade.findTaskGroupById(id);
     }
 
@@ -51,7 +53,7 @@ public class TaskGroupController {
                     array = @ArraySchema(schema = @Schema(implementation = TasksGroup.class))
             )
     )
-    public List<TasksGroup> findByStudentsIds(@RequestParam("id") List<Integer> studentsIds) {
+    public List<TasksGroupDto> findByStudentsIds(@RequestParam("id") List<Integer> studentsIds) {
         return mainFacade.findTasksGroupByStudentIds(studentsIds);
     }
 
@@ -59,7 +61,7 @@ public class TaskGroupController {
     @GetMapping("/{id}/document")
     @Operation(
             summary = "Get template for a task group.",
-            description = "Retrieves a template for a task group by its ID and the specified document name.",
+            description = "Retrieves a template for a task group by its ID and the specified document name(type): \"with_answer\" or \"without_answer\".",
             tags = "TaskGroup")
     @ApiResponse(
             responseCode = "200",
@@ -69,11 +71,13 @@ public class TaskGroupController {
     public ModelAndView getModelAndView(
             @PathVariable("id") int taskGroupId,
             @RequestParam("type") String type) {
-        TasksGroup tg = mainFacade.findTaskGroupById(taskGroupId);
+        TasksGroupDto group = mainFacade.findTaskGroupById(taskGroupId);
+        StudentDto student = mainFacade.findStudentById(group.getStudentId());
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName(type);
-        modelAndView.addObject("group", tg);
+        modelAndView.addObject("student", student);
+        modelAndView.addObject("group", group);
         return modelAndView;
     }
 }

@@ -10,6 +10,8 @@ import java.util.List;
  */
 public interface StudentService {
 
+    StudentDto findById(int id);
+
     /**
      * Retrieves all students.
      *
