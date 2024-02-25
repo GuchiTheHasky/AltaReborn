@@ -33,9 +33,6 @@ public class Task {
     @Column(name = "level")
     private String level;
 
-    @Column(name = "text")
-    private String text;
-
     @Column(name = "answer")
     private String answer;
 

@@ -12,13 +12,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "students")
+@Table(name = "student")
 @Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-//@ToString(exclude = {"tasks"})
-//@EqualsAndHashCode(exclude = "tasks")
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

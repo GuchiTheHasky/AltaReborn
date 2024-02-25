@@ -1,13 +1,11 @@
 package com.alta.service.impl;
 
 import com.alta.dto.TaskDto;
-import com.alta.entity.Student;
 import com.alta.entity.Task;
 import com.alta.entity.Topic;
 import com.alta.exception.TaskException;
 import com.alta.exception.TopicException;
 import com.alta.mapper.TaskMapper;
-import com.alta.mapper.TopicMapper;
 import com.alta.repository.TaskRepository;
 import com.alta.repository.TopicRepository;
 import com.alta.service.TaskService;

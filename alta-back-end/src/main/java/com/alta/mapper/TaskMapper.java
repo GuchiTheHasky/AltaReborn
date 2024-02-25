@@ -17,7 +17,6 @@ public interface TaskMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "imagePath", ignore = true)
-    @Mapping(target = "text", ignore = true)
     @Mapping(target = "status", ignore = true)
     Task update(@MappingTarget Task task, TaskDto taskDto, @Context Topic topic);
 
