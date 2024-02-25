@@ -1,1 +1,0 @@
-alter table public.task add column status varchar(512);

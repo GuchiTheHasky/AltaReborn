@@ -1,1 +1,0 @@
-alter table public.students add column tasks_ids jsonb default '[]'::jsonb;

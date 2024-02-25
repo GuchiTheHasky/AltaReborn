@@ -12,7 +12,6 @@ import lombok.AllArgsConstructor;
 public class StudentDto {
     private int id;
     private String fullName;
-    private String email;
     private String grade;
     private String comment;
 }
