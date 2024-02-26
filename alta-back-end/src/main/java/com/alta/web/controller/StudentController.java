@@ -43,7 +43,7 @@ public class StudentController {
     }
 
 
-    @GetMapping("/paging")
+    @GetMapping("/page")
     @Operation(
             summary = "Get page of students.",
             description = "Retrieves a page of students.",

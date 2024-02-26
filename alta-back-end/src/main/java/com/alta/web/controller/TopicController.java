@@ -41,7 +41,7 @@ public class TopicController {
     }
 
 
-    @GetMapping("/paging")
+    @GetMapping("/page")
     @Operation(
             summary = "Get page of topics.",
             description = "Retrieves a page of topics.",
