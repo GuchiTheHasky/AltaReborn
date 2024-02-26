@@ -45,7 +45,7 @@ public class TaskController {
     }
 
 
-    @GetMapping("/paging")
+    @GetMapping("/page")
     @Operation(
             summary = "Get page of tasks.",
             description = "Retrieves a page of tasks included in topics.",
