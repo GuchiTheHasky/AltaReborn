@@ -78,25 +78,25 @@ public class TaskController {
     }
 
 
-    @PostMapping("/assign")
-    @Operation(
-            summary = "Assign tasks for students.",
-            description = "Assign a list of tasks to specified students and returns the task group with current student.",
-            tags = "Task")
-    @ApiResponse(
-            responseCode = "200",
-            description = "Tasks successfully assigned to students.",
-            content = @Content(
-                    mediaType = MediaType.APPLICATION_JSON_VALUE,
-                    array = @ArraySchema(schema = @Schema(implementation = TaskResponse.class))
-            )
-    )
-    public List<TaskResponse> receiveAssignmentTasks(@RequestBody TaskRequest request) {
-        List<Integer> studentIds = request.studentsIds();
-        List<Integer> tasksIds = request.tasksIds();
-
-        return mainFacade.receiveAssignmentTasks(studentIds, tasksIds);
-    }
+//    @PostMapping("/assign")
+//    @Operation(
+//            summary = "Assign tasks for students.",
+//            description = "Assign a list of tasks to specified students and returns the task group with current student.",
+//            tags = "Task")
+//    @ApiResponse(
+//            responseCode = "200",
+//            description = "Tasks successfully assigned to students.",
+//            content = @Content(
+//                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+//                    array = @ArraySchema(schema = @Schema(implementation = TaskResponse.class))
+//            )
+//    )
+//    public List<TaskResponse> receiveAssignmentTasks(@RequestBody TaskRequest request) {
+//        List<Integer> studentIds = request.studentsIds();
+//        List<Integer> tasksIds = request.tasksIds();
+//
+//        return mainFacade.receiveAssignmentTasks(studentIds, tasksIds);
+//    }
 
 
     @PutMapping("/{id}")

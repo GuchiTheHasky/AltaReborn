@@ -14,9 +14,10 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class TasksGroupDto {
+public class ExamDto {
     private int id;
-    private LocalDateTime creatingAt;
-    private int studentId;
+    private String title;
+    private LocalDateTime createdAt;
+    private List<StudentDto> students = new ArrayList<>();
     private List<TaskDto> tasks = new ArrayList<>();
 }
