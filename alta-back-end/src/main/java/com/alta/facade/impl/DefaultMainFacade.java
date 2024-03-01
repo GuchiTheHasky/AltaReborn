@@ -1,17 +1,11 @@
 package com.alta.facade.impl;
 
-import com.alta.dto.ExamDto;
-import com.alta.dto.StudentDto;
-import com.alta.dto.TaskDto;
-import com.alta.dto.TopicDto;
+import com.alta.dto.*;
 import com.alta.entity.Student;
 import com.alta.entity.Task;
 import com.alta.entity.TaskStatus;
 import com.alta.facade.MainFacade;
-import com.alta.service.StudentService;
-import com.alta.service.ExamService;
-import com.alta.service.TaskService;
-import com.alta.service.TopicService;
+import com.alta.service.*;
 import com.alta.web.entity.ExamRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -27,6 +21,7 @@ public class DefaultMainFacade implements MainFacade {
     private final TaskService taskService;
     private final StudentService studentService;
     private final ExamService examService;
+    private final ZnoService znoService;
 
     @Override
     public List<TopicDto> findAllTopics() {
@@ -129,6 +124,21 @@ public class DefaultMainFacade implements MainFacade {
 
 
         return examService.createExam(request.title(), students, tasks);
+    }
+
+    @Override
+    public List<ZnoDto> findAllZnos() {
+        return znoService.findAll();
+    }
+
+    @Override
+    public List<ZnoDto> findAllZnosPageByPage(PageRequest pageRequest) {
+        return znoService.findAllZnosPageByPage(pageRequest);
+    }
+
+    @Override
+    public ZnoDto findZnoById(int id) {
+        return znoService.findById(id);
     }
 
     private void assignTaskStatus(List<ExamDto> exam, List<TaskDto> tasks) {
