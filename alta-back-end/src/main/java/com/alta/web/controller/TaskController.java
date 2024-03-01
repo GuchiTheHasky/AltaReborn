@@ -25,59 +25,62 @@ import java.util.List;
 public class TaskController {
     private final MainFacade mainFacade;
 
-    @GetMapping
-    @Operation(
-            summary = "Get all tasks.",
-            description = "Retrieves a list of all tasks available in selected topics with statuses: \"ASSIGNED\" (if any selected student has finished any task from list) or \"AVAILABLE\" (if not).",
-            tags = "Task")
-    @ApiResponse(
-            responseCode = "200",
-            description = "Successfully retrieved list of tasks.",
-            content = @Content(
-                    mediaType = MediaType.APPLICATION_JSON_VALUE,
-                    array = @ArraySchema(schema = @Schema(implementation = TaskDto.class))
-            )
-    )
-    public List<TaskDto> findAll(
-            @RequestParam(value = "studentIds") List<Integer> studentIds,
-            @RequestParam(value = "topicIds") List<Integer> topicIds) {
-        return mainFacade.findAllTasks(studentIds, topicIds);
-    }
+    // to do -> need to change main.facade.findAllTasks
+//    @GetMapping
+//    @Operation(
+//            summary = "Get all tasks.",
+//            description = "Retrieves a list of all tasks available in selected topics with statuses: \"ASSIGNED\" (if any selected student has finished any task from list) or \"AVAILABLE\" (if not).",
+//            tags = "Task")
+//    @ApiResponse(
+//            responseCode = "200",
+//            description = "Successfully retrieved list of tasks.",
+//            content = @Content(
+//                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+//                    array = @ArraySchema(schema = @Schema(implementation = TaskDto.class))
+//            )
+//    )
+//    public List<TaskDto> findAll(
+//            @RequestParam(value = "studentIds") List<Integer> studentIds,
+//            @RequestParam(value = "topicIds") List<Integer> topicIds) {
+//        return mainFacade.findAllTasks(studentIds, topicIds);
+//    }
 
 
-    @GetMapping("/page")
-    @Operation(
-            summary = "Get page of tasks.",
-            description = "Retrieves a page of tasks included in topics.",
-            tags = "Task")
-    @ApiResponses({
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Successfully retrieves a paginated list of tasks.",
-                    content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            array = @ArraySchema(schema = @Schema(implementation = TaskDto.class))
-                    )
-            ),
-            @ApiResponse(
-                    responseCode = "400",
-                    description = "Invalid pagination parameters."
-            )
-    })
-    public List<TaskDto> findAllTasksPageByPage(
-            @RequestParam(value = "studentIds") List<Integer> studentIds,
-            @RequestParam(value = "topicIds") List<Integer> topicIds,
-            @RequestParam(defaultValue = "0") @Min(0) int page,
-            @RequestParam(defaultValue = "10") @Min(1) int size) {
+    // to do -> need to change mainFacade.findAllTasksPageByPage
+//    @GetMapping("/page")
+//    @Operation(
+//            summary = "Get page of tasks.",
+//            description = "Retrieves a page of tasks included in topics.",
+//            tags = "Task")
+//    @ApiResponses({
+//            @ApiResponse(
+//                    responseCode = "200",
+//                    description = "Successfully retrieves a paginated list of tasks.",
+//                    content = @Content(
+//                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+//                            array = @ArraySchema(schema = @Schema(implementation = TaskDto.class))
+//                    )
+//            ),
+//            @ApiResponse(
+//                    responseCode = "400",
+//                    description = "Invalid pagination parameters."
+//            )
+//    })
+//    public List<TaskDto> findAllTasksPageByPage(
+//            @RequestParam(value = "studentIds") List<Integer> studentIds,
+//            @RequestParam(value = "topicIds") List<Integer> topicIds,
+//            @RequestParam(defaultValue = "0") @Min(0) int page,
+//            @RequestParam(defaultValue = "10") @Min(1) int size) {
+//
+//        PageRequest pageRequest = PageRequest.of(page, size);
+//
+//        Page<TaskDto> tasksPage = mainFacade.findAllTasksPageByPage(studentIds, topicIds, pageRequest);
+//
+//        return tasksPage.getContent();
+//    }
 
-        PageRequest pageRequest = PageRequest.of(page, size);
 
-        Page<TaskDto> tasksPage = mainFacade.findAllTasksPageByPage(studentIds, topicIds, pageRequest);
-
-        return tasksPage.getContent();
-    }
-
-
+    // to do -> we don't need it anymore
 //    @PostMapping("/assign")
 //    @Operation(
 //            summary = "Assign tasks for students.",

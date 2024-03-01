@@ -20,15 +20,17 @@ public interface ExamRepository extends JpaRepository<Exam, Integer> {
 
     Page<Exam> findAll(Pageable pageable);
 
-    /**
-     * Finds task groups by a list of student IDs.
-     *
-     * @param studentsIds The list of student IDs to find task groups for.
-     * @return A list of {@link Exam} associated with the given student IDs.
-     */
-    @Query("select tg from TasksGroup tg where tg.studentId in :studentsIds")
-    List<Exam> findByStudentIds(@Param("studentsIds") List<Integer> studentsIds);
+    // to do -> change it if we need it
+//    /**
+//     * Finds task groups by a list of student IDs.
+//     *
+//     * @param studentsIds The list of student IDs to find task groups for.
+//     * @return A list of {@link Exam} associated with the given student IDs.
+//     */
+//    @Query("select tg from TasksGroup tg where tg.studentId in :studentsIds")
+//    List<Exam> findByStudentIds(@Param("studentsIds") List<Integer> studentsIds);
 
+        // to do -> change it if we need it
 //    /**
 //     * Finds task groups for a specific student ID.
 //     *

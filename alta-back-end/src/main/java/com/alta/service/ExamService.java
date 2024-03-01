@@ -21,13 +21,14 @@ public interface ExamService {
      */
     ExamDto findById(int examId);
 
-    /**
-     * Finds task groups associated with a list of student IDs.
-     *
-     * @param studentsIds A list of student IDs to find task groups for.
-     * @return A list of {@link ExamDto} associated with the given student IDs.
-     */
-    List<ExamDto> findByStudentIds(List<Integer> studentsIds);
+        // to do -> see in DefaultExamService
+//    /**
+//     * Finds task groups associated with a list of student IDs.
+//     *
+//     * @param studentsIds A list of student IDs to find task groups for.
+//     * @return A list of {@link ExamDto} associated with the given student IDs.
+//     */
+//    List<ExamDto> findByStudentIds(List<Integer> studentsIds);
 
     /**
      * Creates a new task group for a student with a set of tasks.

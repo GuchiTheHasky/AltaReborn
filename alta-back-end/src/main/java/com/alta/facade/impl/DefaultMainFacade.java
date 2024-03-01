@@ -4,7 +4,6 @@ import com.alta.dto.ExamDto;
 import com.alta.dto.StudentDto;
 import com.alta.dto.TaskDto;
 import com.alta.dto.TopicDto;
-import com.alta.entity.Exam;
 import com.alta.entity.Student;
 import com.alta.entity.Task;
 import com.alta.entity.TaskStatus;
@@ -13,11 +12,8 @@ import com.alta.service.StudentService;
 import com.alta.service.ExamService;
 import com.alta.service.TaskService;
 import com.alta.service.TopicService;
-import com.alta.web.entity.ExamCreationRequest;
-import com.alta.web.entity.TaskResponse;
+import com.alta.web.entity.ExamRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -52,15 +48,19 @@ public class DefaultMainFacade implements MainFacade {
         return examService.findById(id);
     }
 
-    @Override
-    public List<TaskDto> findAllTasks(List<Integer> studentIds, List<Integer> topicIds) {
-        List<TaskDto> tasks = taskService.findByTopicIds(topicIds);
-        List<ExamDto> exam = examService.findByStudentIds(studentIds);
 
-        assignTaskStatus(exam, tasks);
-        return sortTasksByStatus(tasks);
-    }
+    // to do -> need to change assignTaskStatus
+//    @Override
+//    public List<TaskDto> findAllTasks(List<Integer> studentIds, List<Integer> topicIds) {
+//        List<TaskDto> tasks = taskService.findByTopicIds(topicIds);
+//        List<ExamDto> exam = examService.findByStudentIds(studentIds);
+//
+//        assignTaskStatus(exam, tasks);
+//        return sortTasksByStatus(tasks);
+//    }
 
+
+    // to do -> we don't need it anymore
 //    @Override
 //    public List<TaskResponse> receiveAssignmentTasks(List<Integer> studentsIds, List<Integer> tasksIds) {
 //        List<StudentDto> students = studentService.findAllByIds(studentsIds);
@@ -89,26 +89,28 @@ public class DefaultMainFacade implements MainFacade {
         return topicService.findAllTopicsPageByPage(pageRequest);
     }
 
-    @Override
-    public Page<TaskDto> findAllTasksPageByPage(List<Integer> studentIds, List<Integer> topicIds, PageRequest pageRequest) {
-        List<TaskDto> tasks = taskService.findByTopicIds(topicIds);
-        List<ExamDto> exam = examService.findByStudentIds(studentIds);
 
-        int start = (int) pageRequest.getOffset();
-        int end = Math.min(start + pageRequest.getPageSize(), tasks.size());
-
-        List<TaskDto> pageContent;
-
-        if (start >= end) {
-            pageContent = Collections.emptyList();
-        } else {
-            pageContent = tasks.subList(start, end);
-        }
-
-        assignTaskStatus(exam, pageContent);
-
-        return new PageImpl<>(sortTasksByStatus(pageContent), pageRequest, tasks.size());
-    }
+    // to do -> need to change assignTaskStatus
+//    @Override
+//    public Page<TaskDto> findAllTasksPageByPage(List<Integer> studentIds, List<Integer> topicIds, PageRequest pageRequest) {
+//        List<TaskDto> tasks = taskService.findByTopicIds(topicIds);
+//        List<ExamDto> exam = examService.findByStudentIds(studentIds);
+//
+//        int start = (int) pageRequest.getOffset();
+//        int end = Math.min(start + pageRequest.getPageSize(), tasks.size());
+//
+//        List<TaskDto> pageContent;
+//
+//        if (start >= end) {
+//            pageContent = Collections.emptyList();
+//        } else {
+//            pageContent = tasks.subList(start, end);
+//        }
+//
+//        assignTaskStatus(exam, pageContent);
+//
+//        return new PageImpl<>(sortTasksByStatus(pageContent), pageRequest, tasks.size());
+//    }
 
     @Override
     public List<ExamDto> findAllExams() {
@@ -121,7 +123,7 @@ public class DefaultMainFacade implements MainFacade {
     }
 
     @Override
-    public ExamDto createExam(ExamCreationRequest request) {
+    public ExamDto createExam(ExamRequest request) {
         List<Student> students = studentService.findAllByIds(request.studentsIds());
         List<Task> tasks = taskService.findAllByIds(request.tasksIds());
 

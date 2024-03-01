@@ -2,7 +2,7 @@ package com.alta.web.controller;
 
 import com.alta.dto.ExamDto;
 import com.alta.facade.MainFacade;
-import com.alta.web.entity.ExamCreationRequest;
+import com.alta.web.entity.ExamRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
@@ -49,7 +49,7 @@ public class ExamController {
             summary = "Create a new exam.",
             tags = "Exam"
     )
-    public ExamDto createExam(@RequestBody ExamCreationRequest request) {
+    public ExamDto createExam(@RequestBody ExamRequest request) {
 
         return mainFacade.createExam(request);
     }
@@ -67,7 +67,7 @@ public class ExamController {
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName(type);
-        modelAndView.addObject("exam", exam); // to do
+        modelAndView.addObject("exam", exam); // to do -> change templates
         return modelAndView;
     }
 }

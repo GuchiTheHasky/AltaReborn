@@ -32,11 +32,12 @@ public class DefaultExamService implements ExamService {
         return examMapper.toExamDto(optionalExam.get());
     }
 
-    @Override
-    public List<ExamDto> findByStudentIds(List<Integer> studentsIds) {
-        return examRepository.findByStudentIds(studentsIds).stream().map(examMapper::toExamDto).toList();
-
-    }
+        // to do -> do we need it?
+//    @Override
+//    public List<ExamDto> findByStudentIds(List<Integer> studentsIds) {
+//        return examRepository.findByStudentIds(studentsIds).stream().map(examMapper::toExamDto).toList();
+//
+//    }
 
     @Override
     public ExamDto createExam(String title, List<Student> students, List<Task> tasks) {
@@ -50,17 +51,21 @@ public class DefaultExamService implements ExamService {
 
     @Override
     public List<ExamDto> findAll() {
-        return examRepository.findAll().stream().map(examMapper::toExamDto).toList();
+        return examRepository.findAll().stream()
+                .map(examMapper::toExamDto)
+                .toList();
     }
 
     @Override
     public List<ExamDto> findAllExamsPageByPage(PageRequest pageRequest) {
-        Page<Exam> examsPage = examRepository.findAll(pageRequest);
+        Optional<Page<Exam>> optionalExamsPage = Optional.of(examRepository.findAll(pageRequest));
 
-        return examsPage.getContent().stream()
-                .map(examMapper::toExamDto)
-                .sorted(Comparator.comparing(ExamDto::getTitle))
-                .toList();
+        return optionalExamsPage.map(page ->
+                page.getContent().stream()
+                        .map(examMapper::toExamDto)
+                        .sorted(Comparator.comparing(ExamDto::getTitle, Comparator.nullsLast(Comparator.naturalOrder())))
+                        .toList()
+        ).orElse(Collections.emptyList());
     }
 
 //    private List<Task> filterAssignedTasks(int studentId, List<Task> tasks) {
