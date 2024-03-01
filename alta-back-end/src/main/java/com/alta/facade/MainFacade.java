@@ -1,9 +1,6 @@
 package com.alta.facade;
 
-import com.alta.dto.StudentDto;
-import com.alta.dto.TaskDto;
-import com.alta.dto.ExamDto;
-import com.alta.dto.TopicDto;
+import com.alta.dto.*;
 import com.alta.web.entity.ExamRequest;
 import org.springframework.data.domain.PageRequest;
 
@@ -112,4 +109,10 @@ public interface MainFacade {
     List<ExamDto> findAllExamsPageByPage(PageRequest pageRequest);
 
     ExamDto createExam(ExamRequest request);
+
+    List<ZnoDto> findAllZnos();
+
+    List<ZnoDto> findAllZnosPageByPage(PageRequest pageRequest);
+
+    ZnoDto findZnoById(int id);
 }

@@ -12,3 +12,5 @@ application-dev.yml
 /alta-back-end/alta-back-end.iml
 /alta-back-end/src/main/java/com/alta/web/controller/TestController.java
 /alta-back-end/src/main/java/com/alta/test/
+/alta-back-end/src/main/resources/db/
+
