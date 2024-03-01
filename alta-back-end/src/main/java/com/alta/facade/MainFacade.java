@@ -2,11 +2,9 @@ package com.alta.facade;
 
 import com.alta.dto.StudentDto;
 import com.alta.dto.TaskDto;
-import com.alta.dto.TasksGroupDto;
+import com.alta.dto.ExamDto;
 import com.alta.dto.TopicDto;
-import com.alta.entity.TasksGroup;
-import com.alta.web.entity.TaskResponse;
-import org.springframework.data.domain.Page;
+import com.alta.web.entity.ExamRequest;
 import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
@@ -57,41 +55,37 @@ public interface MainFacade {
      */
     List<TopicDto> findAllTopicsPageByPage(PageRequest pageRequest);
 
-    // TaskGroup
+        // TaskGroup
     /**
      * Retrieves a task group by its ID.
      *
      * @param id The unique identifier of the task group.
      * @return A TasksGroup object representing the task group found by the specified ID.
      */
-    TasksGroupDto findTaskGroupById(int id);
+    ExamDto findExamById(int id);
 
-    /**
-     * Retrieves a list of task groups associated with the specified student IDs.
-     *
-     * @param studentsIds A list of student IDs for which to find associated task groups.
-     * @return A list of TasksGroup objects representing the task groups associated with the specified student IDs.
-     */
-    List<TasksGroupDto> findTasksGroupByStudentIds(List<Integer> studentsIds);
 
-    // Task
-    /**
-     * Retrieves a list of tasks based on specified student and topic IDs.
-     *
-     * @param studentIds A list of student IDs to filter the tasks.
-     * @param topicIds   A list of topic IDs to filter the tasks.
-     * @return A list of TaskDto objects representing the tasks that match the specified criteria.
-     */
-    List<TaskDto> findAllTasks(List<Integer> studentIds, List<Integer> topicIds);
+    // to do -> see in defaultMainFacade
+//    /**
+//     * Retrieves a list of tasks based on specified student and topic IDs.
+//     *
+//     * @param studentIds A list of student IDs to filter the tasks.
+//     * @param topicIds   A list of topic IDs to filter the tasks.
+//     * @return A list of TaskDto objects representing the tasks that match the specified criteria.
+//     */
+//    List<TaskDto> findAllTasks(List<Integer> studentIds, List<Integer> topicIds);
 
-    /**
-     * Assigns specified tasks to students and returns the assignment details.
-     *
-     * @param studentsIds A list of student IDs to which the tasks will be assigned.
-     * @param tasksIds    A list of task IDs that will be assigned to the students.
-     * @return A list of TaskResponse objects representing the details of the task assignments.
-     */
-    List<TaskResponse> receiveAssignmentTasks(List<Integer> studentsIds, List<Integer> tasksIds);
+
+    // to do -> delete it
+//    /**
+//     * Assigns specified tasks to students and returns the assignment details.
+//     *
+//     * @param studentsIds A list of student IDs to which the tasks will be assigned.
+//     * @param tasksIds    A list of task IDs that will be assigned to the students.
+//     * @return A list of TaskResponse objects representing the details of the task assignments.
+//     */
+//    List<TaskResponse> receiveAssignmentTasks(List<Integer> studentsIds, List<Integer> tasksIds);
+
 
     /**
      * Updates an existing task with the provided information.
@@ -102,13 +96,20 @@ public interface MainFacade {
      */
     TaskDto updateTask(int id, TaskDto taskDto);
 
-    /**
-     * Retrieves a paginated list of tasks based on specified student and topic IDs.
-     *
-     * @param studentIds  A list of student IDs to filter the tasks.
-     * @param topicIds    A list of topic IDs to filter the tasks.
-     * @param pageRequest A PageRequest object containing the pagination information.
-     * @return A Page of TaskDto objects representing the tasks that match the specified criteria on the requested page.
-     */
-    Page<TaskDto> findAllTasksPageByPage(List<Integer> studentIds, List<Integer> topicIds, PageRequest pageRequest);
+    // to do -> see in defaultMainFacade
+//    /**
+//     * Retrieves a paginated list of tasks based on specified student and topic IDs.
+//     *
+//     * @param studentIds  A list of student IDs to filter the tasks.
+//     * @param topicIds    A list of topic IDs to filter the tasks.
+//     * @param pageRequest A PageRequest object containing the pagination information.
+//     * @return A Page of TaskDto objects representing the tasks that match the specified criteria on the requested page.
+//     */
+//    Page<TaskDto> findAllTasksPageByPage(List<Integer> studentIds, List<Integer> topicIds, PageRequest pageRequest);
+
+    List<ExamDto> findAllExams();
+
+    List<ExamDto> findAllExamsPageByPage(PageRequest pageRequest);
+
+    ExamDto createExam(ExamRequest request);
 }

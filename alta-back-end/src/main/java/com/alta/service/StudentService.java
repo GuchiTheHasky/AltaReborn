@@ -1,6 +1,7 @@
 package com.alta.service;
 
 import com.alta.dto.StudentDto;
+import com.alta.entity.Student;
 import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
@@ -25,7 +26,7 @@ public interface StudentService {
      * @param studentIds A list of student IDs to find matching students.
      * @return A list of {@link StudentDto} representing the students with the specified IDs.
      */
-    List<StudentDto> findAllByIds(List<Integer> studentIds);
+    List<Student> findAllByIds(List<Integer> studentIds);
 
     List<StudentDto> findAllStudentsPageByPage(PageRequest pageRequest);
 }

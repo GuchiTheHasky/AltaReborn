@@ -23,7 +23,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="task : ${group.getTasks()}">
+            <tr th:each="task : ${exam.getTasks()}">
                 <td th:text="${task.title}"></td>
                 <td th:text="${task.level}"></td>
                 <img alt="img" th:src="@{${task.imagePath}}"/>

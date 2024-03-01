@@ -20,24 +20,28 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Table(name = "tasks_group")
+@Table(name = "exam")
 @Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@ToString(exclude = "tasks")
-public class TasksGroup {
+@ToString(exclude = {"students", "tasks"})
+public class Exam {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "group_seq")
-    @SequenceGenerator(name = "group_seq", sequenceName = "group_id_seq", allocationSize = 20)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "exam_seq")
+    @SequenceGenerator(name = "exam_seq", sequenceName = "exam_id_seq", allocationSize = 20)
     private int id;
 
-    @Column(name = "creating_at")
-    private LocalDateTime creatingAt;
+    @Column(name = "title")
+    private String title;
 
-    @Column(name = "student_id")
-    private int studentId;
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+    @Column(name = "students")
+    @JdbcTypeCode(SqlTypes.JSON)
+    private List<Student> students;
 
     @Column(name = "tasks")
     @JdbcTypeCode(SqlTypes.JSON)

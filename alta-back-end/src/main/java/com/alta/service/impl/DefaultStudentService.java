@@ -39,10 +39,8 @@ public class DefaultStudentService implements StudentService {
     }
 
     @Override
-    public List<StudentDto> findAllByIds(List<Integer> studentIds) {
-        return studentRepository.findAllById(studentIds).stream()
-                .map(studentMapper::toStudentDto)
-                .toList();
+    public List<Student> findAllByIds(List<Integer> studentIds) {
+        return studentRepository.findAllById(studentIds);
     }
 
     @Override
