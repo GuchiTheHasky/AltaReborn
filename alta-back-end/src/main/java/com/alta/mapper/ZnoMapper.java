@@ -4,7 +4,7 @@ import com.alta.dto.ZnoDto;
 import com.alta.entity.Zno;
 import org.mapstruct.Mapper;
 
-@Mapper(componentModel = "spring", uses = {TaskMapper.class})
+@Mapper(componentModel = "spring")
 public interface ZnoMapper {
     ZnoDto toZnoDto(Zno zno);
 }

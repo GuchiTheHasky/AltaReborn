@@ -43,9 +43,8 @@ public class DefaultZnoService implements ZnoService {
     }
 
     @Override
-    public ZnoDto findById(int id) {
+    public Zno findById(int id) {
         return znoRepository.findById(id)
-                .map(znoMapper::toZnoDto)
                 .orElseThrow(() -> new ZnoException(id));
     }
 }

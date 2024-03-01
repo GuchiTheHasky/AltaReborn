@@ -4,7 +4,9 @@ import com.alta.dto.*;
 import com.alta.entity.Student;
 import com.alta.entity.Task;
 import com.alta.entity.TaskStatus;
+import com.alta.entity.Zno;
 import com.alta.facade.MainFacade;
+import com.alta.mapper.TaskMapper;
 import com.alta.service.*;
 import com.alta.web.entity.ExamRequest;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +24,7 @@ public class DefaultMainFacade implements MainFacade {
     private final StudentService studentService;
     private final ExamService examService;
     private final ZnoService znoService;
+    private final TaskMapper taskMapper;
 
     @Override
     public List<TopicDto> findAllTopics() {
@@ -137,8 +140,11 @@ public class DefaultMainFacade implements MainFacade {
     }
 
     @Override
-    public ZnoDto findZnoById(int id) {
-        return znoService.findById(id);
+    public List<TaskDto> findTasksByZnoId(int id) {
+        Zno zno = znoService.findById(id);
+        return zno.getTasks().stream()
+                .map(taskMapper::toTaskDto)
+                .toList();
     }
 
     private void assignTaskStatus(List<ExamDto> exam, List<TaskDto> tasks) {

@@ -1,6 +1,7 @@
 package com.alta.facade;
 
 import com.alta.dto.*;
+import com.alta.entity.Zno;
 import com.alta.web.entity.ExamRequest;
 import org.springframework.data.domain.PageRequest;
 
@@ -114,5 +115,5 @@ public interface MainFacade {
 
     List<ZnoDto> findAllZnosPageByPage(PageRequest pageRequest);
 
-    ZnoDto findZnoById(int id);
+    List<TaskDto> findTasksByZnoId(int id);
 }

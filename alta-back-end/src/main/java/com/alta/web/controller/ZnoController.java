@@ -38,9 +38,7 @@ public class ZnoController {
             summary = "Get tasks related to a ZNO by ID.",
             tags = "Zno")
     public List<TaskDto> findTasksByZnoId(@PathVariable int id) {
-        ZnoDto zno = mainFacade.findZnoById(id);
-
-        return zno.getTasks();
+        return mainFacade.findTasksByZnoId(id);
     }
 
 }
