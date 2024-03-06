@@ -1,11 +1,12 @@
 package com.alta.service;
 
-import com.alta.dto.FullZnoDto;
+import com.alta.dto.TaskDto;
+import com.alta.dto.ZnoDto;
 
 import java.util.List;
 
 public interface ZnoService {
-    FullZnoDto findById(int id);
+    List<ZnoDto> findAll();
 
-    List<FullZnoDto> findAll();
+    List<TaskDto> findTasksByZnoId(int id);
 }

@@ -1,81 +1,93 @@
-//package com.alta.web.controller;
-//
-//import com.alta.AbstractDataBase;
-//import com.alta.dto.ZnoDto;
-//import lombok.extern.log4j.Log4j2;
-//import org.junit.jupiter.api.*;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-//import org.springframework.boot.test.context.SpringBootTest;
-//import org.springframework.test.web.servlet.MockMvc;
-//import org.testcontainers.junit.jupiter.Testcontainers;
-//
-//import java.util.List;
-//
-//import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-//import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-//
-//@Log4j2
-//@Testcontainers
-//@SpringBootTest
-//@AutoConfigureMockMvc
-//@DisplayName("Integration tests for ZnoController.")
-//class ZnoControllerITest extends AbstractDataBase {
-//
-//    @Autowired
-//    private MockMvc mockMvc;
-//    @Autowired
-//    private ZnoController zno;
-//
-//    @Test
-//    @Order(1)
-//    @DisplayName("Test, check status code and content type for findAll() method")
-//    public void shouldTReturnStatusOkAndContentTypeApplicationJson() throws Exception {
-//        int expectedSize = 3;
-//
-//        this.mockMvc.perform(get("/api/v1/znos"))
-//                .andExpect(status().isOk())
-//                .andExpect(header().string("Content-Type", "application/json"))
-//                .andExpect(jsonPath("$.length()").value(expectedSize));
-//
-//        log.info("Test findAll() method in ZnoControllerITest");
-//    }
-//
-//    @Test
-//    @Order(2)
-//    @DisplayName("Test, findAll() for ZnoDto method, check size, values. $ so on")
-//    void shouldReturnListOfZnoDtoEntities() {
-//        List<ZnoDto> znoDtoList = zno.findAll();
-//
-//        ZnoDto firstZnoDto = znoDtoList.get(0);
-//        ZnoDto secondZnoDto = znoDtoList.get(1);
-//        ZnoDto thirdZnoDto = znoDtoList.get(2);
-//
-//        int expectedFirstId = 1;
-//        String expectedFirstZno = "ЗНО з математики – демонстраційний варіант";
-//        int expectedFirstYear = 2021;
-//
-//        int expectedSecondId = 2;
-//        String expectedSecondZno = "ЗНО з математики – основна сесія";
-//        int expectedSecondYear = 2020;
-//
-//        int expectedThirdId = 3;
-//        String expectedThirdZno = "ЗНО з математики – додаткова сесія";
-//        int expectedThirdYear = 2019;
-//
-//        Assertions.assertNotNull(znoDtoList);
-//
-//        Assertions.assertEquals(expectedFirstId, firstZnoDto.getId());
-//        Assertions.assertEquals(expectedFirstZno, firstZnoDto.getName());
-//        Assertions.assertEquals(expectedFirstYear, firstZnoDto.getYear());
-//
-//        Assertions.assertEquals(expectedSecondId, secondZnoDto.getId());
-//        Assertions.assertEquals(expectedSecondZno, secondZnoDto.getName());
-//        Assertions.assertEquals(expectedSecondYear, secondZnoDto.getYear());
-//
-//        Assertions.assertEquals(expectedThirdId, thirdZnoDto.getId());
-//        Assertions.assertEquals(expectedThirdZno, thirdZnoDto.getName());
-//        Assertions.assertEquals(expectedThirdYear, thirdZnoDto.getYear());
-//    }
-//
-//}
+package com.alta.web.controller;
+
+import com.alta.dto.ZnoDto;
+import lombok.extern.log4j.Log4j2;
+import com.alta.dto.TaskDto;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.testcontainers.shaded.com.fasterxml.jackson.core.type.TypeReference;
+import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.util.List;
+import java.util.Objects;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+@Log4j2
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+class ZnoControllerITest {
+
+    @Autowired
+    private TestRestTemplate testRestTemplate;
+
+    @Test
+    @DisplayName("Integration test for GET /api/v1/znos")
+    void getAll_shouldReturnStatusOkAndContentTypeApplicationJson() {
+        log.info("Running getAll_shouldReturnStatusOkAndContentTypeApplicationJson test");
+
+        ResponseEntity<List<ZnoDto>> responseEntity = testRestTemplate.exchange(
+                "/api/v1/znos",
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<>() {});
+
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertTrue(Objects.requireNonNull(responseEntity.getHeaders().getContentType())
+                .isCompatibleWith(MediaType.APPLICATION_JSON));
+    }
+
+
+    @Test
+    @DisplayName("Integration test for GET /api/v1/znos/{id}/tasks")
+    void findTasksByZnoId_shouldReturnStatusOkAndContentTypeApplicationJson() throws Exception {
+        log.info("Running findTasksByZnoId_shouldReturnStatusOkAndContentTypeApplicationJson test");
+
+        ResponseEntity<String> responseEntity = testRestTemplate.getForEntity(
+                "/api/v1/znos/{id}/tasks", String.class, 1);
+
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertTrue(Objects.requireNonNull(responseEntity.getHeaders().getContentType())
+                .isCompatibleWith(MediaType.APPLICATION_JSON));
+
+        String responseBody = responseEntity.getBody();
+        assertNotNull(responseBody);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<TaskDto> tasks = objectMapper.readValue(responseBody, new TypeReference<List<TaskDto>>() {});
+        assertNotNull(tasks);
+    }
+
+    @Test
+    @DisplayName("Integration test for handling ZnoException: ZNO not found")
+    void handleZnoException_ZnoNotFound() {
+        log.info("Running handleZnoException_ZnoNotFound test");
+
+        ResponseEntity<String> responseEntity = testRestTemplate.getForEntity("/api/v1/znos/999/tasks", String.class);
+
+        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+
+        assertEquals("ZNO not found for ID: 999", responseEntity.getBody());
+    }
+
+    @Test
+    @DisplayName("Integration test for handling validation errors: Invalid ZNO ID (not positive)")
+    void handleValidationErrors_NotPositiveZnoId() {
+        log.info("Running handleValidationErrors_NotPositiveZnoId test");
+
+        ResponseEntity<String> responseEntity = testRestTemplate.getForEntity("/api/v1/znos/-1/tasks", String.class);
+
+        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+
+        assertEquals("Validation error: findTasksByZnoId.id: має бути більше 0", responseEntity.getBody());
+    }
+}

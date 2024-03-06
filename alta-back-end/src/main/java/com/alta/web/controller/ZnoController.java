@@ -1,29 +1,39 @@
 package com.alta.web.controller;
 
-import com.alta.dto.FullZnoDto;
+import com.alta.dto.TaskDto;
+import com.alta.dto.ZnoDto;
 import com.alta.service.ZnoService;
+import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
 
 import java.util.List;
+
 
 @RestController
 @RequestMapping("/api/v1/znos")
 @RequiredArgsConstructor
+@Validated
 public class ZnoController {
     private final ZnoService znoService;
 
     @GetMapping
-    public List<FullZnoDto> getAll() {
+    @Operation(
+            summary = "Get all znos.",
+            tags = "Zno")
+    public List<ZnoDto> getAll() {
         return znoService.findAll();
     }
 
     @GetMapping("/{id}/tasks")
-    public FullZnoDto findById(@PathVariable("id") int id) {
-        return znoService.findById(id);
+    @Operation(
+            summary = "Get tasks related to a ZNO by ID.",
+            tags = "Zno")
+    public  List<TaskDto>  findTasksByZnoId(@PathVariable @Positive int id) {
+        return znoService.findTasksByZnoId(id);
     }
 
 }
