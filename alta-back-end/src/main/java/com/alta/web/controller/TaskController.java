@@ -1,7 +1,6 @@
 package com.alta.web.controller;
 
 import com.alta.dto.TaskDto;
-import com.alta.handler.ExamHandler;
 import com.alta.service.TaskService;
 import com.alta.web.entity.FilteredTasks;
 import io.swagger.v3.oas.annotations.Operation;
@@ -15,7 +14,6 @@ import java.util.Set;
 @RequiredArgsConstructor
 @RestController
 public class TaskController {
-    private final ExamHandler examHandler;
     private final TaskService taskService;
 
 

@@ -1,4 +1,4 @@
-package com.alta.web.controller;
+package com.alta.web.handler;
 
 import com.alta.exception.ZnoException;
 import org.springframework.http.ResponseEntity;

@@ -1,7 +1,6 @@
 package com.alta.web.controller;
 
 import com.alta.dto.ExamDto;
-import com.alta.handler.ExamHandler;
 import com.alta.dto.FullExamDto;
 import com.alta.service.ExamService;
 import com.alta.web.entity.ExamRequest;

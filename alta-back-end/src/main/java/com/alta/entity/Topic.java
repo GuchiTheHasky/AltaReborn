@@ -18,7 +18,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Topic {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE) // todo
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private String title;
