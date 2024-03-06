@@ -26,8 +26,8 @@ public class StudentController {
             description = "Get all students with optional pagination.",
             tags = "Student")
     public List<StudentDto> findAll(
-            @RequestParam(required = false, defaultValue = "0") @Min(0) Integer page,
-            @RequestParam(required = false, defaultValue = "10") @Min(1) Integer size) {
+            @RequestParam(required = false) @Min(0) Integer page,
+            @RequestParam(required = false) @Min(1) Integer size) {
 
         return Optional.ofNullable(page)
                 .flatMap(p -> Optional.ofNullable(size)
