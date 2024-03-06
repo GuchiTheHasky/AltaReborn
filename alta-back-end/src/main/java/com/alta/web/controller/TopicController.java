@@ -1,7 +1,7 @@
 package com.alta.web.controller;
 
 import com.alta.dto.TopicDto;
-import com.alta.facade.MainFacade;
+import com.alta.service.TopicService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
@@ -18,11 +18,12 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @RestController
 public class TopicController {
-    private final MainFacade mainFacade;
+    private final TopicService mainFacade;
 
     @GetMapping
     @Operation(
-            summary = "Get all topics with optional pagination.",
+            summary = "Get all topics",
+            description = "Get all topics with optional pagination.",
             tags = "Topic")
     public List<TopicDto> findAll(
             @RequestParam(required = false, defaultValue = "0") @Min(0) Integer page,
@@ -32,7 +33,7 @@ public class TopicController {
                 .flatMap(p -> Optional.ofNullable(size)
                         .map(s -> PageRequest.of(page, size)))
                 .map(mainFacade::findAllTopicsPageByPage)
-                .orElseGet(mainFacade::findAllTopics);
+                .orElseGet(mainFacade::findAll);
     }
 
 }

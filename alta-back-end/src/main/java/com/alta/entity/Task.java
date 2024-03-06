@@ -1,27 +1,20 @@
 package com.alta.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Column;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.util.List;
 
 @Getter
 @Setter
 @RequiredArgsConstructor
 @Entity
 @Table(name = "task")
-@ToString(exclude = {"topic"})
+@ToString(exclude = {"topic", "exams"})
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE) // todo
@@ -37,14 +30,19 @@ public class Task {
     private String answer;
 
     @Column(name = "title")
-    private String title;
-
-    @Column(name = "status")
-    @Enumerated(EnumType.STRING)
-    private TaskStatus status;
+    private String title;  // todo delete it, maybe
 
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "topic_id", referencedColumnName = "id")
     private Topic topic;
+
+    @ManyToOne
+    @JoinColumn(name = "zno_id", referencedColumnName = "id")
+    private Zno zno;
+
+    @JsonIgnore
+    @ManyToMany
+    private List<Exam> exams;
+
 }

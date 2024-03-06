@@ -9,7 +9,8 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class TopicDto {
+public class ZnoDto {
     private int id;
-    private String title;
+    private String name;
+    private String year;
 }

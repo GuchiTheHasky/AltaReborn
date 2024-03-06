@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -40,6 +42,20 @@ public class DefaultTaskService implements TaskService {
 
         return taskMapper.toTaskDto(taskRepository.save(taskMapper.update(existingTask, taskDto, newTopic)));
     }
+
+    @Override
+    public Set<TaskDto> assignedTasks(List<Integer> students, List<Integer> topics) {
+        return taskRepository.findTasksAtLeastOneStudentAttempted(students, topics)
+                .stream().map(taskMapper::toTaskDto)
+                .collect(Collectors.toSet());
+    }
+    @Override
+    public Set<TaskDto> enabledTasks(List<Integer> ids, List<Integer> topics) {
+        return taskRepository.findNotAttemptedTasks(ids, topics)
+                .stream().map(taskMapper::toTaskDto)
+                .collect(Collectors.toSet());
+    }
+
 
     private Topic findTopic(TaskDto taskDto) {
         return topicRepository.findByTitle(taskDto.getTitle())
