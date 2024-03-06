@@ -1,7 +1,7 @@
 package com.alta.web.controller;
 
 import com.alta.dto.StudentDto;
-import com.alta.facade.MainFacade;
+import com.alta.service.StudentService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
@@ -18,11 +18,12 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @RestController
 public class StudentController {
-    private final MainFacade mainFacade;
+    private final StudentService studentService;
 
     @GetMapping
     @Operation(
-            summary = "Get all students with optional pagination.",
+            summary = "Get all students",
+            description = "Get all students with optional pagination.",
             tags = "Student")
     public List<StudentDto> findAll(
             @RequestParam(required = false, defaultValue = "0") @Min(0) Integer page,
@@ -31,8 +32,8 @@ public class StudentController {
         return Optional.ofNullable(page)
                 .flatMap(p -> Optional.ofNullable(size)
                         .map(s -> PageRequest.of(page, size)))
-                .map(mainFacade::findAllStudentsPageByPage)
-                .orElseGet(mainFacade::findAllStudents);
+                .map(studentService::findAllStudentsPageByPage)
+                .orElseGet(studentService::findAll);
     }
 
 }

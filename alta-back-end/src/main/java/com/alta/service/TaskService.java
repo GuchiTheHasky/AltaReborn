@@ -4,6 +4,7 @@ import com.alta.dto.TaskDto;
 import com.alta.entity.Task;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Service interface for managing {@link Task} entities.
@@ -34,4 +35,8 @@ public interface TaskService {
      * @return A list of {@link TaskDto} representing tasks associated with the specified topic IDs.
      */
     List<TaskDto> findByTopicIds(List<Integer> topicsIds);
+
+    Set<TaskDto> enabledTasks(List<Integer> students, List<Integer> topics);
+
+    Set<TaskDto> assignedTasks(List<Integer> students, List<Integer> topics);
 }

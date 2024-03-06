@@ -1,9 +1,9 @@
 package com.alta.dto;
 
-import lombok.Setter;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
+import lombok.Setter;
 
 @Setter
 @Getter
@@ -15,5 +15,4 @@ public class TaskDto {
     private String level;
     private String answer;
     private String title;
-    private String status;
 }
