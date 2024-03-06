@@ -1,6 +1,7 @@
 package com.alta.web.controller;
 
 import com.alta.AbstractDataBase;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -25,12 +26,16 @@ public class StudentControllerITest extends AbstractDataBase {
 
 
     @Test
-    void findAllStudentsWithoutPagination() throws Exception {
+    @DisplayName("Test - find all students, without pagination.")
+    void shouldReturnSortedStudentsListWithoutPagination() throws Exception {
         mockMvc.perform(get("/api/v1/students")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].fullName").value("Вареник Юлія"))
                 .andExpect(jsonPath("$[1].fullName").value("Вафля Анна"))
+                .andExpect(jsonPath("$[2].fullName").value("Голубець Тетяна"))
+                .andExpect(jsonPath("$[3].fullName").value("Жук Дмитро"))
+                .andExpect(jsonPath("$[4].fullName").value("Князь Олег"))
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$.length()").value(11));
     }

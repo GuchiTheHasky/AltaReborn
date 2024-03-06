@@ -14,11 +14,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({MethodArgumentNotValidException.class, ConstraintViolationException.class})
     public ResponseEntity<Object> handleValidationExceptions(Exception ex) {
-        String errorMessage = (ex instanceof MethodArgumentNotValidException) ?
-                "Validation error: " + Objects.requireNonNull(((MethodArgumentNotValidException) ex).getBindingResult().getFieldError()).getDefaultMessage() :
-                (ex instanceof ConstraintViolationException) ?
-                        "Validation error: " + ex.getMessage() :
-                        "Internal Server Error";
+        String errorMessage = "Validation error: " + ex.getMessage();
         return ResponseEntity.badRequest().body(errorMessage);
     }
 
