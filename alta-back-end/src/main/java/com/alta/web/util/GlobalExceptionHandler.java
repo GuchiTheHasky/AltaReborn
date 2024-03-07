@@ -1,5 +1,6 @@
 package com.alta.web.util;
 
+import com.alta.exception.StudentException;
 import com.alta.exception.TopicException;
 import com.alta.exception.ZnoException;
 import org.springframework.http.ResponseEntity;
@@ -30,10 +31,18 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(errorMessage);
     }
 
+    @ExceptionHandler(StudentException.class)
+    public ResponseEntity<Object> handleStudentException(StudentException ex) {
+        int id = extractIdFromExceptionMessage(ex.getMessage());
+        return ResponseEntity.badRequest().body("Student not found for ID: " + id);
+    }
+
     private int extractIdFromExceptionMessage(String message) {
         int startIdx = message.indexOf("{") + 1;
         int endIdx = message.indexOf("}");
-        return Integer.parseInt(message.substring(startIdx, endIdx));
+        String idString = message.substring(startIdx, endIdx);
+        return Integer.parseInt(idString.trim());
     }
+
 }
 
