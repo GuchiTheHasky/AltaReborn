@@ -1,8 +1,6 @@
 package com.alta.web.util;
 
-import com.alta.exception.StudentException;
-import com.alta.exception.TopicException;
-import com.alta.exception.ZnoException;
+import com.alta.exception.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -35,6 +33,18 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Object> handleStudentException(StudentException ex) {
         int id = extractIdFromExceptionMessage(ex.getMessage());
         return ResponseEntity.badRequest().body("Student not found for ID: " + id);
+    }
+
+    @ExceptionHandler(ExamException.class)
+    public ResponseEntity<Object> handleExamException(ExamException ex) {
+        int id = extractIdFromExceptionMessage(ex.getMessage());
+        return ResponseEntity.badRequest().body("Exam not found for ID: " + id);
+    }
+
+    @ExceptionHandler(TaskException.class)
+    public ResponseEntity<Object> handleTaskException(TaskException ex) {
+        int id = extractIdFromExceptionMessage(ex.getMessage());
+        return ResponseEntity.badRequest().body("Task not found for ID: " + id);
     }
 
     private int extractIdFromExceptionMessage(String message) {

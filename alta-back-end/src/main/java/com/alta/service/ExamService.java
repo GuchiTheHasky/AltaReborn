@@ -3,10 +3,7 @@ package com.alta.service;
 import com.alta.dto.ExamDto;
 import com.alta.dto.FullExamDto;
 import com.alta.entity.Exam;
-import com.alta.entity.Student;
-import com.alta.entity.Task;
 import com.alta.web.entity.ExamRequest;
-import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
 
