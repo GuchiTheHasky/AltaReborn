@@ -90,12 +90,6 @@
             <version>2.2.0</version>
         </dependency>
 
-<!--        видалити це:-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-validation</artifactId>
-        </dependency>
-
         <!--		T E S T			-->
 
         <dependency>

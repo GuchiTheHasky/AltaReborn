@@ -23,19 +23,9 @@ public interface ExamService {
      */
     FullExamDto findById(int examId);
 
-        // to do -> see in DefaultExamService
-//    /**
-//     * Finds task groups associated with a list of student IDs.
-//     *
-//     * @param studentsIds A list of student IDs to find task groups for.
-//     * @return A list of {@link ExamDto} associated with the given student IDs.
-//     */
-//    List<ExamDto> findByStudentIds(List<Integer> studentsIds);
-
-
     FullExamDto createExam(ExamRequest request);
 
-    List<ExamDto> findAll();
+    List<ExamDto> findAll(Integer page, Integer size);
 
-    List<ExamDto> findAllExamsPageByPage(PageRequest pageRequest);
+    FullExamDto findByIdWithAnswers(int examId);
 }

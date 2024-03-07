@@ -1,15 +1,12 @@
 package com.alta.service.impl;
 
-import com.alta.dto.FullExamDto;
-import com.alta.dto.StudentDto;
-import com.alta.dto.TaskDto;
+import com.alta.dto.*;
 import com.alta.entity.Exam;
 import com.alta.entity.Student;
 import com.alta.entity.Task;
 import com.alta.exception.ExamException;
 import com.alta.mapper.ExamMapper;
 import com.alta.repository.ExamRepository;
-import com.alta.dto.ExamDto;
 import com.alta.service.ExamService;
 import com.alta.service.StudentService;
 import com.alta.service.TaskService;
@@ -17,10 +14,12 @@ import com.alta.web.entity.ExamRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -37,7 +36,28 @@ public class DefaultExamService implements ExamService {
         if (optionalExam.isEmpty()) {
             throw new ExamException(examId);
         }
-        return examMapper.toDetailsExamDto(optionalExam.get());
+        return examMapper.toFullExamDto(optionalExam.get());
+    }
+
+    @Override
+    public FullExamDto findByIdWithAnswers(int examId) {
+        Optional<Exam> optionalExam = examRepository.findById(examId);
+        if (optionalExam.isEmpty()) {
+            throw new ExamException(examId);
+        }
+        Exam exam = optionalExam.get();
+        FullExamDto fullExamDto = examMapper.toFullExamDto(exam);
+        List<TaskWithAnswerDto> tasksWithAnswers = exam.getTasks().stream()
+                .map(task -> new TaskWithAnswerDto(
+                        task.getId(),
+                        task.getImagePath(),
+                        task.getLevel(),
+                        task.getTitle(),
+                        task.getAnswer()))
+                .collect(Collectors.toList());
+
+        fullExamDto.setTasks(tasksWithAnswers);
+        return fullExamDto;
     }
 
     @Override
@@ -50,26 +70,27 @@ public class DefaultExamService implements ExamService {
         exam.setCreatedAt(creatingDate());
         exam.setStudents(students);
         exam.setTasks(tasks);
-        return examMapper.toDetailsExamDto(examRepository.save(exam));
+        return examMapper.toFullExamDto(examRepository.save(exam));
     }
 
     @Override
-    public List<ExamDto> findAll() {
+    public List<ExamDto> findAll(Integer page, Integer size) {
+        return Optional.ofNullable(page).isEmpty() || Optional.ofNullable(size).isEmpty() ? findAllExams() : findAllExams(page, size);
+    }
+
+    private List<ExamDto> findAllExams() {
         return examRepository.findAll().stream()
                 .map(examMapper::toExamDto)
                 .toList();
     }
 
-    @Override
-    public List<ExamDto> findAllExamsPageByPage(PageRequest pageRequest) {
-        Optional<Page<Exam>> optionalExamsPage = Optional.of(examRepository.findAll(pageRequest));
+    private List<ExamDto> findAllExams(Integer page, Integer size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Exam> optionalExamsPage = examRepository.findAll(pageable);
 
-        return optionalExamsPage.map(page ->
-                page.getContent().stream()
-                        .map(examMapper::toExamDto)
-                        .sorted(Comparator.comparing(ExamDto::getName, Comparator.nullsLast(Comparator.naturalOrder())))
-                        .toList()
-        ).orElse(Collections.emptyList());
+        return optionalExamsPage.stream()
+                .map(examMapper::toExamDto)
+                .toList();
     }
 
     private LocalDateTime creatingDate() {

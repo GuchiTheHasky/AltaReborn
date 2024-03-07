@@ -18,5 +18,5 @@ public class FullExamDto {
     private String name;
     private LocalDateTime createdAt;
     private List<StudentDto> students = new ArrayList<>();
-    private List<TaskDto> tasks = new ArrayList<>();
+    private List<? extends TaskDto> tasks = new ArrayList<>();
 }

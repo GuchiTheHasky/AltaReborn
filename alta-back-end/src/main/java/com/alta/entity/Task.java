@@ -17,7 +17,7 @@ import java.util.List;
 @ToString(exclude = {"topic", "exams"})
 public class Task {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE) // todo
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int id;
 
     @Column(name = "image_path")
@@ -30,7 +30,7 @@ public class Task {
     private String answer;
 
     @Column(name = "title")
-    private String title;  // todo delete it, maybe
+    private String title;
 
     @JsonIgnore
     @ManyToOne
