@@ -4,14 +4,12 @@ import com.alta.dto.TopicDto;
 import com.alta.service.TopicService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Optional;
 
 import static com.alta.web.util.PageableValidator.pageableValidation;
 
@@ -23,8 +21,7 @@ public class TopicController {
 
     @GetMapping
     @Operation(
-            summary = "Get all topics",
-            description = "Get all topics with optional pagination.",
+            summary = "Get all topics with optional pagination.",
             tags = "Topic")
     public List<TopicDto> findAll(
             @RequestParam(required = false) Integer page,
@@ -33,4 +30,5 @@ public class TopicController {
 
         return topicService.findAll(page, size);
     }
+
 }

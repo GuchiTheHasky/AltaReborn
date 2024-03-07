@@ -1,5 +1,6 @@
 package com.alta.web.util;
 
+import com.alta.exception.TopicException;
 import com.alta.exception.ZnoException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -21,6 +22,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Object> handleZnoException(ZnoException ex) {
         int id = extractIdFromExceptionMessage(ex.getMessage());
         return ResponseEntity.badRequest().body("ZNO not found for ID: " + id);
+    }
+
+    @ExceptionHandler(TopicException.class)
+    public ResponseEntity<Object> handleTopicException(TopicException ex) {
+        String errorMessage = ex.getMessage();
+        return ResponseEntity.badRequest().body(errorMessage);
     }
 
     private int extractIdFromExceptionMessage(String message) {
