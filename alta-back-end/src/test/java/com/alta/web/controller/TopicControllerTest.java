@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.data.domain.PageRequest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,11 +40,11 @@ class TopicControllerTest {
         topics.add(new TopicDto(1, "Topic 1"));
         topics.add(new TopicDto(2, "Topic 2"));
 
-        when(topicService.findAll()).thenReturn(topics);
+        when(topicService.findAll(null, null)).thenReturn(topics);
 
         List<TopicDto> result = topicController.findAll(null, null);
 
-        verify(topicService).findAll();
+        verify(topicService).findAll(null, null);
 
         assertEquals(2, result.size());
 
@@ -69,11 +68,11 @@ class TopicControllerTest {
         topics.add(new TopicDto(3, "Topic 3"));
         topics.add(new TopicDto(4, "Topic 4"));
 
-        when(topicService.findAllTopicsPageByPage(PageRequest.of(page, size))).thenReturn(topics);
+        when(topicService.findAll(page, size)).thenReturn(topics);
 
         List<TopicDto> result = topicController.findAll(page, size);
 
-        verify(topicService).findAllTopicsPageByPage(PageRequest.of(page, size));
+        verify(topicService).findAll(page, size);
 
         assertEquals(2, result.size());
 
