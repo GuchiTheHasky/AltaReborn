@@ -3,16 +3,15 @@ package com.alta.web.controller;
 import com.alta.dto.StudentDto;
 import com.alta.service.StudentService;
 import io.swagger.v3.oas.annotations.Operation;
-import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Optional;
+
+import static com.alta.web.util.PageableValidator.pageableValidation;
 
 @RequestMapping("/api/v1/students")
 @RequiredArgsConstructor
@@ -26,14 +25,10 @@ public class StudentController {
             description = "Get all students with optional pagination.",
             tags = "Student")
     public List<StudentDto> findAll(
-            @RequestParam(required = false) @Min(0) Integer page,
-            @RequestParam(required = false) @Min(1) Integer size) {
+            @RequestParam(required = false) Integer page,
+            @RequestParam(required = false) Integer size) {
+        pageableValidation(page, size);
 
-        return Optional.ofNullable(page)
-                .flatMap(p -> Optional.ofNullable(size)
-                        .map(s -> PageRequest.of(page, size)))
-                .map(studentService::findAllStudentsPageByPage)
-                .orElseGet(studentService::findAll);
+        return studentService.findAll(page, size);
     }
-
 }

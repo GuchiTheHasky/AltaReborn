@@ -5,7 +5,9 @@ import io.micrometer.common.lang.NonNullApi;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -24,10 +26,14 @@ public interface TopicRepository extends JpaRepository<Topic, Integer> {
     Optional<Topic> findByTitle(String title);
 
     /**
-     * Retrieves a page of topics.
+     * Retrieves a page of topics, sorted by title.
      *
      * @param pageable Object defining the page to retrieve.
      * @return A page of topics.
      */
+    @Query("select t from Topic t order by t.title")
     Page<Topic> findAll(Pageable pageable);
+
+    @Query("select t from Topic t order by t.title")
+    List<Topic> findAll();
 }

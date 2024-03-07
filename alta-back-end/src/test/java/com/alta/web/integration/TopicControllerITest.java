@@ -21,40 +21,39 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Testcontainers
 @ActiveProfiles(profiles = "test")
 @AutoConfigureMockMvc
-class StudentControllerITest extends AbstractDataBase {
+class TopicControllerITest extends AbstractDataBase {
 
-    private static final List<String> SORTED_ACTUAL_STUDENTS_FULL_NAMES = List.of("Вареник Юлія", "Вафля Анна", "Голубець Тетяна", "Жук Дмитро", "Князь Олег", "Криса Олександр", "Пес Іван", "Сало Василина", "Синяк Софія", "Стакан Василь", "Шостий Микита");
-    private static final String URL_FOR_PAGE = "/api/v1/students?page=%d&size=%d";
-    private static final String URL = "/api/v1/students";
+    private static final List<String> SORTED_ACTUAL_TOPICS = List.of("Арифметичний корінь", "Дробово-раціональні рівняння", "Дробові вирази", "Задачі на рух, відсотки...", "Квадратні рівняння", "Логарифм", "Лінійні рівняння", "Подільність", "Рівняння з модулем", "Степінь", "Числові множини");
+    private static final String URL_FOR_PAGE = "/api/v1/topics?page=%d&size=%d";
+    private static final String URL = "/api/v1/topics";
 
     @Autowired
     private MockMvc mockMvc;
 
-
     @Test
-    @DisplayName("Test - find all students, without pagination.")
-    void shouldReturnSortedStudentsListWithoutPagination() throws Exception {
+    @DisplayName("Test - find all topics without pagination.")
+    void shouldReturnAllTopicsWithoutPagination() throws Exception {
         mockMvc.perform(get(URL)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].fullName").value(SORTED_ACTUAL_STUDENTS_FULL_NAMES.get(0)))
-                .andExpect(jsonPath("$[1].fullName").value(SORTED_ACTUAL_STUDENTS_FULL_NAMES.get(1)))
-                .andExpect(jsonPath("$[2].fullName").value(SORTED_ACTUAL_STUDENTS_FULL_NAMES.get(2)))
-                .andExpect(jsonPath("$[3].fullName").value(SORTED_ACTUAL_STUDENTS_FULL_NAMES.get(3)))
-                .andExpect(jsonPath("$[4].fullName").value(SORTED_ACTUAL_STUDENTS_FULL_NAMES.get(4)))
-                .andExpect(jsonPath("$[5].fullName").value(SORTED_ACTUAL_STUDENTS_FULL_NAMES.get(5)))
-                .andExpect(jsonPath("$[6].fullName").value(SORTED_ACTUAL_STUDENTS_FULL_NAMES.get(6)))
-                .andExpect(jsonPath("$[7].fullName").value(SORTED_ACTUAL_STUDENTS_FULL_NAMES.get(7)))
-                .andExpect(jsonPath("$[8].fullName").value(SORTED_ACTUAL_STUDENTS_FULL_NAMES.get(8)))
-                .andExpect(jsonPath("$[9].fullName").value(SORTED_ACTUAL_STUDENTS_FULL_NAMES.get(9)))
-                .andExpect(jsonPath("$[10].fullName").value(SORTED_ACTUAL_STUDENTS_FULL_NAMES.get(10)))
+                .andExpect(jsonPath("$[0].title").value(SORTED_ACTUAL_TOPICS.get(0)))
+                .andExpect(jsonPath("$[1].title").value(SORTED_ACTUAL_TOPICS.get(1)))
+                .andExpect(jsonPath("$[2].title").value(SORTED_ACTUAL_TOPICS.get(2)))
+                .andExpect(jsonPath("$[3].title").value(SORTED_ACTUAL_TOPICS.get(3)))
+                .andExpect(jsonPath("$[4].title").value(SORTED_ACTUAL_TOPICS.get(4)))
+                .andExpect(jsonPath("$[5].title").value(SORTED_ACTUAL_TOPICS.get(5)))
+                .andExpect(jsonPath("$[6].title").value(SORTED_ACTUAL_TOPICS.get(6)))
+                .andExpect(jsonPath("$[7].title").value(SORTED_ACTUAL_TOPICS.get(7)))
+                .andExpect(jsonPath("$[8].title").value(SORTED_ACTUAL_TOPICS.get(8)))
+                .andExpect(jsonPath("$[9].title").value(SORTED_ACTUAL_TOPICS.get(9)))
+                .andExpect(jsonPath("$[10].title").value(SORTED_ACTUAL_TOPICS.get(10)))
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$.length()").value(11));
     }
 
     @Test
-    @DisplayName("Test - find all students, with pagination.")
-    void shouldReturnSortedStudentsListWithPagination() throws Exception {
+    @DisplayName("Test - find all topics, with pagination.")
+    void shouldReturnTopicsWithPagination() throws Exception {
         int firstPage = 0;
         int secondPage = 1;
         int pageSize = 5;
@@ -62,28 +61,28 @@ class StudentControllerITest extends AbstractDataBase {
         mockMvc.perform(get(String.format(URL_FOR_PAGE, firstPage, pageSize))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].fullName").value(SORTED_ACTUAL_STUDENTS_FULL_NAMES.get(0)))
-                .andExpect(jsonPath("$[1].fullName").value(SORTED_ACTUAL_STUDENTS_FULL_NAMES.get(1)))
-                .andExpect(jsonPath("$[2].fullName").value(SORTED_ACTUAL_STUDENTS_FULL_NAMES.get(2)))
-                .andExpect(jsonPath("$[3].fullName").value(SORTED_ACTUAL_STUDENTS_FULL_NAMES.get(3)))
-                .andExpect(jsonPath("$[4].fullName").value(SORTED_ACTUAL_STUDENTS_FULL_NAMES.get(4)))
+                .andExpect(jsonPath("$[0].title").value(SORTED_ACTUAL_TOPICS.get(0)))
+                .andExpect(jsonPath("$[1].title").value(SORTED_ACTUAL_TOPICS.get(1)))
+                .andExpect(jsonPath("$[2].title").value(SORTED_ACTUAL_TOPICS.get(2)))
+                .andExpect(jsonPath("$[3].title").value(SORTED_ACTUAL_TOPICS.get(3)))
+                .andExpect(jsonPath("$[4].title").value(SORTED_ACTUAL_TOPICS.get(4)))
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$.length()").value(5));
 
         mockMvc.perform(get(String.format(URL_FOR_PAGE, secondPage, pageSize))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].fullName").value(SORTED_ACTUAL_STUDENTS_FULL_NAMES.get(5)))
-                .andExpect(jsonPath("$[1].fullName").value(SORTED_ACTUAL_STUDENTS_FULL_NAMES.get(6)))
-                .andExpect(jsonPath("$[2].fullName").value(SORTED_ACTUAL_STUDENTS_FULL_NAMES.get(7)))
-                .andExpect(jsonPath("$[3].fullName").value(SORTED_ACTUAL_STUDENTS_FULL_NAMES.get(8)))
-                .andExpect(jsonPath("$[4].fullName").value(SORTED_ACTUAL_STUDENTS_FULL_NAMES.get(9)))
+                .andExpect(jsonPath("$[0].title").value(SORTED_ACTUAL_TOPICS.get(5)))
+                .andExpect(jsonPath("$[1].title").value(SORTED_ACTUAL_TOPICS.get(6)))
+                .andExpect(jsonPath("$[2].title").value(SORTED_ACTUAL_TOPICS.get(7)))
+                .andExpect(jsonPath("$[3].title").value(SORTED_ACTUAL_TOPICS.get(8)))
+                .andExpect(jsonPath("$[4].title").value(SORTED_ACTUAL_TOPICS.get(9)))
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$.length()").value(5));
     }
 
     @Test
-    @DisplayName("Test - find all students, page by page with empty list in the end.")
+    @DisplayName("Test - find all topics, page by page with empty list in the end.")
     void shouldReturnSortedStudentsListPageByPageAndEmptyList() throws Exception {
         int firstPage = 0;
         int secondPage = 1;
@@ -118,33 +117,32 @@ class StudentControllerITest extends AbstractDataBase {
         int invalidMaxValue = Integer.MAX_VALUE;
 
         mockMvc.perform(get(String.format(URL_FOR_PAGE, invalidMaxValue, invalidMaxValue))
-                .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
 
         mockMvc.perform(get(String.format(URL_FOR_PAGE, invalidMinValue, invalidMinValue))
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest());
-
-        mockMvc.perform(get(String.format(URL_FOR_PAGE, invalidMaxValue, invalidMinValue))
-                .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
 
         mockMvc.perform(get(String.format(URL_FOR_PAGE, invalidMinValue, invalidMaxValue))
-                .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+
+        mockMvc.perform(get(String.format(URL_FOR_PAGE, invalidMaxValue, invalidMinValue))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
 
         mockMvc.perform(get(String.format(URL_FOR_PAGE, zero, invalidValue))
-                .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
 
         mockMvc.perform(get(String.format(URL_FOR_PAGE, invalidValue, invalidValue))
-                .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
 
         mockMvc.perform(get(String.format(URL_FOR_PAGE, invalidValue, zero))
-                .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
-
     }
-
 }
+

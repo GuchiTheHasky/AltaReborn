@@ -8,10 +8,11 @@ import com.alta.service.TopicService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -20,20 +21,22 @@ public class DefaultTopicService implements TopicService {
     private final TopicMapper topicMapper;
 
     @Override
-    public List<TopicDto> findAll() {
+    public List<TopicDto> findAll(Integer page, Integer size) {
+        return Optional.ofNullable(page).isEmpty() || Optional.ofNullable(size).isEmpty() ? findAllTopics() : findAllTopics(page, size);
+    }
+
+    private List<TopicDto> findAllTopics() {
         return topicRepository.findAll().stream()
                 .map(topicMapper::toTopicDto)
-                .sorted(Comparator.comparing(TopicDto::getTitle))
                 .toList();
     }
 
-    @Override
-    public List<TopicDto> findAllTopicsPageByPage(PageRequest pageRequest) {
-        Page<Topic> topicsPage = topicRepository.findAll(pageRequest);
+    private List<TopicDto> findAllTopics(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Topic> topicsPage = topicRepository.findAll(pageable);
 
         return topicsPage.getContent().stream()
                 .map(topicMapper::toTopicDto)
-                .sorted(Comparator.comparing(TopicDto::getTitle))
                 .toList();
     }
 }
