@@ -1,4 +1,4 @@
-package com.alta.web.handler;
+package com.alta.web.util;
 
 import com.alta.exception.ZnoException;
 import org.springframework.http.ResponseEntity;
@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import jakarta.validation.ConstraintViolationException;
-import java.util.Objects;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {

@@ -5,20 +5,14 @@ import com.alta.entity.Student;
 import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * StudentService interface for managing {@link com.alta.entity.Student} entities.
  */
 public interface StudentService {
 
-    StudentDto findById(int id);
-
-    /**
-     * Retrieves all students.
-     *
-     * @return A list of {@link StudentDto} representing all students.
-     */
-    List<StudentDto> findAll();
+    List<StudentDto> findAll(Integer page, Integer size);
 
     /**
      * Retrieves students by their IDs.
@@ -28,5 +22,4 @@ public interface StudentService {
      */
     List<Student> findAllByIds(List<Integer> studentIds);
 
-    List<StudentDto> findAllStudentsPageByPage(PageRequest pageRequest);
 }
