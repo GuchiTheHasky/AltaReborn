@@ -9,5 +9,5 @@ import org.mapstruct.*;
 public interface ExamMapper {
 
     ExamDto toExamDto(Exam exam);
-    FullExamDto toDetailsExamDto(Exam exam);
+    FullExamDto toFullExamDto(Exam exam);
 }

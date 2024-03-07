@@ -20,15 +20,12 @@ public class TaskController {
     @GetMapping
     @Operation(
             summary = "Get page of tasks.",
-            description = "Retrieves a page of tasks included in topics.", // todo refactor doc
+            description = "Retrieves an enabled and assigned tasks included in topics.",
             tags = "Task")
-    public FilteredTasks findAllTasksPageByPage(
+    public FilteredTasks findAllTasks(
             @RequestParam(value = "studentIds") List<Integer> studentIds,
             @RequestParam(value = "topicIds") List<Integer> topicIds) {
 
-//        PageRequest pageRequest = PageRequest.of(page, size);
-//        Page<TaskDto> tasksPage = mainFacade.findAllTasksPageByPage(studentIds, topicIds, pageRequest);
-//        return tasksPage.getContent();
         Set<TaskDto> assignedTasks = taskService.assignedTasks(studentIds, topicIds);
         List<Integer> ids = assignedTasks.stream().map(TaskDto::getId).toList();
         Set<TaskDto> enabledTasks = taskService.enabledTasks(ids, topicIds);

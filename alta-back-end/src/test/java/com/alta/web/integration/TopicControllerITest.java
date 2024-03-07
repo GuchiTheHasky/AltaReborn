@@ -31,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 })
 class TopicControllerITest {
 
-    private static final List<String> SORTED_ACTUAL_TOPICS = List.of("Арифметичний корінь", "Дробово-раціональні рівняння", "Дробові вирази", "Задачі на рух, відсотки...", "Квадратні рівняння", "Логарифм", "Лінійні рівняння", "Подільність", "Рівняння з модулем", "Степінь", "Числові множини");
+    private static final List<String> SORTED_ACTUAL_TOPICS = List.of("Арифметичний корінь", "Дробові вирази", "Дробово-раціональні рівняння", "Задачі на рух, відсотки...", "Квадратні рівняння", "Лінійні рівняння", "Логарифм", "Подільність", "Рівняння з модулем", "Степінь", "Числові множини");
     private static final String URL_FOR_PAGE = "/api/v1/topics?page=%d&size=%d";
     private static final String URL = "/api/v1/topics";
 

@@ -13,6 +13,5 @@ public class TaskDto {
     private int id;
     private String imagePath;
     private String level;
-    private String answer;
     private String title;
 }

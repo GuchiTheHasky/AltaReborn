@@ -67,8 +67,8 @@ class ZnoControllerTest {
 
         int znoId = 1;
         List<TaskDto> tasks = new ArrayList<>();
-        tasks.add(new TaskDto(1, "image1.jpg", "easy", "answer1", "Task 1"));
-        tasks.add(new TaskDto(2, "image2.jpg", "medium", "answer2", "Task 2"));
+        tasks.add(new TaskDto(1, "image1.jpg", "easy", "Task 1"));
+        tasks.add(new TaskDto(2, "image2.jpg", "medium", "Task 2"));
 
         when(znoService.findTasksByZnoId(znoId)).thenReturn(tasks);
 
@@ -81,13 +81,11 @@ class ZnoControllerTest {
         assertEquals(tasks.get(0).getId(), result.get(0).getId());
         assertEquals(tasks.get(0).getImagePath(), result.get(0).getImagePath());
         assertEquals(tasks.get(0).getLevel(), result.get(0).getLevel());
-        assertEquals(tasks.get(0).getAnswer(), result.get(0).getAnswer());
         assertEquals(tasks.get(0).getTitle(), result.get(0).getTitle());
 
         assertEquals(tasks.get(1).getId(), result.get(1).getId());
         assertEquals(tasks.get(1).getImagePath(), result.get(1).getImagePath());
         assertEquals(tasks.get(1).getLevel(), result.get(1).getLevel());
-        assertEquals(tasks.get(1).getAnswer(), result.get(1).getAnswer());
         assertEquals(tasks.get(1).getTitle(), result.get(1).getTitle());
     }
 
