@@ -1,14 +1,18 @@
 package com.alta.web.integration;
 
-import com.alta.AbstractDataBase;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.SqlGroup;
 import org.springframework.test.web.servlet.MockMvc;
+import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.util.List;
@@ -21,11 +25,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Testcontainers
 @ActiveProfiles(profiles = "test")
 @AutoConfigureMockMvc
-class TopicControllerITest extends AbstractDataBase {
+@SqlGroup({
+        @Sql(scripts = "classpath:db/init_topics_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD),
+        @Sql(scripts = "classpath:db/clean_up_topics_data.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+})
+class TopicControllerITest {
 
     private static final List<String> SORTED_ACTUAL_TOPICS = List.of("Арифметичний корінь", "Дробово-раціональні рівняння", "Дробові вирази", "Задачі на рух, відсотки...", "Квадратні рівняння", "Логарифм", "Лінійні рівняння", "Подільність", "Рівняння з модулем", "Степінь", "Числові множини");
     private static final String URL_FOR_PAGE = "/api/v1/topics?page=%d&size=%d";
     private static final String URL = "/api/v1/topics";
+
+    @Container
+    @ServiceConnection
+    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:15.3");
 
     @Autowired
     private MockMvc mockMvc;
