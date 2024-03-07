@@ -1,14 +1,19 @@
 package com.alta.web.integration;
 
-import com.alta.AbstractDataBase;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
+import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.SqlGroup;
 import org.springframework.test.web.servlet.MockMvc;
+import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.util.List;
@@ -21,14 +26,25 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Testcontainers
 @ActiveProfiles(profiles = "test")
 @AutoConfigureMockMvc
-class StudentControllerITest extends AbstractDataBase {
+@SqlGroup({
+        @Sql(scripts = "classpath:db/student_controller_init_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD),
+        @Sql(scripts = "classpath:db/student_controller_clean_up_data.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+})
+class StudentControllerITest {
 
     private static final List<String> SORTED_ACTUAL_STUDENTS_FULL_NAMES = List.of("Вареник Юлія", "Вафля Анна", "Голубець Тетяна", "Жук Дмитро", "Князь Олег", "Криса Олександр", "Пес Іван", "Сало Василина", "Синяк Софія", "Стакан Василь", "Шостий Микита");
     private static final String URL_FOR_PAGE = "/api/v1/students?page=%d&size=%d";
     private static final String URL = "/api/v1/students";
 
+    @Container
+    @ServiceConnection
+    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:15.3");
+
     @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    private Environment environment;
 
 
     @Test
@@ -118,31 +134,31 @@ class StudentControllerITest extends AbstractDataBase {
         int invalidMaxValue = Integer.MAX_VALUE;
 
         mockMvc.perform(get(String.format(URL_FOR_PAGE, invalidMaxValue, invalidMaxValue))
-                .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
 
         mockMvc.perform(get(String.format(URL_FOR_PAGE, invalidMinValue, invalidMinValue))
-                .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
 
         mockMvc.perform(get(String.format(URL_FOR_PAGE, invalidMaxValue, invalidMinValue))
-                .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
 
         mockMvc.perform(get(String.format(URL_FOR_PAGE, invalidMinValue, invalidMaxValue))
-                .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
 
         mockMvc.perform(get(String.format(URL_FOR_PAGE, zero, invalidValue))
-                .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
 
         mockMvc.perform(get(String.format(URL_FOR_PAGE, invalidValue, invalidValue))
-                .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
 
         mockMvc.perform(get(String.format(URL_FOR_PAGE, invalidValue, zero))
-                .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
 
     }

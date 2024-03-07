@@ -1,6 +1,5 @@
 package com.alta.service.impl;
 
-import com.alta.AbstractDataBase;
 import com.alta.entity.Student;
 import com.alta.service.StudentService;
 import org.junit.jupiter.api.Assertions;
@@ -8,7 +7,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.SqlGroup;
+import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.util.Collections;
@@ -20,7 +24,15 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 @SpringBootTest
 @Testcontainers
 @ActiveProfiles(profiles = "test")
-class DefaultStudentServiceITest extends AbstractDataBase {
+@SqlGroup({
+        @Sql(scripts = "classpath:db/student_service_init_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD),
+        @Sql(scripts = "classpath:db/student_service_clean_up_data.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+})
+class DefaultStudentServiceITest {
+
+    @Container
+    @ServiceConnection
+    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:15.3");
 
     @Autowired
     private StudentService studentService;
