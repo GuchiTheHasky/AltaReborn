@@ -20,10 +20,7 @@ public class StudentController {
     private final StudentService studentService;
 
     @GetMapping
-    @Operation(
-            summary = "Get all students",
-            description = "Get all students with optional pagination.",
-            tags = "Student")
+    @Operation(summary = "Get all students", tags = "Student")
     public List<StudentDto> findAll(
             @RequestParam(required = false) Integer page,
             @RequestParam(required = false) Integer size) {

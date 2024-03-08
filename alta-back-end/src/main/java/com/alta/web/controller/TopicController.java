@@ -20,9 +20,7 @@ public class TopicController {
     private final TopicService topicService;
 
     @GetMapping
-    @Operation(
-            summary = "Get all topics with optional pagination.",
-            tags = "Topic")
+    @Operation(summary = "Get all topics.", tags = "Topic")
     public List<TopicDto> findAll(
             @RequestParam(required = false) Integer page,
             @RequestParam(required = false) Integer size) {

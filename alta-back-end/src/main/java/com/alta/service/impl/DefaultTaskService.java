@@ -9,6 +9,7 @@ import com.alta.mapper.TaskMapper;
 import com.alta.repository.TaskRepository;
 import com.alta.repository.TopicRepository;
 import com.alta.service.TaskService;
+import com.alta.service.TopicService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +23,7 @@ import java.util.stream.Collectors;
 public class DefaultTaskService implements TaskService {
     private final TaskRepository taskRepository;
     private final TaskMapper taskMapper;
-    private final TopicRepository topicRepository;
+    private final TopicService topicService;
 
     @Override
     public List<TaskDto> findByTopicIds(List<Integer> topicsIds) {
@@ -58,8 +59,7 @@ public class DefaultTaskService implements TaskService {
 
 
     private Topic findTopic(TaskDto taskDto) {
-        return topicRepository.findByTitle(taskDto.getTitle())
-                .orElseThrow(() -> new TopicException(taskDto.getTitle()));
+        return topicService.findByTitle(taskDto);
     }
 
     private Task findTask(int id) {

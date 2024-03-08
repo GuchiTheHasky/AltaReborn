@@ -21,17 +21,13 @@ public class ZnoController {
     private final ZnoService znoService;
 
     @GetMapping
-    @Operation(
-            summary = "Get all znos.",
-            tags = "Zno")
+    @Operation(summary = "Get all znos.", tags = "Zno")
     public List<ZnoDto> getAll() {
         return znoService.findAll();
     }
 
     @GetMapping("/{id}/tasks")
-    @Operation(
-            summary = "Get tasks related to a ZNO by ID.",
-            tags = "Zno")
+    @Operation(summary = "Get tasks related to a ZNO by ID.", tags = "Zno")
     public  List<TaskDto>  findTasksByZnoId(@PathVariable @Positive int id) {
         return znoService.findTasksByZnoId(id);
     }

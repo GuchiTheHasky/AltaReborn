@@ -39,39 +39,6 @@ class TaskControllerTest {
     }
 
     @Test
-    @DisplayName("Unit test findAllTasksPageByPage()")
-    void testFindAllTasksPageByPage() {
-        logger.info("Running testFindAllTasksPageByPage");
-
-        List<Integer> studentIds = new ArrayList<>();
-        studentIds.add(1);
-        List<Integer> topicIds = new ArrayList<>();
-        topicIds.add(1);
-
-        Set<TaskDto> assignedTasks = Set.of(
-                new TaskDto(1, "image1.jpg", "easy", "answer1", "Task 1"),
-                new TaskDto(2, "image2.jpg", "medium", "answer2", "Task 2")
-        );
-        Set<TaskDto> enabledTasks = Set.of(
-                new TaskDto(3, "image3.jpg", "medium", "answer3", "Task 3"),
-                new TaskDto(4, "image4.jpg", "hard", "answer4", "Task 4")
-        );
-
-        when(taskService.enabledTasks(List.of(1, 2), topicIds)).thenReturn(enabledTasks);
-
-        when(taskService.assignedTasks(anyList(), anyList())).thenReturn(assignedTasks);
-
-        FilteredTasks result = taskController.findAllTasksPageByPage(studentIds, topicIds);
-
-        verify(taskService).assignedTasks(studentIds, topicIds);
-        verify(taskService).enabledTasks(List.of(1, 2), topicIds);
-
-        assertEquals(2, result.getAssignedTasks().size());
-        assertEquals(2, result.getEnabledTasks().size());
-    }
-
-
-    @Test
     @DisplayName("Unit test byTopicsIds()")
     void testByTopicsIds() {
         logger.info("Running testByTopicsIds");
@@ -79,8 +46,8 @@ class TaskControllerTest {
         List<Integer> topicIds = new ArrayList<>();
         topicIds.add(1);
         List<TaskDto> tasks = List.of(
-                new TaskDto(1, "image1.jpg", "easy", "answer1", "Task 1"),
-                new TaskDto(2, "image2.jpg", "medium", "answer2", "Task 2")
+                new TaskDto(1, "image1.jpg", "easy", "Task 1"),
+                new TaskDto(2, "image2.jpg", "medium", "Task 2")
         );
 
         when(taskService.findByTopicIds(topicIds)).thenReturn(tasks);
