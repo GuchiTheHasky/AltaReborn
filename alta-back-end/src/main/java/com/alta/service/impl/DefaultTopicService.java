@@ -1,7 +1,9 @@
 package com.alta.service.impl;
 
+import com.alta.dto.TaskDto;
 import com.alta.dto.TopicDto;
 import com.alta.entity.Topic;
+import com.alta.exception.TopicException;
 import com.alta.mapper.TopicMapper;
 import com.alta.repository.TopicRepository;
 import com.alta.service.TopicService;
@@ -23,6 +25,15 @@ public class DefaultTopicService implements TopicService {
     @Override
     public List<TopicDto> findAll(Integer page, Integer size) {
         return Optional.ofNullable(page).isEmpty() || Optional.ofNullable(size).isEmpty() ? findAllTopics() : findAllTopics(page, size);
+    }
+
+    @Override
+    public Topic findByTitle(TaskDto taskDto) {
+        if (taskDto == null) {
+            throw new TopicException();
+        }
+        return topicRepository.findByTitle(taskDto.getTitle())
+                .orElseThrow(() -> new TopicException(taskDto.getTitle()));
     }
 
     private List<TopicDto> findAllTopics() {

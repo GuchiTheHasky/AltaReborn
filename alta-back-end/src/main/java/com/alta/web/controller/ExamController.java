@@ -21,10 +21,7 @@ public class ExamController {
     private final ExamService examService;
 
     @GetMapping
-    @Operation(
-            summary = "Get all exams with optional pagination.",
-            tags = "Exam"
-    )
+    @Operation(summary = "Get all exams.", tags = "Exam")
     public List<ExamDto> findAll(
             @RequestParam(required = false, defaultValue = "0") Integer page,
             @RequestParam(required = false, defaultValue = "10") Integer size) {
@@ -35,20 +32,14 @@ public class ExamController {
 
 
     @GetMapping("/{id}")
-    @Operation(
-            summary = "Find an exam by ID.",
-            tags = "Exam"
-    )
+    @Operation(summary = "Find an exam by Id.", tags = "Exam")
     public FullExamDto findById(@PathVariable("id") int id) {
         return examService.findById(id);
     }
 
 
     @PostMapping
-    @Operation(
-            summary = "Create a new exam.",
-            tags = "Exam"
-    )
+    @Operation(summary = "Create a new exam.", tags = "Exam")
     public FullExamDto createExam(@RequestBody ExamRequest request) {
         return examService.createExam(request);
     }
@@ -57,7 +48,7 @@ public class ExamController {
     @GetMapping("/{id}/export")
     @Operation(
             summary = "Get template for an exam.",
-            description = "Retrieves a template for an exam by its ID and the specified document name(type): \"with_answer\" or \"without_answer\".",
+            description = "Retrieves a template for an exam by his ID and the specified document name(type): \"with_answer\" or \"without_answer\".",
             tags = "Exam")
     public ModelAndView exportDocument(
             @PathVariable("id") int examId,

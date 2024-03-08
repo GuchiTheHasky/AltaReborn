@@ -33,7 +33,8 @@ public class TaskController {
         return new FilteredTasks(enabledTasks, assignedTasks);
     }
 
-    @GetMapping("/by-topics")
+    @Operation(summary = "Find tasks by topic.", tags = "Task")
+    @GetMapping(params = "topics")
     public List<TaskDto> byTopicsIds(@RequestParam("topics") List<Integer> topics) {
         return taskService.findByTopicIds(topics);
     }
@@ -41,7 +42,7 @@ public class TaskController {
     @PutMapping("/{id}")
     @Operation(
             summary = "Update a task.",
-            description = "Updates the topic, difficult level and answer of current task.",
+            description = "Updates the topic, difficult level of current task.",
             tags = "Task")
     public TaskDto update(@PathVariable int id, @RequestBody TaskDto taskDto) {
         return taskService.update(id, taskDto);

@@ -37,7 +37,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 })
 class TaskControllerITest {
 
-    private static final String URL_BY_TOPIC = "/api/v1/tasks/by-topics?topics=%d,%d,%d";
+    private static final String URL_BY_TOPIC = "/api/v1/tasks?topics=%d,%d,%d";
     private static final String URL_FOR_UPDATE = "/api/v1/tasks/%d";
 
     @Container

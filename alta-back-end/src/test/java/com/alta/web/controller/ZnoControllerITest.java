@@ -88,6 +88,6 @@ class ZnoControllerITest {
 
         assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
 
-        assertEquals("Validation error: findTasksByZnoId.id: має бути більше 0", responseEntity.getBody());
+        assertEquals("ZNO not found for ID: -1", responseEntity.getBody());
     }
 }

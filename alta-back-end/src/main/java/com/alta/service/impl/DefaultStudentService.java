@@ -2,7 +2,6 @@ package com.alta.service.impl;
 
 import com.alta.dto.StudentDto;
 import com.alta.entity.Student;
-import com.alta.exception.StudentException;
 import com.alta.mapper.StudentMapper;
 import com.alta.repository.StudentRepository;
 import com.alta.service.StudentService;
@@ -13,7 +12,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;

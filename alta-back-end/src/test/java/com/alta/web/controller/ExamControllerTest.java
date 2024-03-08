@@ -41,11 +41,11 @@ class ExamControllerTest {
         List<ExamDto> exams = new ArrayList<>();
         exams.add(new ExamDto());
         exams.add(new ExamDto());
-        when(examService.findAll()).thenReturn(exams);
+        when(examService.findAll(0, 10)).thenReturn(exams);
 
         List<ExamDto> result = examController.findAll(0, 10);
 
-        verify(examService).findAll();
+        verify(examService).findAll(0, 10);
         assertEquals(exams.size(), result.size());
     }
 
@@ -54,11 +54,11 @@ class ExamControllerTest {
     void findAll_ReturnsEmptyList() {
         log.info("Running findAll_ReturnsEmptyList test");
 
-        when(examService.findAll()).thenReturn(new ArrayList<>());
+        when(examService.findAll(0, 10)).thenReturn(new ArrayList<>());
 
         List<ExamDto> result = examController.findAll(0, 10);
 
-        verify(examService).findAll();
+        verify(examService).findAll(0, 10);
         assertTrue(result.isEmpty());
     }
 
@@ -85,11 +85,11 @@ class ExamControllerTest {
         int examId = 1;
         String type = "with_answer";
         FullExamDto examDto = new FullExamDto();
-        when(examService.findById(examId)).thenReturn(examDto);
+        when(examService.findByIdWithAnswers(examId)).thenReturn(examDto);
 
-        ModelAndView modelAndView = examController.getModelAndView(examId, type);
+        ModelAndView modelAndView = examController.exportDocument(examId, type);
 
-        verify(examService).findById(examId);
+        verify(examService).findByIdWithAnswers(examId);
         assertEquals(type, modelAndView.getViewName());
         assertEquals(examDto, modelAndView.getModel().get("exam"));
     }

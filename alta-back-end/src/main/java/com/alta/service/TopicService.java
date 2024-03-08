@@ -1,6 +1,8 @@
 package com.alta.service;
 
+import com.alta.dto.TaskDto;
 import com.alta.dto.TopicDto;
+import com.alta.entity.Topic;
 import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
@@ -11,4 +13,6 @@ import java.util.List;
 public interface TopicService {
 
     List<TopicDto> findAll(Integer page, Integer size);
+
+    Topic findByTitle(TaskDto taskDto);
 }

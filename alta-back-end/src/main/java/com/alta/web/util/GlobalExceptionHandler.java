@@ -29,12 +29,6 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(errorMessage);
     }
 
-    @ExceptionHandler(StudentException.class)
-    public ResponseEntity<Object> handleStudentException(StudentException ex) {
-        int id = extractIdFromExceptionMessage(ex.getMessage());
-        return ResponseEntity.badRequest().body("Student not found for ID: " + id);
-    }
-
     @ExceptionHandler(ExamException.class)
     public ResponseEntity<Object> handleExamException(ExamException ex) {
         int id = extractIdFromExceptionMessage(ex.getMessage());
