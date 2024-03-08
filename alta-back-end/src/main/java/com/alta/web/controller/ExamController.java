@@ -5,6 +5,7 @@ import com.alta.dto.FullExamDto;
 import com.alta.service.ExamService;
 import com.alta.web.entity.ExamRequest;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -21,9 +22,9 @@ public class ExamController {
 
     @GetMapping
     @Operation(
-            summary = "Get all exams",
-            description = "Get all exams with optional pagination.",
-            tags = "Exam")
+            summary = "Get all exams with optional pagination.",
+            tags = "Exam"
+    )
     public List<ExamDto> findAll(
             @RequestParam(required = false, defaultValue = "0") Integer page,
             @RequestParam(required = false, defaultValue = "10") Integer size) {
@@ -36,8 +37,8 @@ public class ExamController {
     @GetMapping("/{id}")
     @Operation(
             summary = "Find an exam by ID.",
-            description = "Returns exam by id.",
-            tags = "Exam")
+            tags = "Exam"
+    )
     public FullExamDto findById(@PathVariable("id") int id) {
         return examService.findById(id);
     }
